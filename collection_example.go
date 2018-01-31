@@ -88,32 +88,31 @@ func main() {
 	// you see the difference with collection/verifier, now record_fetching_error is set since verifier has no idea whether "nonexisting-record"
 	// exists or not.
 
-	// let's transfer some data to the verifier
+	fmt.Println("-------------")
 
+	// let's transfer some data to the verifier
+	collection = collections.EmptyCollection(collections.Data{})
+	verifier = collections.EmptyVerifier(collections.Data{})
+	collection.Add([]byte("record"), []byte("data"))
 	proof, err := collection.Get([]byte("record")).Proof() // "record" doesn't have to exist, you can prove absence
+
+	if err != nil {
+		panic(err)
+	}
 
 	// The proof can be send over the network:
 	// buffer := collection.Serialize(proof) // A []byte that contains a representation of proof.
 	// proofagain, deserialize_err := collection.Deserialize(buffer)
 
-	verifier.Begin()
-
 	if verifier.Verify(proof) {
 		fmt.Println("Verifier accepted the proof about \"record\".")
+	}  else {
+		fmt.Println("Verifier did not accept")
 	}
 
-	proof, err = verifier.Get([]byte("record")).Proof()
-	fmt.Println(proof)
-	fmt.Println()
-	fmt.Println(err) // err is non-nil !!
-
-	fmt.Println("-------------")
-	fmt.Println("Now fetching some data in the verifier (who has been updated with a proof):")
-
-	err = verifier.Add([]byte("record"), []byte("data"))
+	// now the verifier is able to add something
+	err = verifier.Add([]byte("record"), []byte("somedata"))
 	if err != nil {
-		fmt.Println("Expected error (unknown subtree):", err) // err is non-nil !!
+		fmt.Println(err)
 	}
-
-	verifier.End()
 }
