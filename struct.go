@@ -1,4 +1,4 @@
-package template
+package sicpa
 
 /*
 This holds the messages used to communicate with the service over the network.

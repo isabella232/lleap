@@ -3,10 +3,10 @@ package service
 import (
 	"testing"
 
-	"github.com/dedis/sicpa"
 	"github.com/dedis/kyber/suites"
 	"github.com/dedis/onet"
 	"github.com/dedis/onet/log"
+	"github.com/dedis/sicpa"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -23,12 +23,12 @@ func TestService_ClockRequest(t *testing.T) {
 	hosts, roster, _ := local.GenTree(5, true)
 	defer local.CloseAll()
 
-	services := local.GetServices(hosts, templateID)
+	services := local.GetServices(hosts, sicpaID)
 
 	for _, s := range services {
 		log.Lvl2("Sending request to", s)
 		resp, err := s.(*Service).ClockRequest(
-			&template.ClockRequest{Roster: roster},
+			&sicpa.ClockRequest{Roster: roster},
 		)
 		log.ErrFatal(err)
 		assert.Equal(t, resp.Children, len(roster.List))
@@ -42,16 +42,16 @@ func TestService_CountRequest(t *testing.T) {
 	hosts, roster, _ := local.GenTree(5, true)
 	defer local.CloseAll()
 
-	services := local.GetServices(hosts, templateID)
+	services := local.GetServices(hosts, sicpaID)
 
 	for _, s := range services {
 		log.Lvl2("Sending request to", s)
 		resp, err := s.(*Service).ClockRequest(
-			&template.ClockRequest{Roster: roster},
+			&sicpa.ClockRequest{Roster: roster},
 		)
 		log.ErrFatal(err)
 		assert.Equal(t, resp.Children, len(roster.List))
-		count, err := s.(*Service).CountRequest(&template.CountRequest{})
+		count, err := s.(*Service).CountRequest(&sicpa.CountRequest{})
 		log.ErrFatal(err)
 		assert.Equal(t, 1, count.Count)
 	}

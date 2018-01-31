@@ -1,4 +1,4 @@
-package template_test
+package sicpa_test
 
 import (
 	"testing"
@@ -6,11 +6,11 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	// We need to include the service so it is started.
-	"github.com/dedis/sicpa"
-	_ "github.com/dedis/sicpa/service"
 	"github.com/dedis/kyber/suites"
 	"github.com/dedis/onet"
 	"github.com/dedis/onet/log"
+	"github.com/dedis/sicpa"
+	_ "github.com/dedis/sicpa/service"
 )
 
 var tSuite = suites.MustFind("Ed25519")
@@ -27,7 +27,7 @@ func TestClient_Clock(t *testing.T) {
 	_, roster, _ := local.GenTree(nbr, true)
 	defer local.CloseAll()
 
-	c := template.NewClient()
+	c := sicpa.NewClient()
 	cl1, err := c.Clock(roster)
 	log.ErrFatal(err)
 	assert.Equal(t, nbr, cl1.Children)
@@ -44,7 +44,7 @@ func TestClient_Count(t *testing.T) {
 	_, roster, _ := local.GenTree(nbr, true)
 	defer local.CloseAll()
 
-	c := template.NewClient()
+	c := sicpa.NewClient()
 	// Verify it's all 0s before
 	for _, s := range roster.List {
 		count, err := c.Count(s)

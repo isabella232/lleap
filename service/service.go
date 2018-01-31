@@ -6,29 +6,26 @@ runs on the node.
 */
 
 import (
-	"time"
-
 	"errors"
 	"sync"
 
-	"github.com/dedis/sicpa"
-	"github.com/dedis/sicpa/protocol"
 	"github.com/dedis/onet"
 	"github.com/dedis/onet/log"
 	"github.com/dedis/onet/network"
+	"github.com/dedis/sicpa"
 )
 
 // Used for tests
-var templateID onet.ServiceID
+var sicpaID onet.ServiceID
 
 func init() {
 	var err error
-	templateID, err = onet.RegisterNewService(template.ServiceName, newService)
+	sicpaID, err = onet.RegisterNewService(sicpa.ServiceName, newService)
 	log.ErrFatal(err)
 	network.RegisterMessage(&storage{})
 }
 
-// Service is our template-service
+// Service is our sicpa-service
 type Service struct {
 	// We need to embed the ServiceProcessor, so that incoming messages
 	// are correctly handled.
@@ -47,8 +44,8 @@ type storage struct {
 	sync.Mutex
 }
 
-// ClockRequest starts a template-protocol and returns the run-time.
-func (s *Service) ClockRequest(req *template.ClockRequest) (*template.ClockResponse, error) {
+// ClockRequest starts a sicpa-protocol and returns the run-time.
+func (s *Service) ClockRequest(req *sicpa.ClockRequest) (*sicpa.ClockResponse, error) {
 	s.storage.Lock()
 	s.storage.Count++
 	s.storage.Unlock()
@@ -57,24 +54,14 @@ func (s *Service) ClockRequest(req *template.ClockRequest) (*template.ClockRespo
 	if tree == nil {
 		return nil, errors.New("couldn't create tree")
 	}
-	pi, err := s.CreateProtocol(protocol.Name, tree)
-	if err != nil {
-		return nil, err
-	}
-	start := time.Now()
-	pi.Start()
-	resp := &template.ClockResponse{
-		Children: <-pi.(*protocol.TemplateProtocol).ChildCount,
-	}
-	resp.Time = time.Now().Sub(start).Seconds()
-	return resp, nil
+	return nil, nil
 }
 
 // CountRequest returns the number of instantiations of the protocol.
-func (s *Service) CountRequest(req *template.CountRequest) (*template.CountResponse, error) {
+func (s *Service) CountRequest(req *sicpa.CountRequest) (*sicpa.CountResponse, error) {
 	s.storage.Lock()
 	defer s.storage.Unlock()
-	return &template.CountResponse{Count: s.storage.Count}, nil
+	return &sicpa.CountResponse{Count: s.storage.Count}, nil
 }
 
 // NewProtocol is called on all nodes of a Tree (except the root, since it is
@@ -85,7 +72,7 @@ func (s *Service) CountRequest(req *template.CountRequest) (*template.CountRespo
 // instantiation of the protocol, use CreateProtocolService, and you can
 // give some extra-configuration to your protocol in here.
 func (s *Service) NewProtocol(tn *onet.TreeNodeInstance, conf *onet.GenericConfig) (onet.ProtocolInstance, error) {
-	log.Lvl3("Not templated yet")
+	log.Lvl3("Not sicpad yet")
 	return nil, nil
 }
 

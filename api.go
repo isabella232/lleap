@@ -1,4 +1,4 @@
-package template
+package sicpa
 
 /*
 The api.go defines the methods that can be called from the outside. Most
