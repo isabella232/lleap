@@ -44,35 +44,19 @@ type storage struct {
 	sync.Mutex
 }
 
-// ClockRequest starts a sicpa-protocol and returns the run-time.
-func (s *Service) ClockRequest(req *sicpa.ClockRequest) (*sicpa.ClockResponse, error) {
-	s.storage.Lock()
-	s.storage.Count++
-	s.storage.Unlock()
-	s.save()
-	tree := req.Roster.GenerateNaryTreeWithRoot(2, s.ServerIdentity())
-	if tree == nil {
-		return nil, errors.New("couldn't create tree")
-	}
+// CreateSkipchain asks the cisc-service to create a new skipchain ready to store
+// key/value pairs.
+func (s *Service) CreateSkipchain(req *sicpa.CreateSkipchain) (*sicpa.CreateSkipchainResponse, error) {
 	return nil, nil
 }
 
-// CountRequest returns the number of instantiations of the protocol.
-func (s *Service) CountRequest(req *sicpa.CountRequest) (*sicpa.CountResponse, error) {
-	s.storage.Lock()
-	defer s.storage.Unlock()
-	return &sicpa.CountResponse{Count: s.storage.Count}, nil
+// AddKeyValue asks cisc to add a new key/value pair.
+func (s *Service) AddKeyValue(req *sicpa.AddKeyValue) (*sicpa.AddKeyValueResponse, error) {
+	return nil, nil
 }
 
-// NewProtocol is called on all nodes of a Tree (except the root, since it is
-// the one starting the protocol) so it's the Service that will be called to
-// generate the PI on all others node.
-// If you use CreateProtocolOnet, this will not be called, as the Onet will
-// instantiate the protocol on its own. If you need more control at the
-// instantiation of the protocol, use CreateProtocolService, and you can
-// give some extra-configuration to your protocol in here.
-func (s *Service) NewProtocol(tn *onet.TreeNodeInstance, conf *onet.GenericConfig) (onet.ProtocolInstance, error) {
-	log.Lvl3("Not sicpad yet")
+// GetValue looks up the key in the given skipchain and returns the corresponding value.
+func (s *Service) GetValue(req *sicpa.GetValue) (*sicpa.GetValueResponse, error) {
 	return nil, nil
 }
 
@@ -112,7 +96,7 @@ func newService(c *onet.Context) (onet.Service, error) {
 	s := &Service{
 		ServiceProcessor: onet.NewServiceProcessor(c),
 	}
-	if err := s.RegisterHandlers(s.ClockRequest, s.CountRequest); err != nil {
+	if err := s.RegisterHandlers(s.CreateSkipchain); err != nil {
 		log.ErrFatal(err, "Couldn't register messages")
 	}
 	if err := s.tryLoad(); err != nil {
