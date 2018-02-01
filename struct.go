@@ -24,10 +24,103 @@ const (
 	ErrorParse = iota + 4000
 )
 
+/*
+// IdentityDB holds the database to the skipblocks.
+// This is used for verification, so that all links can be followed.
+// It is a wrapper to embed bolt.DB.
+type IdentityDB struct {
+	*bolt.DB
+	bucketName string
+}
+
+// NewIdentityDB returns an initialized IdentityDB structure.
+func NewIdentityDB(db *bolt.DB, bn string) *IdentityDB {
+	return &IdentityDB{
+		DB:         db,
+		bucketName: bn,
+	}
+}
+
+// GetByID returns a new copy of the skip-block or nil if it doesn't exist
+func (db *IdentityDB) GetByID(id *identity.Identity) *identity.Identity {
+	var result *identity.Identity
+	err := db.View(func(tx *bolt.Tx) error {
+		sb, err := db.getFromTx(tx, id)
+		if err != nil {
+			return err
+		}
+		result = sb
+		return nil
+	})
+
+	if err != nil {
+		log.Error(err)
+	}
+	return result
+}
+
+// Store stores the given SkipBlock in the service-list
+func (db *IdentityDB) Store(id *identity.Identity) skipchain.SkipBlockID {
+	var result skipchain.SkipBlockID
+	err := db.Update(func(tx *bolt.Tx) error {
+		sbOld, err := db.getFromTx(tx, id.Hash)
+		if err != nil {
+			return errors.New("failed to get skipblock with error: " + err.Error())
+		}
+		err = db.storeToTx(tx, id)
+		if err != nil {
+			return err
+		}
+		result = id.Hash
+		return nil
+	})
+
+	if err != nil {
+		log.Error(err.Error())
+		return nil
+	}
+
+	return result
+}
+
+// getFromTx returns the skipblock identified by sbID.
+// nil is returned if the key does not exist.
+// An error is thrown if marshalling fails.
+// The caller must ensure that this function is called from within a valid transaction.
+func (db *IdentityDB) getFromTx(tx *bolt.Tx, sbID skipchain.SkipBlockID) (*identity.Identity, error) {
+	val := tx.Bucket([]byte(db.bucketName)).Get(sbID)
+	if val == nil {
+		return nil, nil
+	}
+
+	_, sbMsg, err := network.Unmarshal(val, cothority.Suite)
+	if err != nil {
+		return nil, err
+	}
+
+	return sbMsg.(*identity.Identity), nil
+}
+
+// storeToTx stores the skipblock into the database.
+// An error is returned on failure.
+// The caller must ensure that this function is called from within a valid transaction.
+func (db *IdentityDB) storeToTx(tx *bolt.Tx, id *identity.Identity) error {
+	key := id.Hash
+	val, err := network.Marshal(id)
+	if err != nil {
+		return err
+	}
+	return tx.Bucket([]byte(db.bucketName)).Put(key, val)
+}
+*/
+
 // Version indicates what version this client runs. In the first development
 // phase, each next version will break the preceeding versions. Later on,
 // new versions might correctly interpret earlier versions.
 type Version int
+
+// CurrentVersion is what we're running now
+const CurrentVersion Version = 1
 
 // CreateSkipchain asks the cisc-service to set up a new skipchain.
 type CreateSkipchain struct {
@@ -41,7 +134,7 @@ type CreateSkipchain struct {
 	Signature []byte
 }
 
-// CreateSkipcainResponse holds the genesis-block of the new skipchain.
+// CreateSkipchainResponse holds the genesis-block of the new skipchain.
 type CreateSkipchainResponse struct {
 	// Version of the protocol
 	Version Version
@@ -63,7 +156,7 @@ type AddKeyValue struct {
 	Value []byte
 }
 
-// AddKeyValueReturn gives the timestamp and the skipblock-id
+// AddKeyValueResponse gives the timestamp and the skipblock-id
 type AddKeyValueResponse struct {
 	// Version of the protocol
 	Version Version

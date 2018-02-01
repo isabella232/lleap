@@ -11,7 +11,7 @@ if [ ! "$GOPATH" ]; then
     echo "Please install go: https://golang.org/doc/install"
     exit 1
 fi
-	
+
 MAILADDR=linus.gasser@epfl.ch
 MAILCMD=/usr/bin/mail
 CONODE_BIN=conode
@@ -137,7 +137,7 @@ runLocal(){
 		fi
 
 		if [ ! -d $co ]; then
-			echo -e "127.0.0.1:$((7000 + 2 * $n))\nConode_$n\n$co" | $CONODE_BIN setup
+			echo -e "localhost:$((7000 + 2 * $n))\nConode_$n\n$co" | $CONODE_BIN setup
 		fi
 		$CONODE_BIN -c $co/private.toml -d $DEBUG &
 		cat $co/public.toml >> public.toml

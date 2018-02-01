@@ -22,7 +22,7 @@ type Client struct {
 
 // NewClient instantiates a new cosi.Client
 func NewClient() *Client {
-	return &Client{Client: onet.NewClient(ServiceName, cothority.Suite)}
+	return &Client{Client: onet.NewClient(cothority.Suite, ServiceName)}
 }
 
 // CreateSkipchain sets up a new skipchain to hold the key/value pairs. If

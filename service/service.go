@@ -9,6 +9,11 @@ import (
 	"errors"
 	"sync"
 
+	"github.com/dedis/cothority"
+	"github.com/dedis/cothority/identity"
+	"github.com/dedis/kyber"
+	"github.com/dedis/kyber/sign/schnorr"
+	"github.com/dedis/kyber/util/key"
 	"github.com/dedis/onet"
 	"github.com/dedis/onet/log"
 	"github.com/dedis/onet/network"
@@ -40,24 +45,115 @@ const storageID = "main"
 
 // storage is used to save our data.
 type storage struct {
-	Count int
+	Identities map[string]*identity.IDBlock
+	Private    map[string]kyber.Scalar
 	sync.Mutex
 }
 
 // CreateSkipchain asks the cisc-service to create a new skipchain ready to store
 // key/value pairs.
 func (s *Service) CreateSkipchain(req *sicpa.CreateSkipchain) (*sicpa.CreateSkipchainResponse, error) {
-	return nil, nil
+	if req.Version != sicpa.CurrentVersion {
+		return nil, errors.New("version mismatch")
+	}
+
+	kp := key.NewKeyPair(cothority.Suite)
+	data := &identity.Data{
+		Threshold: 2,
+		Device:    map[string]*identity.Device{"service": &identity.Device{Point: kp.Public}},
+		Roster:    req.Roster,
+	}
+
+	cir, err := s.idService().CreateIdentityInternal(&identity.CreateIdentity{
+		Data: data,
+	}, "", "")
+	if err != nil {
+		return nil, err
+	}
+	gid := string(cir.Genesis.SkipChainID())
+	s.storage.Identities[gid] = &identity.IDBlock{
+		Latest:          data,
+		LatestSkipblock: cir.Genesis,
+	}
+	s.storage.Private[gid] = kp.Private
+	s.save()
+	return &sicpa.CreateSkipchainResponse{
+		Version:   sicpa.CurrentVersion,
+		Skipblock: cir.Genesis,
+	}, nil
 }
 
 // AddKeyValue asks cisc to add a new key/value pair.
 func (s *Service) AddKeyValue(req *sicpa.AddKeyValue) (*sicpa.AddKeyValueResponse, error) {
-	return nil, nil
+	if req.Version != sicpa.CurrentVersion {
+		return nil, errors.New("version mismatch")
+	}
+	gid := string(req.SkipchainID)
+	idb := s.storage.Identities[gid]
+	priv := s.storage.Private[gid]
+	if idb == nil || priv == nil {
+		return nil, errors.New("don't have this identity stored")
+	}
+
+	prop := idb.Latest.Copy()
+	prop.Storage[string(req.Key)] = string(req.Value)
+	_, err := s.idService().ProposeSend(&identity.ProposeSend{
+		ID:      identity.ID(req.SkipchainID),
+		Propose: prop,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	hash, err := prop.Hash(cothority.Suite)
+	if err != nil {
+		return nil, err
+	}
+	sig, err := schnorr.Sign(cothority.Suite, priv, hash)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := s.idService().ProposeVote(&identity.ProposeVote{
+		ID:        identity.ID(req.SkipchainID),
+		Signer:    "service",
+		Signature: sig,
+	})
+	if err != nil {
+		return nil, err
+	}
+	timestamp := int64(resp.Data.Index)
+	return &sicpa.AddKeyValueResponse{
+		Version:     sicpa.CurrentVersion,
+		Timestamp:   &timestamp,
+		SkipblockID: &resp.Data.Hash,
+	}, nil
 }
 
 // GetValue looks up the key in the given skipchain and returns the corresponding value.
 func (s *Service) GetValue(req *sicpa.GetValue) (*sicpa.GetValueResponse, error) {
-	return nil, nil
+	if req.Version != sicpa.CurrentVersion {
+		return nil, errors.New("version mismatch")
+	}
+
+	dur, err := s.idService().DataUpdate(&identity.DataUpdate{
+		ID: identity.ID(req.SkipchainID),
+	})
+	if err != nil {
+		return nil, err
+	}
+	value, exists := dur.Data.Storage[string(req.Key)]
+	if !exists {
+		return nil, errors.New("this value doesn't exist")
+	}
+	valueB := []byte(value)
+	return &sicpa.GetValueResponse{
+		Version: sicpa.CurrentVersion,
+		Value:   &valueB,
+	}, nil
+}
+
+func (s *Service) idService() *identity.Service {
+	return s.Service(identity.ServiceName).(*identity.Service)
 }
 
 // saves all skipblocks.
@@ -78,13 +174,21 @@ func (s *Service) tryLoad() error {
 	if err != nil {
 		return err
 	}
-	if msg == nil {
-		return nil
+	if msg != nil {
+		var ok bool
+		s.storage, ok = msg.(*storage)
+		if !ok {
+			return errors.New("Data of wrong type")
+		}
 	}
-	var ok bool
-	s.storage, ok = msg.(*storage)
-	if !ok {
-		return errors.New("Data of wrong type")
+	if s.storage == nil {
+		s.storage = &storage{}
+	}
+	if s.storage.Identities == nil {
+		s.storage.Identities = map[string]*identity.IDBlock{}
+	}
+	if s.storage.Private == nil {
+		s.storage.Private = map[string]kyber.Scalar{}
 	}
 	return nil
 }
