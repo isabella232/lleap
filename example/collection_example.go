@@ -1,8 +1,9 @@
 package main
 
 import (
-	collections "github.com/dedis/student_17_collections"
 	"fmt"
+
+	collections "github.com/dedis/student_17_collections"
 )
 
 func main() {
@@ -106,7 +107,7 @@ func main() {
 
 	if verifier.Verify(proof) {
 		fmt.Println("Verifier accepted the proof about \"record\".")
-	}  else {
+	} else {
 		fmt.Println("Verifier did not accept")
 	}
 
