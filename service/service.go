@@ -83,8 +83,8 @@ func (s *Service) CreateSkipchain(req *sicpa.CreateSkipchain) (*sicpa.CreateSkip
 	}, nil
 }
 
-// AddKeyValue asks cisc to add a new key/value pair.
-func (s *Service) AddKeyValue(req *sicpa.AddKeyValue) (*sicpa.AddKeyValueResponse, error) {
+// SetKeyValue asks cisc to add a new key/value pair.
+func (s *Service) SetKeyValue(req *sicpa.SetKeyValue) (*sicpa.SetKeyValueResponse, error) {
 	if req.Version != sicpa.CurrentVersion {
 		return nil, errors.New("version mismatch")
 	}
@@ -122,7 +122,7 @@ func (s *Service) AddKeyValue(req *sicpa.AddKeyValue) (*sicpa.AddKeyValueRespons
 		return nil, err
 	}
 	timestamp := int64(resp.Data.Index)
-	return &sicpa.AddKeyValueResponse{
+	return &sicpa.SetKeyValueResponse{
 		Version:     sicpa.CurrentVersion,
 		Timestamp:   &timestamp,
 		SkipblockID: &resp.Data.Hash,

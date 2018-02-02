@@ -29,9 +29,9 @@ message CreateSkipchainResponse {
   optional SkipBlock skipblock = 2;
 }
 
-// AddKeyValue asks for inclusion for a new key/value pair. The value needs
+// SetKeyValue asks for inclusion for a new key/value pair. The value needs
 // to be signed by one of the Writers from the createSkipchain call.
-message AddKeyValue {
+message SetKeyValue {
   // 	 Version of the protocol
   required sint32 version = 1;
   // 	 SkipchainID is the hash of the first skipblock
@@ -43,8 +43,8 @@ message AddKeyValue {
   required bytes value = 4;
 }
 
-// AddKeyValueResponse gives the timestamp and the skipblock-id
-message AddKeyValueResponse {
+// SetKeyValueResponse gives the timestamp and the skipblock-id
+message SetKeyValueResponse {
   // 	 Version of the protocol
   required sint32 version = 1;
   // 	 Timestamp is milliseconds since the unix epoch (1/1/1970, 12am UTC)

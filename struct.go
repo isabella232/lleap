@@ -14,7 +14,7 @@ import (
 func init() {
 	network.RegisterMessages(
 		&CreateSkipchain{}, &CreateSkipchainResponse{},
-		&AddKeyValue{}, &AddKeyValueResponse{},
+		&SetKeyValue{}, &SetKeyValueResponse{},
 		&GetValue{}, &GetValueResponse{},
 	)
 }
@@ -153,9 +153,9 @@ type CreateSkipchainResponse struct {
 	Skipblock *skipchain.SkipBlock
 }
 
-// AddKeyValue asks for inclusion for a new key/value pair. The value needs
+// SetKeyValue asks for inclusion for a new key/value pair. The value needs
 // to be signed by one of the Writers from the createSkipchain call.
-type AddKeyValue struct {
+type SetKeyValue struct {
 	// Version of the protocol
 	Version Version
 	// SkipchainID is the hash of the first skipblock
@@ -167,8 +167,8 @@ type AddKeyValue struct {
 	Value []byte
 }
 
-// AddKeyValueResponse gives the timestamp and the skipblock-id
-type AddKeyValueResponse struct {
+// SetKeyValueResponse gives the timestamp and the skipblock-id
+type SetKeyValueResponse struct {
 	// Version of the protocol
 	Version Version
 	// Timestamp is milliseconds since the unix epoch (1/1/1970, 12am UTC)

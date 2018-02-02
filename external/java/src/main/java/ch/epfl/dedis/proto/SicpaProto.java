@@ -1930,8 +1930,8 @@ public final class SicpaProto {
 
   }
 
-  public interface AddKeyValueOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AddKeyValue)
+  public interface SetKeyValueOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SetKeyValue)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -2006,22 +2006,22 @@ public final class SicpaProto {
   }
   /**
    * <pre>
-   * AddKeyValue asks for inclusion for a new key/value pair. The value needs
+   * SetKeyValue asks for inclusion for a new key/value pair. The value needs
    * to be signed by one of the Writers from the createSkipchain call.
    * </pre>
    *
-   * Protobuf type {@code AddKeyValue}
+   * Protobuf type {@code SetKeyValue}
    */
-  public  static final class AddKeyValue extends
+  public  static final class SetKeyValue extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:AddKeyValue)
-      AddKeyValueOrBuilder {
+      // @@protoc_insertion_point(message_implements:SetKeyValue)
+      SetKeyValueOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use AddKeyValue.newBuilder() to construct.
-    private AddKeyValue(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use SetKeyValue.newBuilder() to construct.
+    private SetKeyValue(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private AddKeyValue() {
+    private SetKeyValue() {
       version_ = 0;
       skipchainid_ = com.google.protobuf.ByteString.EMPTY;
       key_ = com.google.protobuf.ByteString.EMPTY;
@@ -2033,7 +2033,7 @@ public final class SicpaProto {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private AddKeyValue(
+    private SetKeyValue(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2090,14 +2090,14 @@ public final class SicpaProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return ch.epfl.dedis.proto.SicpaProto.internal_static_AddKeyValue_descriptor;
+      return ch.epfl.dedis.proto.SicpaProto.internal_static_SetKeyValue_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return ch.epfl.dedis.proto.SicpaProto.internal_static_AddKeyValue_fieldAccessorTable
+      return ch.epfl.dedis.proto.SicpaProto.internal_static_SetKeyValue_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ch.epfl.dedis.proto.SicpaProto.AddKeyValue.class, ch.epfl.dedis.proto.SicpaProto.AddKeyValue.Builder.class);
+              ch.epfl.dedis.proto.SicpaProto.SetKeyValue.class, ch.epfl.dedis.proto.SicpaProto.SetKeyValue.Builder.class);
     }
 
     private int bitField0_;
@@ -2269,10 +2269,10 @@ public final class SicpaProto {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof ch.epfl.dedis.proto.SicpaProto.AddKeyValue)) {
+      if (!(obj instanceof ch.epfl.dedis.proto.SicpaProto.SetKeyValue)) {
         return super.equals(obj);
       }
-      ch.epfl.dedis.proto.SicpaProto.AddKeyValue other = (ch.epfl.dedis.proto.SicpaProto.AddKeyValue) obj;
+      ch.epfl.dedis.proto.SicpaProto.SetKeyValue other = (ch.epfl.dedis.proto.SicpaProto.SetKeyValue) obj;
 
       boolean result = true;
       result = result && (hasVersion() == other.hasVersion());
@@ -2327,69 +2327,69 @@ public final class SicpaProto {
       return hash;
     }
 
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseFrom(byte[] data)
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseFrom(java.io.InputStream input)
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseDelimitedFrom(java.io.InputStream input)
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseDelimitedFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2401,7 +2401,7 @@ public final class SicpaProto {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(ch.epfl.dedis.proto.SicpaProto.AddKeyValue prototype) {
+    public static Builder newBuilder(ch.epfl.dedis.proto.SicpaProto.SetKeyValue prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -2417,29 +2417,29 @@ public final class SicpaProto {
     }
     /**
      * <pre>
-     * AddKeyValue asks for inclusion for a new key/value pair. The value needs
+     * SetKeyValue asks for inclusion for a new key/value pair. The value needs
      * to be signed by one of the Writers from the createSkipchain call.
      * </pre>
      *
-     * Protobuf type {@code AddKeyValue}
+     * Protobuf type {@code SetKeyValue}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:AddKeyValue)
-        ch.epfl.dedis.proto.SicpaProto.AddKeyValueOrBuilder {
+        // @@protoc_insertion_point(builder_implements:SetKeyValue)
+        ch.epfl.dedis.proto.SicpaProto.SetKeyValueOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return ch.epfl.dedis.proto.SicpaProto.internal_static_AddKeyValue_descriptor;
+        return ch.epfl.dedis.proto.SicpaProto.internal_static_SetKeyValue_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return ch.epfl.dedis.proto.SicpaProto.internal_static_AddKeyValue_fieldAccessorTable
+        return ch.epfl.dedis.proto.SicpaProto.internal_static_SetKeyValue_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                ch.epfl.dedis.proto.SicpaProto.AddKeyValue.class, ch.epfl.dedis.proto.SicpaProto.AddKeyValue.Builder.class);
+                ch.epfl.dedis.proto.SicpaProto.SetKeyValue.class, ch.epfl.dedis.proto.SicpaProto.SetKeyValue.Builder.class);
       }
 
-      // Construct using ch.epfl.dedis.proto.SicpaProto.AddKeyValue.newBuilder()
+      // Construct using ch.epfl.dedis.proto.SicpaProto.SetKeyValue.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2469,23 +2469,23 @@ public final class SicpaProto {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return ch.epfl.dedis.proto.SicpaProto.internal_static_AddKeyValue_descriptor;
+        return ch.epfl.dedis.proto.SicpaProto.internal_static_SetKeyValue_descriptor;
       }
 
-      public ch.epfl.dedis.proto.SicpaProto.AddKeyValue getDefaultInstanceForType() {
-        return ch.epfl.dedis.proto.SicpaProto.AddKeyValue.getDefaultInstance();
+      public ch.epfl.dedis.proto.SicpaProto.SetKeyValue getDefaultInstanceForType() {
+        return ch.epfl.dedis.proto.SicpaProto.SetKeyValue.getDefaultInstance();
       }
 
-      public ch.epfl.dedis.proto.SicpaProto.AddKeyValue build() {
-        ch.epfl.dedis.proto.SicpaProto.AddKeyValue result = buildPartial();
+      public ch.epfl.dedis.proto.SicpaProto.SetKeyValue build() {
+        ch.epfl.dedis.proto.SicpaProto.SetKeyValue result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public ch.epfl.dedis.proto.SicpaProto.AddKeyValue buildPartial() {
-        ch.epfl.dedis.proto.SicpaProto.AddKeyValue result = new ch.epfl.dedis.proto.SicpaProto.AddKeyValue(this);
+      public ch.epfl.dedis.proto.SicpaProto.SetKeyValue buildPartial() {
+        ch.epfl.dedis.proto.SicpaProto.SetKeyValue result = new ch.epfl.dedis.proto.SicpaProto.SetKeyValue(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -2536,16 +2536,16 @@ public final class SicpaProto {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof ch.epfl.dedis.proto.SicpaProto.AddKeyValue) {
-          return mergeFrom((ch.epfl.dedis.proto.SicpaProto.AddKeyValue)other);
+        if (other instanceof ch.epfl.dedis.proto.SicpaProto.SetKeyValue) {
+          return mergeFrom((ch.epfl.dedis.proto.SicpaProto.SetKeyValue)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(ch.epfl.dedis.proto.SicpaProto.AddKeyValue other) {
-        if (other == ch.epfl.dedis.proto.SicpaProto.AddKeyValue.getDefaultInstance()) return this;
+      public Builder mergeFrom(ch.epfl.dedis.proto.SicpaProto.SetKeyValue other) {
+        if (other == ch.epfl.dedis.proto.SicpaProto.SetKeyValue.getDefaultInstance()) return this;
         if (other.hasVersion()) {
           setVersion(other.getVersion());
         }
@@ -2583,11 +2583,11 @@ public final class SicpaProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        ch.epfl.dedis.proto.SicpaProto.AddKeyValue parsedMessage = null;
+        ch.epfl.dedis.proto.SicpaProto.SetKeyValue parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (ch.epfl.dedis.proto.SicpaProto.AddKeyValue) e.getUnfinishedMessage();
+          parsedMessage = (ch.epfl.dedis.proto.SicpaProto.SetKeyValue) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -2813,46 +2813,46 @@ public final class SicpaProto {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:AddKeyValue)
+      // @@protoc_insertion_point(builder_scope:SetKeyValue)
     }
 
-    // @@protoc_insertion_point(class_scope:AddKeyValue)
-    private static final ch.epfl.dedis.proto.SicpaProto.AddKeyValue DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:SetKeyValue)
+    private static final ch.epfl.dedis.proto.SicpaProto.SetKeyValue DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new ch.epfl.dedis.proto.SicpaProto.AddKeyValue();
+      DEFAULT_INSTANCE = new ch.epfl.dedis.proto.SicpaProto.SetKeyValue();
     }
 
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValue getDefaultInstance() {
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValue getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<AddKeyValue>
-        PARSER = new com.google.protobuf.AbstractParser<AddKeyValue>() {
-      public AddKeyValue parsePartialFrom(
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<SetKeyValue>
+        PARSER = new com.google.protobuf.AbstractParser<SetKeyValue>() {
+      public SetKeyValue parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new AddKeyValue(input, extensionRegistry);
+          return new SetKeyValue(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<AddKeyValue> parser() {
+    public static com.google.protobuf.Parser<SetKeyValue> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<AddKeyValue> getParserForType() {
+    public com.google.protobuf.Parser<SetKeyValue> getParserForType() {
       return PARSER;
     }
 
-    public ch.epfl.dedis.proto.SicpaProto.AddKeyValue getDefaultInstanceForType() {
+    public ch.epfl.dedis.proto.SicpaProto.SetKeyValue getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface AddKeyValueResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AddKeyValueResponse)
+  public interface SetKeyValueResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SetKeyValueResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -2908,21 +2908,21 @@ public final class SicpaProto {
   }
   /**
    * <pre>
-   * AddKeyValueResponse gives the timestamp and the skipblock-id
+   * SetKeyValueResponse gives the timestamp and the skipblock-id
    * </pre>
    *
-   * Protobuf type {@code AddKeyValueResponse}
+   * Protobuf type {@code SetKeyValueResponse}
    */
-  public  static final class AddKeyValueResponse extends
+  public  static final class SetKeyValueResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:AddKeyValueResponse)
-      AddKeyValueResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:SetKeyValueResponse)
+      SetKeyValueResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use AddKeyValueResponse.newBuilder() to construct.
-    private AddKeyValueResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use SetKeyValueResponse.newBuilder() to construct.
+    private SetKeyValueResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private AddKeyValueResponse() {
+    private SetKeyValueResponse() {
       version_ = 0;
       timestamp_ = 0L;
       skipblockid_ = com.google.protobuf.ByteString.EMPTY;
@@ -2933,7 +2933,7 @@ public final class SicpaProto {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private AddKeyValueResponse(
+    private SetKeyValueResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2985,14 +2985,14 @@ public final class SicpaProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return ch.epfl.dedis.proto.SicpaProto.internal_static_AddKeyValueResponse_descriptor;
+      return ch.epfl.dedis.proto.SicpaProto.internal_static_SetKeyValueResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return ch.epfl.dedis.proto.SicpaProto.internal_static_AddKeyValueResponse_fieldAccessorTable
+      return ch.epfl.dedis.proto.SicpaProto.internal_static_SetKeyValueResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse.class, ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse.Builder.class);
+              ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse.class, ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse.Builder.class);
     }
 
     private int bitField0_;
@@ -3120,10 +3120,10 @@ public final class SicpaProto {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse)) {
+      if (!(obj instanceof ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse)) {
         return super.equals(obj);
       }
-      ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse other = (ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse) obj;
+      ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse other = (ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse) obj;
 
       boolean result = true;
       result = result && (hasVersion() == other.hasVersion());
@@ -3170,69 +3170,69 @@ public final class SicpaProto {
       return hash;
     }
 
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseFrom(byte[] data)
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseFrom(java.io.InputStream input)
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseDelimitedFrom(java.io.InputStream input)
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseDelimitedFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3244,7 +3244,7 @@ public final class SicpaProto {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse prototype) {
+    public static Builder newBuilder(ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -3260,28 +3260,28 @@ public final class SicpaProto {
     }
     /**
      * <pre>
-     * AddKeyValueResponse gives the timestamp and the skipblock-id
+     * SetKeyValueResponse gives the timestamp and the skipblock-id
      * </pre>
      *
-     * Protobuf type {@code AddKeyValueResponse}
+     * Protobuf type {@code SetKeyValueResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:AddKeyValueResponse)
-        ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:SetKeyValueResponse)
+        ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return ch.epfl.dedis.proto.SicpaProto.internal_static_AddKeyValueResponse_descriptor;
+        return ch.epfl.dedis.proto.SicpaProto.internal_static_SetKeyValueResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return ch.epfl.dedis.proto.SicpaProto.internal_static_AddKeyValueResponse_fieldAccessorTable
+        return ch.epfl.dedis.proto.SicpaProto.internal_static_SetKeyValueResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse.class, ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse.Builder.class);
+                ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse.class, ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse.Builder.class);
       }
 
-      // Construct using ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse.newBuilder()
+      // Construct using ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3309,23 +3309,23 @@ public final class SicpaProto {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return ch.epfl.dedis.proto.SicpaProto.internal_static_AddKeyValueResponse_descriptor;
+        return ch.epfl.dedis.proto.SicpaProto.internal_static_SetKeyValueResponse_descriptor;
       }
 
-      public ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse getDefaultInstanceForType() {
-        return ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse.getDefaultInstance();
+      public ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse getDefaultInstanceForType() {
+        return ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse.getDefaultInstance();
       }
 
-      public ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse build() {
-        ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse result = buildPartial();
+      public ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse build() {
+        ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse buildPartial() {
-        ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse result = new ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse(this);
+      public ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse buildPartial() {
+        ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse result = new ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -3372,16 +3372,16 @@ public final class SicpaProto {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse) {
-          return mergeFrom((ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse)other);
+        if (other instanceof ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse) {
+          return mergeFrom((ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse other) {
-        if (other == ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse other) {
+        if (other == ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse.getDefaultInstance()) return this;
         if (other.hasVersion()) {
           setVersion(other.getVersion());
         }
@@ -3407,11 +3407,11 @@ public final class SicpaProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse parsedMessage = null;
+        ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse) e.getUnfinishedMessage();
+          parsedMessage = (ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -3579,39 +3579,39 @@ public final class SicpaProto {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:AddKeyValueResponse)
+      // @@protoc_insertion_point(builder_scope:SetKeyValueResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:AddKeyValueResponse)
-    private static final ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:SetKeyValueResponse)
+    private static final ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse();
+      DEFAULT_INSTANCE = new ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse();
     }
 
-    public static ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse getDefaultInstance() {
+    public static ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<AddKeyValueResponse>
-        PARSER = new com.google.protobuf.AbstractParser<AddKeyValueResponse>() {
-      public AddKeyValueResponse parsePartialFrom(
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<SetKeyValueResponse>
+        PARSER = new com.google.protobuf.AbstractParser<SetKeyValueResponse>() {
+      public SetKeyValueResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new AddKeyValueResponse(input, extensionRegistry);
+          return new SetKeyValueResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<AddKeyValueResponse> parser() {
+    public static com.google.protobuf.Parser<SetKeyValueResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<AddKeyValueResponse> getParserForType() {
+    public com.google.protobuf.Parser<SetKeyValueResponse> getParserForType() {
       return PARSER;
     }
 
-    public ch.epfl.dedis.proto.SicpaProto.AddKeyValueResponse getDefaultInstanceForType() {
+    public ch.epfl.dedis.proto.SicpaProto.SetKeyValueResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -5058,15 +5058,15 @@ public final class SicpaProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_CreateSkipchainResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_AddKeyValue_descriptor;
+    internal_static_SetKeyValue_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_AddKeyValue_fieldAccessorTable;
+      internal_static_SetKeyValue_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_AddKeyValueResponse_descriptor;
+    internal_static_SetKeyValueResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_AddKeyValueResponse_fieldAccessorTable;
+      internal_static_SetKeyValueResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_GetValue_descriptor;
   private static final 
@@ -5091,9 +5091,9 @@ public final class SicpaProto {
       "\022\027\n\006roster\030\002 \001(\0132\007.Roster\022\017\n\007writers\030\003 \003" +
       "(\014\022\021\n\tsignature\030\004 \001(\014\"I\n\027CreateSkipchain" +
       "Response\022\017\n\007version\030\001 \002(\021\022\035\n\tskipblock\030\002" +
-      " \001(\0132\n.SkipBlock\"O\n\013AddKeyValue\022\017\n\007versi" +
+      " \001(\0132\n.SkipBlock\"O\n\013SetKeyValue\022\017\n\007versi" +
       "on\030\001 \002(\021\022\023\n\013skipchainid\030\002 \002(\014\022\013\n\003key\030\003 \002" +
-      "(\014\022\r\n\005value\030\004 \002(\014\"N\n\023AddKeyValueResponse" +
+      "(\014\022\r\n\005value\030\004 \002(\014\"N\n\023SetKeyValueResponse" +
       "\022\017\n\007version\030\001 \002(\021\022\021\n\ttimestamp\030\002 \001(\022\022\023\n\013" +
       "skipblockid\030\003 \001(\014\"=\n\010GetValue\022\017\n\007version",
       "\030\001 \002(\021\022\023\n\013skipchainid\030\002 \002(\014\022\013\n\003key\030\003 \002(\014" +
@@ -5127,17 +5127,17 @@ public final class SicpaProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateSkipchainResponse_descriptor,
         new java.lang.String[] { "Version", "Skipblock", });
-    internal_static_AddKeyValue_descriptor =
+    internal_static_SetKeyValue_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_AddKeyValue_fieldAccessorTable = new
+    internal_static_SetKeyValue_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_AddKeyValue_descriptor,
+        internal_static_SetKeyValue_descriptor,
         new java.lang.String[] { "Version", "Skipchainid", "Key", "Value", });
-    internal_static_AddKeyValueResponse_descriptor =
+    internal_static_SetKeyValueResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_AddKeyValueResponse_fieldAccessorTable = new
+    internal_static_SetKeyValueResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_AddKeyValueResponse_descriptor,
+        internal_static_SetKeyValueResponse_descriptor,
         new java.lang.String[] { "Version", "Timestamp", "Skipblockid", });
     internal_static_GetValue_descriptor =
       getDescriptor().getMessageTypes().get(4);

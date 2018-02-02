@@ -40,11 +40,11 @@ func TestService_AddKeyValue(t *testing.T) {
 	s := newSer(t, 1)
 	defer s.local.CloseAll()
 
-	akvresp, err := s.service.AddKeyValue(&sicpa.AddKeyValue{
+	akvresp, err := s.service.SetKeyValue(&sicpa.SetKeyValue{
 		Version: 0,
 	})
 	require.NotNil(t, err)
-	akvresp, err = s.service.AddKeyValue(&sicpa.AddKeyValue{
+	akvresp, err = s.service.SetKeyValue(&sicpa.SetKeyValue{
 		Version:     sicpa.CurrentVersion,
 		SkipchainID: s.sb.SkipChainID(),
 		Key:         s.key,
@@ -99,7 +99,7 @@ func newSer(t *testing.T, step int) *ser {
 			assert.Nil(t, err)
 			s.sb = resp.Skipblock
 		case 1:
-			_, err := s.service.AddKeyValue(&sicpa.AddKeyValue{
+			_, err := s.service.SetKeyValue(&sicpa.SetKeyValue{
 				Version:     sicpa.CurrentVersion,
 				SkipchainID: s.sb.SkipChainID(),
 				Key:         s.key,
