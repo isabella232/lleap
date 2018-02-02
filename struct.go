@@ -122,6 +122,17 @@ type Version int
 // CurrentVersion is what we're running now
 const CurrentVersion Version = 1
 
+// PROTOSTART
+// import "skipblock.proto";
+// import "roster.proto";
+//
+// option java_package = "ch.epfl.dedis.proto";
+// option java_outer_classname = "SicpaProto";
+
+// ***
+// These are the messages used in the API-calls
+// ***
+
 // CreateSkipchain asks the cisc-service to set up a new skipchain.
 type CreateSkipchain struct {
 	// Version of the protocol
@@ -131,7 +142,7 @@ type CreateSkipchain struct {
 	// Writers represent keys that are allowed to add new key/value pairs to the skipchain.
 	Writers *[][]byte
 	// Signature, if available, will have to include the nonce sent by cisc.
-	Signature []byte
+	Signature *[]byte
 }
 
 // CreateSkipchainResponse holds the genesis-block of the new skipchain.

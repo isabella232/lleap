@@ -32,6 +32,5 @@ docker_run:
 	 -v $(shell pwd)/data:/root/.local/share/conode $(TEST_IMAGE_NAME)
 
 proto:
-	awk -f proto.awk struct.go > external/proto/ocs.proto
-	awk -f proto.awk darc/struct.go > external/proto/darc.proto
+	awk -f proto.awk struct.go > external/proto/sicpa.proto
 	cd external; make
