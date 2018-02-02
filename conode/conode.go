@@ -25,7 +25,9 @@ import (
 	// Here you can import any other needed service for your conode.
 	// For example, if your service needs cosi available in the server
 	// as well, uncomment this:
-	//_ "github.com/dedis/cothority/cosi/service"
+	_ "github.com/dedis/cothority/identity"
+	_ "github.com/dedis/cothority/skipchain"
+	_ "github.com/dedis/cothority/status/service"
 )
 
 func main() {

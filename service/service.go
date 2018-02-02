@@ -61,7 +61,7 @@ func (s *Service) CreateSkipchain(req *sicpa.CreateSkipchain) (*sicpa.CreateSkip
 	data := &identity.Data{
 		Threshold: 2,
 		Device:    map[string]*identity.Device{"service": &identity.Device{Point: kp.Public}},
-		Roster:    req.Roster,
+		Roster:    &req.Roster,
 	}
 
 	cir, err := s.idService().CreateIdentityInternal(&identity.CreateIdentity{
@@ -200,7 +200,8 @@ func newService(c *onet.Context) (onet.Service, error) {
 	s := &Service{
 		ServiceProcessor: onet.NewServiceProcessor(c),
 	}
-	if err := s.RegisterHandlers(s.CreateSkipchain); err != nil {
+	if err := s.RegisterHandlers(s.CreateSkipchain, s.SetKeyValue,
+		s.GetValue); err != nil {
 		log.ErrFatal(err, "Couldn't register messages")
 	}
 	if err := s.tryLoad(); err != nil {

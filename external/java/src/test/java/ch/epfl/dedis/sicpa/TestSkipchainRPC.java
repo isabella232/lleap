@@ -9,7 +9,7 @@ public class TestSkipchainRPC {
     private static byte[] key;
     private static byte[] value;
     @BeforeAll
-    public void initAll(){
+    public static void initAll(){
         key = "first".getBytes();
         value = "value".getBytes();
     }
@@ -24,6 +24,12 @@ public class TestSkipchainRPC {
     public void writeRead() throws Exception{
         SkipchainRPC sc = new SkipchainRPC();
         sc.setKeyValue(key, value);
-        assertEquals(value, sc.getValue(key));
+        assertArrayEquals(value, sc.getValue(key));
+    }
+
+    @Test
+    public void createSkipchain() throws Exception{
+        SkipchainRPC sc = new SkipchainRPC(Rosters.Local);
+        assertNotNull(sc);
     }
 }

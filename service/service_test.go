@@ -23,13 +23,13 @@ func TestService_CreateSkipchain(t *testing.T) {
 	defer s.local.CloseAll()
 	resp, err := s.service.CreateSkipchain(&sicpa.CreateSkipchain{
 		Version: 0,
-		Roster:  s.roster,
+		Roster:  *s.roster,
 	})
 	require.NotNil(t, err)
 
 	resp, err = s.service.CreateSkipchain(&sicpa.CreateSkipchain{
 		Version: sicpa.CurrentVersion,
-		Roster:  s.roster,
+		Roster:  *s.roster,
 	})
 	require.Nil(t, err)
 	assert.Equal(t, sicpa.CurrentVersion, resp.Version)
@@ -94,7 +94,7 @@ func newSer(t *testing.T, step int) *ser {
 		case 0:
 			resp, err := s.service.CreateSkipchain(&sicpa.CreateSkipchain{
 				Version: sicpa.CurrentVersion,
-				Roster:  s.roster,
+				Roster:  *s.roster,
 			})
 			assert.Nil(t, err)
 			s.sb = resp.Skipblock

@@ -40,7 +40,7 @@ public final class SicpaProto {
      * 	 Roster defines which nodes participate in the skipchain.
      * </pre>
      *
-     * <code>optional .Roster roster = 2;</code>
+     * <code>required .Roster roster = 2;</code>
      */
     boolean hasRoster();
     /**
@@ -48,7 +48,7 @@ public final class SicpaProto {
      * 	 Roster defines which nodes participate in the skipchain.
      * </pre>
      *
-     * <code>optional .Roster roster = 2;</code>
+     * <code>required .Roster roster = 2;</code>
      */
     ch.epfl.dedis.proto.RosterProto.Roster getRoster();
     /**
@@ -56,7 +56,7 @@ public final class SicpaProto {
      * 	 Roster defines which nodes participate in the skipchain.
      * </pre>
      *
-     * <code>optional .Roster roster = 2;</code>
+     * <code>required .Roster roster = 2;</code>
      */
     ch.epfl.dedis.proto.RosterProto.RosterOrBuilder getRosterOrBuilder();
 
@@ -241,7 +241,7 @@ public final class SicpaProto {
      * 	 Roster defines which nodes participate in the skipchain.
      * </pre>
      *
-     * <code>optional .Roster roster = 2;</code>
+     * <code>required .Roster roster = 2;</code>
      */
     public boolean hasRoster() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
@@ -251,7 +251,7 @@ public final class SicpaProto {
      * 	 Roster defines which nodes participate in the skipchain.
      * </pre>
      *
-     * <code>optional .Roster roster = 2;</code>
+     * <code>required .Roster roster = 2;</code>
      */
     public ch.epfl.dedis.proto.RosterProto.Roster getRoster() {
       return roster_ == null ? ch.epfl.dedis.proto.RosterProto.Roster.getDefaultInstance() : roster_;
@@ -261,7 +261,7 @@ public final class SicpaProto {
      * 	 Roster defines which nodes participate in the skipchain.
      * </pre>
      *
-     * <code>optional .Roster roster = 2;</code>
+     * <code>required .Roster roster = 2;</code>
      */
     public ch.epfl.dedis.proto.RosterProto.RosterOrBuilder getRosterOrBuilder() {
       return roster_ == null ? ch.epfl.dedis.proto.RosterProto.Roster.getDefaultInstance() : roster_;
@@ -334,11 +334,13 @@ public final class SicpaProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (hasRoster()) {
-        if (!getRoster().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
+      if (!hasRoster()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getRoster().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
       }
       memoizedIsInitialized = 1;
       return true;
@@ -708,10 +710,11 @@ public final class SicpaProto {
         if (!hasVersion()) {
           return false;
         }
-        if (hasRoster()) {
-          if (!getRoster().isInitialized()) {
-            return false;
-          }
+        if (!hasRoster()) {
+          return false;
+        }
+        if (!getRoster().isInitialized()) {
+          return false;
         }
         return true;
       }
@@ -791,7 +794,7 @@ public final class SicpaProto {
        * 	 Roster defines which nodes participate in the skipchain.
        * </pre>
        *
-       * <code>optional .Roster roster = 2;</code>
+       * <code>required .Roster roster = 2;</code>
        */
       public boolean hasRoster() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
@@ -801,7 +804,7 @@ public final class SicpaProto {
        * 	 Roster defines which nodes participate in the skipchain.
        * </pre>
        *
-       * <code>optional .Roster roster = 2;</code>
+       * <code>required .Roster roster = 2;</code>
        */
       public ch.epfl.dedis.proto.RosterProto.Roster getRoster() {
         if (rosterBuilder_ == null) {
@@ -815,7 +818,7 @@ public final class SicpaProto {
        * 	 Roster defines which nodes participate in the skipchain.
        * </pre>
        *
-       * <code>optional .Roster roster = 2;</code>
+       * <code>required .Roster roster = 2;</code>
        */
       public Builder setRoster(ch.epfl.dedis.proto.RosterProto.Roster value) {
         if (rosterBuilder_ == null) {
@@ -835,7 +838,7 @@ public final class SicpaProto {
        * 	 Roster defines which nodes participate in the skipchain.
        * </pre>
        *
-       * <code>optional .Roster roster = 2;</code>
+       * <code>required .Roster roster = 2;</code>
        */
       public Builder setRoster(
           ch.epfl.dedis.proto.RosterProto.Roster.Builder builderForValue) {
@@ -853,7 +856,7 @@ public final class SicpaProto {
        * 	 Roster defines which nodes participate in the skipchain.
        * </pre>
        *
-       * <code>optional .Roster roster = 2;</code>
+       * <code>required .Roster roster = 2;</code>
        */
       public Builder mergeRoster(ch.epfl.dedis.proto.RosterProto.Roster value) {
         if (rosterBuilder_ == null) {
@@ -877,7 +880,7 @@ public final class SicpaProto {
        * 	 Roster defines which nodes participate in the skipchain.
        * </pre>
        *
-       * <code>optional .Roster roster = 2;</code>
+       * <code>required .Roster roster = 2;</code>
        */
       public Builder clearRoster() {
         if (rosterBuilder_ == null) {
@@ -894,7 +897,7 @@ public final class SicpaProto {
        * 	 Roster defines which nodes participate in the skipchain.
        * </pre>
        *
-       * <code>optional .Roster roster = 2;</code>
+       * <code>required .Roster roster = 2;</code>
        */
       public ch.epfl.dedis.proto.RosterProto.Roster.Builder getRosterBuilder() {
         bitField0_ |= 0x00000002;
@@ -906,7 +909,7 @@ public final class SicpaProto {
        * 	 Roster defines which nodes participate in the skipchain.
        * </pre>
        *
-       * <code>optional .Roster roster = 2;</code>
+       * <code>required .Roster roster = 2;</code>
        */
       public ch.epfl.dedis.proto.RosterProto.RosterOrBuilder getRosterOrBuilder() {
         if (rosterBuilder_ != null) {
@@ -921,7 +924,7 @@ public final class SicpaProto {
        * 	 Roster defines which nodes participate in the skipchain.
        * </pre>
        *
-       * <code>optional .Roster roster = 2;</code>
+       * <code>required .Roster roster = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           ch.epfl.dedis.proto.RosterProto.Roster, ch.epfl.dedis.proto.RosterProto.Roster.Builder, ch.epfl.dedis.proto.RosterProto.RosterOrBuilder> 
@@ -5088,7 +5091,7 @@ public final class SicpaProto {
     java.lang.String[] descriptorData = {
       "\n\013sicpa.proto\032\017skipblock.proto\032\014roster.p" +
       "roto\"_\n\017CreateSkipchain\022\017\n\007version\030\001 \002(\021" +
-      "\022\027\n\006roster\030\002 \001(\0132\007.Roster\022\017\n\007writers\030\003 \003" +
+      "\022\027\n\006roster\030\002 \002(\0132\007.Roster\022\017\n\007writers\030\003 \003" +
       "(\014\022\021\n\tsignature\030\004 \001(\014\"I\n\027CreateSkipchain" +
       "Response\022\017\n\007version\030\001 \002(\021\022\035\n\tskipblock\030\002" +
       " \001(\0132\n.SkipBlock\"O\n\013SetKeyValue\022\017\n\007versi" +

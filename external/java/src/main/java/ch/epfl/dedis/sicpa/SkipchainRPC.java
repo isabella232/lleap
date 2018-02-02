@@ -18,14 +18,41 @@ import javax.xml.bind.DatatypeConverter;
  */
 public class SkipchainRPC {
     private Roster roster;
+    private SkipblockId scid;
+    private static int version = 1;
     private final Logger logger = LoggerFactory.getLogger(SkipchainRPC.class);
     /**
      * Initializes a Storage adapter with the standard node at DEDIS.
      * @throws CothorityCommunicationException
      */
     public SkipchainRPC() throws CothorityCommunicationException, CothorityCryptoException{
-        this(Roster.FromToml("here be toml-file"),
-                new SkipblockId(DatatypeConverter.parseHexBinary("coffeebabe")));
+        this(Rosters.Local, new SkipblockId(Rosters.LocalID));
+    }
+
+    /**
+     * Initializes a NEW skipchain
+     */
+    public SkipchainRPC(Roster roster) throws CothorityCommunicationException{
+        this.roster = roster;
+        SicpaProto.CreateSkipchain.Builder request =
+                SicpaProto.CreateSkipchain.newBuilder();
+        request.setRoster(roster.getProto());
+        request.setVersion(version);
+
+        ByteString msg = roster.sendMessage("Sicpa/CreateSkipchain",
+                request.build());
+
+        try {
+            SicpaProto.CreateSkipchainResponse reply = SicpaProto.CreateSkipchainResponse.parseFrom(msg);
+            if (reply.getVersion() != version){
+                throw new CothorityCommunicationException("Version mismatch");
+            }
+            logger.info("Created new skipchain:");
+            logger.info(DatatypeConverter.printHexBinary(reply.getSkipblock().getHash().toByteArray()));
+            return;
+        } catch (InvalidProtocolBufferException e) {
+            throw new CothorityCommunicationException(e);
+        }
     }
 
     /**
@@ -34,30 +61,53 @@ public class SkipchainRPC {
      * @throws CothorityCommunicationException
      */
     public SkipchainRPC(Roster roster, SkipblockId id) throws CothorityCommunicationException{
-
+        this.roster = roster;
+        this.scid = id;
     }
 
     public void setKeyValue(byte[] key, byte[] value) throws CothorityCommunicationException{
-        SicpaProto.AddKeyValue.Builder request =
-                SicpaProto.AddKeyValue.newBuilder();
+        SicpaProto.SetKeyValue.Builder request =
+                SicpaProto.SetKeyValue.newBuilder();
         request.setKey(ByteString.copyFrom(key));
         request.setValue(ByteString.copyFrom(value));
+        request.setSkipchainid(scid.toBS());
+        request.setVersion(version);
 
-        ByteString msg = roster.sendMessage("Sicpa/AddKeyValue",
+        ByteString msg = roster.sendMessage("Sicpa/SetKeyValue",
                 request.build());
 
         try {
-            SicpaProto.AddKeyValueResponse reply = SicpaProto.AddKeyValueResponse.parseFrom(msg);
+            SicpaProto.SetKeyValueResponse reply = SicpaProto.SetKeyValueResponse.parseFrom(msg);
+            if (reply.getVersion() != version){
+                throw new CothorityCommunicationException("Version mismatch");
+            }
             logger.info("Set key/value pair");
             return;
         } catch (InvalidProtocolBufferException e) {
             throw new CothorityCommunicationException(e);
         }
-
     }
 
     public byte[] getValue(byte[] key) throws CothorityCommunicationException{
-        return "".getBytes();
+        SicpaProto.GetValue.Builder request =
+                SicpaProto.GetValue.newBuilder();
+        request.setKey(ByteString.copyFrom(key));
+        request.setSkipchainid(scid.toBS());
+        request.setVersion(version);
+
+        ByteString msg = roster.sendMessage("Sicpa/GetValue",
+                request.build());
+
+        try {
+            SicpaProto.GetValueResponse reply = SicpaProto.GetValueResponse.parseFrom(msg);
+            if (reply.getVersion() != version){
+                throw new CothorityCommunicationException("Version mismatch");
+            }
+            logger.info("Got value");
+            return reply.getValue().toByteArray();
+        } catch (InvalidProtocolBufferException e) {
+            throw new CothorityCommunicationException(e);
+        }
     }
 
     /**

@@ -14,7 +14,7 @@ message CreateSkipchain {
   // 	 Version of the protocol
   required sint32 version = 1;
   // 	 Roster defines which nodes participate in the skipchain.
-  optional Roster roster = 2;
+  required Roster roster = 2;
   // 	 Writers represent keys that are allowed to add new key/value pairs to the skipchain.
   repeated bytes writers = 3;
   // 	 Signature, if available, will have to include the nonce sent by cisc.

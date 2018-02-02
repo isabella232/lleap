@@ -7,6 +7,7 @@ package sicpa
 
 import (
 	"github.com/dedis/cothority"
+	"github.com/dedis/cothority/skipchain"
 	"github.com/dedis/kyber"
 	"github.com/dedis/onet"
 )
@@ -29,7 +30,39 @@ func NewClient() *Client {
 // a key is given, it is used to authenticate towards the cothority.
 func (c *Client) CreateSkipchain(r *onet.Roster, key kyber.Scalar) (*CreateSkipchainResponse, error) {
 	reply := &CreateSkipchainResponse{}
-	err := c.SendProtobuf(r.List[0], &CreateSkipchain{Roster: r}, reply)
+	err := c.SendProtobuf(r.List[0], &CreateSkipchain{
+		Version: CurrentVersion,
+		Roster:  *r,
+	}, reply)
+	if err != nil {
+		return nil, err
+	}
+	return reply, nil
+}
+
+// SetKeyValue sets a key/value pair and returns the created skipblock.
+func (c *Client) SetKeyValue(r *onet.Roster, id skipchain.SkipBlockID, key, value []byte) (*SetKeyValueResponse, error) {
+	reply := &SetKeyValueResponse{}
+	err := c.SendProtobuf(r.List[0], &SetKeyValue{
+		Version:     CurrentVersion,
+		SkipchainID: id,
+		Key:         key,
+		Value:       value,
+	}, reply)
+	if err != nil {
+		return nil, err
+	}
+	return reply, nil
+}
+
+// GetValue returns the value of a key or nil if it doesn't exist.
+func (c *Client) GetValue(r *onet.Roster, id skipchain.SkipBlockID, key []byte) (*GetValueResponse, error) {
+	reply := &GetValueResponse{}
+	err := c.SendProtobuf(r.List[0], &GetValue{
+		Version:     CurrentVersion,
+		SkipchainID: id,
+		Key:         key,
+	}, reply)
 	if err != nil {
 		return nil, err
 	}
