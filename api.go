@@ -1,22 +1,19 @@
 package sicpa
 
 /*
-The api.go defines the methods that can be called from the outside. Most
-of the methods will take a roster so that the service knows which nodes
-it should work with.
-
-This part of the service runs on the client or the app.
-*/
+* The Sicpa service uses a CISC (https://github.com/dedis/cothority/cisc) to store
+* key/value pairs on a skipchain.
+ */
 
 import (
 	"github.com/dedis/cothority"
+	"github.com/dedis/cothority/skipchain"
+	"github.com/dedis/kyber"
 	"github.com/dedis/onet"
-	"github.com/dedis/onet/log"
-	"github.com/dedis/onet/network"
 )
 
 // ServiceName is used for registration on the onet.
-const ServiceName = "Template"
+const ServiceName = "Sicpa"
 
 // Client is a structure to communicate with the CoSi
 // service
@@ -26,32 +23,48 @@ type Client struct {
 
 // NewClient instantiates a new cosi.Client
 func NewClient() *Client {
-	return &Client{Client: onet.NewClient(ServiceName, cothority.Suite)}
+	return &Client{Client: onet.NewClient(cothority.Suite, ServiceName)}
 }
 
-// Clock chooses one server from the Roster at random. It
-// sends a ClockRequest to it, which is then processed on the server side
-// via the code in the service package.
-//
-// Clock will return the time in seconds it took to run the protocol.
-func (c *Client) Clock(r *onet.Roster) (*ClockResponse, error) {
-	dst := r.RandomServerIdentity()
-	log.Lvl4("Sending message to", dst)
-	reply := &ClockResponse{}
-	err := c.SendProtobuf(dst, &ClockRequest{r}, reply)
+// CreateSkipchain sets up a new skipchain to hold the key/value pairs. If
+// a key is given, it is used to authenticate towards the cothority.
+func (c *Client) CreateSkipchain(r *onet.Roster, key kyber.Scalar) (*CreateSkipchainResponse, error) {
+	reply := &CreateSkipchainResponse{}
+	err := c.SendProtobuf(r.List[0], &CreateSkipchain{
+		Version: CurrentVersion,
+		Roster:  *r,
+	}, reply)
 	if err != nil {
 		return nil, err
 	}
 	return reply, nil
 }
 
-// Count will return the number of times `Clock` has been called on this
-// service-node.
-func (c *Client) Count(si *network.ServerIdentity) (int, error) {
-	reply := &CountResponse{}
-	err := c.SendProtobuf(si, &CountRequest{}, reply)
+// SetKeyValue sets a key/value pair and returns the created skipblock.
+func (c *Client) SetKeyValue(r *onet.Roster, id skipchain.SkipBlockID, key, value []byte) (*SetKeyValueResponse, error) {
+	reply := &SetKeyValueResponse{}
+	err := c.SendProtobuf(r.List[0], &SetKeyValue{
+		Version:     CurrentVersion,
+		SkipchainID: id,
+		Key:         key,
+		Value:       value,
+	}, reply)
 	if err != nil {
-		return -1, err
+		return nil, err
 	}
-	return reply.Count, nil
+	return reply, nil
+}
+
+// GetValue returns the value of a key or nil if it doesn't exist.
+func (c *Client) GetValue(r *onet.Roster, id skipchain.SkipBlockID, key []byte) (*GetValueResponse, error) {
+	reply := &GetValueResponse{}
+	err := c.SendProtobuf(r.List[0], &GetValue{
+		Version:     CurrentVersion,
+		SkipchainID: id,
+		Key:         key,
+	}, reply)
+	if err != nil {
+		return nil, err
+	}
+	return reply, nil
 }

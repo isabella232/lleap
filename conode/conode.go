@@ -25,7 +25,9 @@ import (
 	// Here you can import any other needed service for your conode.
 	// For example, if your service needs cosi available in the server
 	// as well, uncomment this:
-	//_ "github.com/dedis/cothority/cosi/service"
+	_ "github.com/dedis/cothority/identity"
+	_ "github.com/dedis/cothority/skipchain"
+	_ "github.com/dedis/cothority/status/service"
 )
 
 func main() {
@@ -46,7 +48,7 @@ func main() {
 				if c.String("debug") != "" {
 					log.Fatal("[-] Debug option cannot be used for the 'setup' command")
 				}
-				app.InteractiveConfig("sicpa", cothority.Suite)
+				app.InteractiveConfig(cothority.Suite, "sicpa")
 				return nil
 			},
 		},

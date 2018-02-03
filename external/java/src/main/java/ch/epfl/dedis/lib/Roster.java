@@ -5,7 +5,9 @@ import ch.epfl.dedis.lib.crypto.Point;
 import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
 import ch.epfl.dedis.proto.RosterProto;
 import com.google.protobuf.ByteString;
+import com.moandjiezana.toml.Toml;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,5 +51,19 @@ public class Roster {
     public ByteString sendMessage(String path, com.google.protobuf.GeneratedMessageV3 proto) throws CothorityCommunicationException {
         // TODO - fetch a random node.
         return ByteString.copyFrom(nodes.get(0).SendMessage(path, proto.toByteArray()));
+    }
+
+    public static Roster FromToml(String groupToml) {
+        Toml toml = new Toml().read(groupToml);
+        List<ServerIdentity> cothority = new ArrayList<>();
+        List<Toml> servers = toml.getTables("servers");
+
+        for (Toml s : servers) {
+            try {
+                cothority.add(new ServerIdentity(s));
+            } catch (URISyntaxException e) {
+            }
+        }
+        return new Roster(cothority);
     }
 }

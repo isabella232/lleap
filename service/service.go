@@ -9,6 +9,11 @@ import (
 	"errors"
 	"sync"
 
+	"github.com/dedis/cothority"
+	"github.com/dedis/cothority/identity"
+	"github.com/dedis/kyber"
+	"github.com/dedis/kyber/sign/schnorr"
+	"github.com/dedis/kyber/util/key"
 	"github.com/dedis/onet"
 	"github.com/dedis/onet/log"
 	"github.com/dedis/onet/network"
@@ -40,40 +45,115 @@ const storageID = "main"
 
 // storage is used to save our data.
 type storage struct {
-	Count int
+	Identities map[string]*identity.IDBlock
+	Private    map[string]kyber.Scalar
 	sync.Mutex
 }
 
-// ClockRequest starts a sicpa-protocol and returns the run-time.
-func (s *Service) ClockRequest(req *sicpa.ClockRequest) (*sicpa.ClockResponse, error) {
-	s.storage.Lock()
-	s.storage.Count++
-	s.storage.Unlock()
-	s.save()
-	tree := req.Roster.GenerateNaryTreeWithRoot(2, s.ServerIdentity())
-	if tree == nil {
-		return nil, errors.New("couldn't create tree")
+// CreateSkipchain asks the cisc-service to create a new skipchain ready to store
+// key/value pairs.
+func (s *Service) CreateSkipchain(req *sicpa.CreateSkipchain) (*sicpa.CreateSkipchainResponse, error) {
+	if req.Version != sicpa.CurrentVersion {
+		return nil, errors.New("version mismatch")
 	}
-	return nil, nil
+
+	kp := key.NewKeyPair(cothority.Suite)
+	data := &identity.Data{
+		Threshold: 2,
+		Device:    map[string]*identity.Device{"service": &identity.Device{Point: kp.Public}},
+		Roster:    &req.Roster,
+	}
+
+	cir, err := s.idService().CreateIdentityInternal(&identity.CreateIdentity{
+		Data: data,
+	}, "", "")
+	if err != nil {
+		return nil, err
+	}
+	gid := string(cir.Genesis.SkipChainID())
+	s.storage.Identities[gid] = &identity.IDBlock{
+		Latest:          data,
+		LatestSkipblock: cir.Genesis,
+	}
+	s.storage.Private[gid] = kp.Private
+	s.save()
+	return &sicpa.CreateSkipchainResponse{
+		Version:   sicpa.CurrentVersion,
+		Skipblock: cir.Genesis,
+	}, nil
 }
 
-// CountRequest returns the number of instantiations of the protocol.
-func (s *Service) CountRequest(req *sicpa.CountRequest) (*sicpa.CountResponse, error) {
-	s.storage.Lock()
-	defer s.storage.Unlock()
-	return &sicpa.CountResponse{Count: s.storage.Count}, nil
+// SetKeyValue asks cisc to add a new key/value pair.
+func (s *Service) SetKeyValue(req *sicpa.SetKeyValue) (*sicpa.SetKeyValueResponse, error) {
+	if req.Version != sicpa.CurrentVersion {
+		return nil, errors.New("version mismatch")
+	}
+	gid := string(req.SkipchainID)
+	idb := s.storage.Identities[gid]
+	priv := s.storage.Private[gid]
+	if idb == nil || priv == nil {
+		return nil, errors.New("don't have this identity stored")
+	}
+
+	prop := idb.Latest.Copy()
+	prop.Storage[string(req.Key)] = string(req.Value)
+	_, err := s.idService().ProposeSend(&identity.ProposeSend{
+		ID:      identity.ID(req.SkipchainID),
+		Propose: prop,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	hash, err := prop.Hash(cothority.Suite)
+	if err != nil {
+		return nil, err
+	}
+	sig, err := schnorr.Sign(cothority.Suite, priv, hash)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := s.idService().ProposeVote(&identity.ProposeVote{
+		ID:        identity.ID(req.SkipchainID),
+		Signer:    "service",
+		Signature: sig,
+	})
+	if err != nil {
+		return nil, err
+	}
+	timestamp := int64(resp.Data.Index)
+	return &sicpa.SetKeyValueResponse{
+		Version:     sicpa.CurrentVersion,
+		Timestamp:   &timestamp,
+		SkipblockID: &resp.Data.Hash,
+	}, nil
 }
 
-// NewProtocol is called on all nodes of a Tree (except the root, since it is
-// the one starting the protocol) so it's the Service that will be called to
-// generate the PI on all others node.
-// If you use CreateProtocolOnet, this will not be called, as the Onet will
-// instantiate the protocol on its own. If you need more control at the
-// instantiation of the protocol, use CreateProtocolService, and you can
-// give some extra-configuration to your protocol in here.
-func (s *Service) NewProtocol(tn *onet.TreeNodeInstance, conf *onet.GenericConfig) (onet.ProtocolInstance, error) {
-	log.Lvl3("Not sicpad yet")
-	return nil, nil
+// GetValue looks up the key in the given skipchain and returns the corresponding value.
+func (s *Service) GetValue(req *sicpa.GetValue) (*sicpa.GetValueResponse, error) {
+	if req.Version != sicpa.CurrentVersion {
+		return nil, errors.New("version mismatch")
+	}
+
+	dur, err := s.idService().DataUpdate(&identity.DataUpdate{
+		ID: identity.ID(req.SkipchainID),
+	})
+	if err != nil {
+		return nil, err
+	}
+	value, exists := dur.Data.Storage[string(req.Key)]
+	if !exists {
+		return nil, errors.New("this value doesn't exist")
+	}
+	valueB := []byte(value)
+	return &sicpa.GetValueResponse{
+		Version: sicpa.CurrentVersion,
+		Value:   &valueB,
+	}, nil
+}
+
+func (s *Service) idService() *identity.Service {
+	return s.Service(identity.ServiceName).(*identity.Service)
 }
 
 // saves all skipblocks.
@@ -94,13 +174,21 @@ func (s *Service) tryLoad() error {
 	if err != nil {
 		return err
 	}
-	if msg == nil {
-		return nil
+	if msg != nil {
+		var ok bool
+		s.storage, ok = msg.(*storage)
+		if !ok {
+			return errors.New("Data of wrong type")
+		}
 	}
-	var ok bool
-	s.storage, ok = msg.(*storage)
-	if !ok {
-		return errors.New("Data of wrong type")
+	if s.storage == nil {
+		s.storage = &storage{}
+	}
+	if s.storage.Identities == nil {
+		s.storage.Identities = map[string]*identity.IDBlock{}
+	}
+	if s.storage.Private == nil {
+		s.storage.Private = map[string]kyber.Scalar{}
 	}
 	return nil
 }
@@ -112,7 +200,8 @@ func newService(c *onet.Context) (onet.Service, error) {
 	s := &Service{
 		ServiceProcessor: onet.NewServiceProcessor(c),
 	}
-	if err := s.RegisterHandlers(s.ClockRequest, s.CountRequest); err != nil {
+	if err := s.RegisterHandlers(s.CreateSkipchain, s.SetKeyValue,
+		s.GetValue); err != nil {
 		log.ErrFatal(err, "Couldn't register messages")
 	}
 	if err := s.tryLoad(); err != nil {
