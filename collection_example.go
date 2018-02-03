@@ -93,8 +93,18 @@ func main() {
 	// let's transfer some data to the verifier
 	collection = collections.EmptyCollection(collections.Data{})
 	verifier = collections.EmptyVerifier(collections.Data{})
+
+	// proof that the record *doesn't* exist
+	proof1, err := collection.Get([]byte("record")).Proof()
+
+	if err != nil {
+		panic(err)
+	}
+
 	collection.Add([]byte("record"), []byte("data"))
-	proof, err := collection.Get([]byte("record")).Proof() // "record" doesn't have to exist, you can prove absence
+
+	// proof that the record does exist
+	proof2, err := collection.Get([]byte("record")).Proof()
 
 	if err != nil {
 		panic(err)
@@ -104,7 +114,7 @@ func main() {
 	// buffer := collection.Serialize(proof) // A []byte that contains a representation of proof.
 	// proofagain, deserialize_err := collection.Deserialize(buffer)
 
-	if verifier.Verify(proof) {
+	if verifier.Verify(proof1) {
 		fmt.Println("Verifier accepted the proof about \"record\".")
 	}  else {
 		fmt.Println("Verifier did not accept")
@@ -114,5 +124,11 @@ func main() {
 	err = verifier.Add([]byte("record"), []byte("somedata"))
 	if err != nil {
 		fmt.Println(err)
+	}
+
+	if verifier.Verify(proof2) {
+		fmt.Println("Verifier accepted the proof about \"record\".")
+	}  else {
+		fmt.Println("Verifier did not accept")
 	}
 }
