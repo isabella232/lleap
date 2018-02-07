@@ -26,7 +26,7 @@ public class SkipchainRPC {
      * @throws CothorityCommunicationException
      */
     public SkipchainRPC() throws CothorityCommunicationException, CothorityCryptoException{
-        this(Rosters.Local, new SkipblockId(Rosters.LocalID));
+        this(Rosters.DEDIS, new SkipblockId(Rosters.DEDISID));
     }
 
     /**
