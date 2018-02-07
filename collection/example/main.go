@@ -1,8 +1,9 @@
 package main
 
 import (
-	collections "github.com/dedis/student_17_collections"
 	"fmt"
+
+	collections "github.com/dedis/student_17_collections"
 )
 
 func main() {
@@ -110,13 +111,13 @@ func main() {
 		panic(err)
 	}
 
-	// The proof can be send over the network:
+	// The proof can be sent over the network:
 	// buffer := collection.Serialize(proof) // A []byte that contains a representation of proof.
 	// proofagain, deserialize_err := collection.Deserialize(buffer)
 
 	if verifier.Verify(proof1) {
 		fmt.Println("Verifier accepted the proof about \"record\".")
-	}  else {
+	} else {
 		fmt.Println("Verifier did not accept")
 	}
 
@@ -128,7 +129,7 @@ func main() {
 
 	if verifier.Verify(proof2) {
 		fmt.Println("Verifier accepted the proof about \"record\".")
-	}  else {
+	} else {
 		fmt.Println("Verifier did not accept")
 	}
 }
