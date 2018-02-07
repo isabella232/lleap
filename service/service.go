@@ -45,8 +45,9 @@ const storageID = "main"
 
 // storage is used to save our data.
 type storage struct {
-	Identities map[string]*identity.IDBlock
-	Private    map[string]kyber.Scalar
+	Identities  map[string]*identity.IDBlock
+	Private     map[string]kyber.Scalar
+	Collections map[string][]byte
 	sync.Mutex
 }
 
