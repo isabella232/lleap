@@ -14,23 +14,23 @@ import (
 	"github.com/dedis/kyber"
 	"github.com/dedis/kyber/sign/schnorr"
 	"github.com/dedis/kyber/util/key"
+	"github.com/dedis/lleap"
 	"github.com/dedis/onet"
 	"github.com/dedis/onet/log"
 	"github.com/dedis/onet/network"
-	"github.com/dedis/sicpa"
 )
 
 // Used for tests
-var sicpaID onet.ServiceID
+var lleapID onet.ServiceID
 
 func init() {
 	var err error
-	sicpaID, err = onet.RegisterNewService(sicpa.ServiceName, newService)
+	lleapID, err = onet.RegisterNewService(lleap.ServiceName, newService)
 	log.ErrFatal(err)
 	network.RegisterMessage(&storage{})
 }
 
-// Service is our sicpa-service
+// Service is our lleap-service
 type Service struct {
 	// We need to embed the ServiceProcessor, so that incoming messages
 	// are correctly handled.
@@ -52,8 +52,8 @@ type storage struct {
 
 // CreateSkipchain asks the cisc-service to create a new skipchain ready to store
 // key/value pairs.
-func (s *Service) CreateSkipchain(req *sicpa.CreateSkipchain) (*sicpa.CreateSkipchainResponse, error) {
-	if req.Version != sicpa.CurrentVersion {
+func (s *Service) CreateSkipchain(req *lleap.CreateSkipchain) (*lleap.CreateSkipchainResponse, error) {
+	if req.Version != lleap.CurrentVersion {
 		return nil, errors.New("version mismatch")
 	}
 
@@ -77,15 +77,15 @@ func (s *Service) CreateSkipchain(req *sicpa.CreateSkipchain) (*sicpa.CreateSkip
 	}
 	s.storage.Private[gid] = kp.Private
 	s.save()
-	return &sicpa.CreateSkipchainResponse{
-		Version:   sicpa.CurrentVersion,
+	return &lleap.CreateSkipchainResponse{
+		Version:   lleap.CurrentVersion,
 		Skipblock: cir.Genesis,
 	}, nil
 }
 
 // SetKeyValue asks cisc to add a new key/value pair.
-func (s *Service) SetKeyValue(req *sicpa.SetKeyValue) (*sicpa.SetKeyValueResponse, error) {
-	if req.Version != sicpa.CurrentVersion {
+func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueResponse, error) {
+	if req.Version != lleap.CurrentVersion {
 		return nil, errors.New("version mismatch")
 	}
 	gid := string(req.SkipchainID)
@@ -122,16 +122,16 @@ func (s *Service) SetKeyValue(req *sicpa.SetKeyValue) (*sicpa.SetKeyValueRespons
 		return nil, err
 	}
 	timestamp := int64(resp.Data.Index)
-	return &sicpa.SetKeyValueResponse{
-		Version:     sicpa.CurrentVersion,
+	return &lleap.SetKeyValueResponse{
+		Version:     lleap.CurrentVersion,
 		Timestamp:   &timestamp,
 		SkipblockID: &resp.Data.Hash,
 	}, nil
 }
 
 // GetValue looks up the key in the given skipchain and returns the corresponding value.
-func (s *Service) GetValue(req *sicpa.GetValue) (*sicpa.GetValueResponse, error) {
-	if req.Version != sicpa.CurrentVersion {
+func (s *Service) GetValue(req *lleap.GetValue) (*lleap.GetValueResponse, error) {
+	if req.Version != lleap.CurrentVersion {
 		return nil, errors.New("version mismatch")
 	}
 
@@ -146,8 +146,8 @@ func (s *Service) GetValue(req *sicpa.GetValue) (*sicpa.GetValueResponse, error)
 		return nil, errors.New("this value doesn't exist")
 	}
 	valueB := []byte(value)
-	return &sicpa.GetValueResponse{
-		Version: sicpa.CurrentVersion,
+	return &lleap.GetValueResponse{
+		Version: lleap.CurrentVersion,
 		Value:   &valueB,
 	}, nil
 }

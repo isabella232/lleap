@@ -7,6 +7,6 @@ will survive a restart of the cothority and instantiate any number of
 protocols before returning a value.
 
 This service defines two methods in the API:
-- Clock starts the 'sicpa'-protocol and returns the run-time
-- Count returns how many times the 'sicpa'-protocol has been run
+- Clock starts the 'lleap'-protocol and returns the run-time
+- Count returns how many times the 'lleap'-protocol has been run
 */

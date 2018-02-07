@@ -21,7 +21,7 @@ import (
 	cli "gopkg.in/urfave/cli.v1"
 
 	// Import your service:
-	_ "github.com/dedis/sicpa/service"
+	_ "github.com/dedis/lleap/service"
 	// Here you can import any other needed service for your conode.
 	// For example, if your service needs cosi available in the server
 	// as well, uncomment this:
@@ -32,7 +32,7 @@ import (
 
 func main() {
 	cliApp := cli.NewApp()
-	cliApp.Name = "sicpa"
+	cliApp.Name = "lleap"
 	cliApp.Usage = "basic file for an app"
 	cliApp.Version = "0.1"
 
@@ -48,7 +48,7 @@ func main() {
 				if c.String("debug") != "" {
 					log.Fatal("[-] Debug option cannot be used for the 'setup' command")
 				}
-				app.InteractiveConfig(cothority.Suite, "sicpa")
+				app.InteractiveConfig(cothority.Suite, "lleap")
 				return nil
 			},
 		},
@@ -68,7 +68,7 @@ func main() {
 		},
 		cli.StringFlag{
 			Name:  "config, c",
-			Value: app.GetDefaultConfigFile("sicpa"),
+			Value: ".config/lleap",
 			Usage: "Configuration file of the server",
 		},
 	}

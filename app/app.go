@@ -9,8 +9,8 @@ import (
 	"errors"
 	"os"
 
+	"github.com/dedis/lleap"
 	"github.com/dedis/onet/app"
-	"github.com/dedis/sicpa"
 
 	"github.com/dedis/onet/log"
 	"gopkg.in/urfave/cli.v1"
@@ -65,7 +65,7 @@ func create(c *cli.Context) error {
 		return errors.New("please give: group.toml")
 	}
 	group := readGroup(c)
-	client := sicpa.NewClient()
+	client := lleap.NewClient()
 	resp, err := client.CreateSkipchain(group.Roster, nil)
 	if err != nil {
 		return errors.New("during creation of skipchain: " + err.Error())
@@ -88,7 +88,7 @@ func set(c *cli.Context) error {
 	}
 	key := c.Args().Get(2)
 	value := c.Args().Get(3)
-	resp, err := sicpa.NewClient().SetKeyValue(group.Roster, scid, []byte(key), []byte(value))
+	resp, err := lleap.NewClient().SetKeyValue(group.Roster, scid, []byte(key), []byte(value))
 	if err != nil {
 		return errors.New("couldn't set new key/value pair: " + err.Error())
 	}
@@ -109,7 +109,7 @@ func get(c *cli.Context) error {
 		return err
 	}
 	key := c.Args().Get(2)
-	resp, err := sicpa.NewClient().GetValue(group.Roster, scid, []byte(key))
+	resp, err := lleap.NewClient().GetValue(group.Roster, scid, []byte(key))
 	if err != nil {
 		return errors.New("couldn't get value: " + err.Error())
 	}

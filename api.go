@@ -1,4 +1,4 @@
-package sicpa
+package lleap
 
 /*
 * The Sicpa service uses a CISC (https://github.com/dedis/cothority/cisc) to store
