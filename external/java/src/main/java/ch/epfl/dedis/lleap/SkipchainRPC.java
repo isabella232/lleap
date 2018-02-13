@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.DatatypeConverter;
-import java.security.PublicKey;
+import java.security.*;
 
 /**
  * SkipchainRPC offers a reliable, fork-resistant storage of key/value pairs.
@@ -30,8 +30,7 @@ public class SkipchainRPC {
      * @throws CothorityCommunicationException
      */
     public SkipchainRPC() throws CothorityCommunicationException, CothorityCryptoException {
-        this(Rosters.Local, new SkipblockId(Rosters.DEDISID));
-//        this(Rosters.DEDIS, new SkipblockId(Rosters.DEDISID));
+        this(Rosters.DEDIS, new SkipblockId(Rosters.DEDISID));
     }
 
     /**
@@ -111,6 +110,27 @@ public class SkipchainRPC {
         }
     }
 
+    public void setKeyValue(byte[] key, byte[] value, PrivateKey privateKey) throws CothorityCommunicationException{
+        try {
+            Signature signature = Signature.getInstance("SHA256withRSA");
+            signature.initSign(privateKey);
+            byte[] message = new byte[key.length + value.length];
+            System.arraycopy(key, 0, message, 0, key.length);
+            System.arraycopy(value, 0, message, key.length, value.length);
+            signature.update(message);
+
+            // And write using the signature
+            byte[] sig = signature.sign();
+            setKeyValue(key, value, sig);
+        } catch (InvalidKeyException e){
+            throw new RuntimeException(e.getMessage());
+        } catch (NoSuchAlgorithmException e){
+            throw new RuntimeException(e.getMessage());
+        } catch (SignatureException e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     /**
      * getValue returns the value/signature pair of a given key. The signature will verify
      * against the public key of the writer. The message of the signature is the concatenation
@@ -141,6 +161,31 @@ public class SkipchainRPC {
         } catch (InvalidProtocolBufferException e) {
             throw new CothorityCommunicationException(e);
         }
+    }
+
+    public byte[] getValue(byte[] key, PublicKey publicKey) throws CothorityCommunicationException{
+        Pair<byte[], byte[]> valueSig = getValue(key);
+
+        byte[] value = valueSig.getKey();
+        byte[] message = new byte[key.length + value.length];
+        System.arraycopy(key, 0, message, 0, key.length);
+        System.arraycopy(value, 0, message, key.length, value.length);
+        try {
+            Signature verify = Signature.getInstance("SHA256withRSA");
+            verify.initVerify(publicKey);
+            verify.update(message);
+            if (!verify.verify(valueSig.getValue())) {
+                throw new CothorityCommunicationException("Signature verification failed");
+            }
+            // TODO: verify the inclusion proof
+        } catch (InvalidKeyException e){
+            throw new RuntimeException(e.getMessage());
+        } catch (NoSuchAlgorithmException e){
+            throw new RuntimeException(e.getMessage());
+        } catch (SignatureException e){
+            throw new RuntimeException(e.getMessage());
+        }
+        return value;
     }
 
     /**
