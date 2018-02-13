@@ -5,6 +5,10 @@
 package service
 
 import (
+	"crypto"
+	"crypto/rsa"
+	"crypto/sha256"
+	"crypto/x509"
 	"errors"
 	"fmt"
 	"sync"
@@ -55,11 +59,15 @@ const storageID = "main"
 type storage struct {
 	Identities map[string]*identity.IDBlock
 	Private    map[string]kyber.Scalar
+	Writers    map[string][]byte
 	sync.Mutex
 }
 
 // CreateSkipchain asks the cisc-service to create a new skipchain ready to store
-// key/value pairs.
+// key/value pairs. If it is given exactly one writer, this writer will be stored
+// in the skipchain.
+// For faster access, all data is also stored locally in the Service.storage
+// structure.
 func (s *Service) CreateSkipchain(req *lleap.CreateSkipchain) (*lleap.CreateSkipchainResponse, error) {
 	if req.Version != lleap.CurrentVersion {
 		return nil, errors.New("version mismatch")
@@ -70,6 +78,10 @@ func (s *Service) CreateSkipchain(req *lleap.CreateSkipchain) (*lleap.CreateSkip
 		Threshold: 2,
 		Device:    map[string]*identity.Device{"service": &identity.Device{Point: kp.Public}},
 		Roster:    &req.Roster,
+	}
+
+	if len(*req.Writers) == 1 {
+		data.Storage = map[string]string{"writer": string((*req.Writers)[0])}
 	}
 
 	cir, err := s.idService().CreateIdentityInternal(&identity.CreateIdentity{
@@ -84,6 +96,7 @@ func (s *Service) CreateSkipchain(req *lleap.CreateSkipchain) (*lleap.CreateSkip
 		LatestSkipblock: cir.Genesis,
 	}
 	s.storage.Private[gid] = kp.Private
+	s.storage.Writers[gid] = []byte(data.Storage["writer"])
 	s.save()
 	return &lleap.CreateSkipchainResponse{
 		Version:   lleap.CurrentVersion,
@@ -103,6 +116,23 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 	priv := s.storage.Private[gid]
 	if idb == nil || priv == nil {
 		return nil, errors.New("don't have this identity stored")
+	}
+	if pub := s.storage.Writers[gid]; pub != nil {
+		log.Lvl1("Verifying signature")
+		public, err := x509.ParsePKIXPublicKey(pub)
+		if err != nil || public == nil {
+			return nil, err
+		}
+		hash := sha256.New()
+		hash.Write(req.Key)
+		hash.Write(req.Value)
+		hashed := hash.Sum(nil)[:]
+		err = rsa.VerifyPKCS1v15(public.(*rsa.PublicKey), crypto.SHA256, hashed, req.Signature)
+		if err != nil {
+			log.Lvl1("signature verification failed")
+			return nil, errors.New("couldn't verify signature")
+		}
+		log.Lvl1("signature verification succeeded")
 	}
 
 	// Store the pair in the collection
@@ -214,6 +244,9 @@ func (s *Service) tryLoad() error {
 	}
 	if s.storage.Private == nil {
 		s.storage.Private = map[string]kyber.Scalar{}
+	}
+	if s.storage.Writers == nil {
+		s.storage.Writers = map[string][]byte{}
 	}
 	s.collectionDB = map[string]*collectionDB{}
 	for _, id := range s.storage.Identities {

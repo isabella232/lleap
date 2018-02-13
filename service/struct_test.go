@@ -15,6 +15,24 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestCollectionDBStrange(t *testing.T) {
+	tmpDB, err := ioutil.TempFile("", "tmpDB")
+	require.Nil(t, err)
+	tmpDB.Close()
+	defer os.Remove(tmpDB.Name())
+
+	db, err := bolt.Open(tmpDB.Name(), 0600, nil)
+	require.Nil(t, err)
+
+	cdb := newCollectionDB(db, "coll1")
+	err = cdb.Store([]byte("first"), []byte("value"), []byte("mysig"))
+	require.Nil(t, err)
+	value, sig, err := cdb.GetValue([]byte("first"))
+	require.Nil(t, err)
+	require.Equal(t, []byte("value"), value)
+	require.Equal(t, []byte("mysig"), sig)
+}
+
 func TestCollectionDB(t *testing.T) {
 	kvPairs := 16
 
@@ -30,7 +48,7 @@ func TestCollectionDB(t *testing.T) {
 	pairs := map[string]string{}
 	mysig := []byte("mysignature")
 	for i := 0; i < kvPairs; i++ {
-		pairs[fmt.Sprintf("Key%d", i)] = fmt.Sprintf("Value%d", i)
+		pairs[fmt.Sprintf("Key%d", i)] = fmt.Sprintf("value%d", i)
 	}
 
 	// Store all key/value pairs
@@ -79,7 +97,7 @@ func TestService_Store(t *testing.T) {
 	// Store some keypairs
 	for i := 0; i < kvPairs; i++ {
 		key := []byte(fmt.Sprintf("Key%d", i))
-		value := []byte(fmt.Sprintf("Value%d", i))
+		value := []byte(fmt.Sprintf("value%d", i))
 		pairs[string(key)] = value
 		_, err := service.SetKeyValue(&lleap.SetKeyValue{
 			Version:     lleap.CurrentVersion,

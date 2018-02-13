@@ -55,7 +55,10 @@ func (c *collectionDB) Store(key, value, sig []byte) error {
 		if err := bucket.Put(key, value); err != nil {
 			return err
 		}
-		if err := bucket.Put(append(key, []byte("sig")...), sig); err != nil {
+		keysig := make([]byte, len(key)+3)
+		copy(keysig, key)
+		keysig = append(keysig, []byte("sig")...)
+		if err := bucket.Put(keysig, sig); err != nil {
 			return err
 		}
 		return nil
@@ -64,18 +67,19 @@ func (c *collectionDB) Store(key, value, sig []byte) error {
 }
 
 func (c *collectionDB) GetValue(key []byte) (value, sig []byte, err error) {
+	// err = c.db.Update(func(tx *bolt.Tx) error {
+	// 	bucket := tx.Bucket([]byte(c.bucketName))
+	// 	value = bucket.Get(key)
+	// 	sig = bucket.Get(append(key, []byte("sig")...))
+	// 	return nil
+	// })
+	// return
+
+	// TODO: make it so that the collection only stores the hashes, not the values
 	proof, err := c.coll.Get(key).Record()
 	if err != nil {
 		return
 	}
-	// TODO: make it so that the collection only stores the hashes, not the values
-	// err = c.Update(func(tx *bolt.Tx) error {
-	// 	value = tx.Bucket([]byte(c.bucketName)).Get(key)
-	// 	return nil
-	// })
-	// if err != nil{
-	//   return
-	// }
 	hashes, err := proof.Values()
 	if err != nil {
 		return

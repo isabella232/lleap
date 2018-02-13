@@ -8,7 +8,6 @@ package lleap
 import (
 	"github.com/dedis/cothority"
 	"github.com/dedis/cothority/skipchain"
-	"github.com/dedis/kyber"
 	"github.com/dedis/onet"
 )
 
@@ -28,11 +27,12 @@ func NewClient() *Client {
 
 // CreateSkipchain sets up a new skipchain to hold the key/value pairs. If
 // a key is given, it is used to authenticate towards the cothority.
-func (c *Client) CreateSkipchain(r *onet.Roster, key kyber.Scalar) (*CreateSkipchainResponse, error) {
+func (c *Client) CreateSkipchain(r *onet.Roster, key []byte) (*CreateSkipchainResponse, error) {
 	reply := &CreateSkipchainResponse{}
 	err := c.SendProtobuf(r.List[0], &CreateSkipchain{
 		Version: CurrentVersion,
 		Roster:  *r,
+		Writers: &[][]byte{key},
 	}, reply)
 	if err != nil {
 		return nil, err

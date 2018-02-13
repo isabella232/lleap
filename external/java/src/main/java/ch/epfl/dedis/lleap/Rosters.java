@@ -21,7 +21,6 @@ public class Rosters{
             "  Public = \"4c4d5dd6fa750d5fb32f005b0a357a39d3886454d9fe63255a89ef0542f835d9\"\n" +
             "  Description = \"Conode_3\"\n";
     public static Roster Local = Roster.FromToml(LocalRoster);
-    public static byte[] LocalID = DatatypeConverter.parseHexBinary("ECF578FEBC66E3DDCCA1321D98B997E512DD47E96C254DFEBA6206AB29DFE8E5");
 
     public static String DEDISRoster = "[[servers]]\n" +
             "  Address = \"tcp://lleap.dedis.ch:15002\"\n" +
@@ -39,5 +38,5 @@ public class Rosters{
             "  Public = \"21c83de7c829455a656afca02963488b87704b3d0ed0c309bdc62c79f89e0ae1\"\n" +
             "  Description = \"Conode_3\"\n";
     public static Roster DEDIS = Roster.FromToml(DEDISRoster);
-    public static byte[] DEDISID = DatatypeConverter.parseHexBinary("11a9c9710779d51d70075bace066bea61e8789870d97112e23317ed5aa58ae94");
+    public static byte[] DEDISID = DatatypeConverter.parseHexBinary("ab40f2d80517059a46670a4d71e29f1a4c22aeab5d11ae417fd553c15ecf0750");
 }
