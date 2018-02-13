@@ -41,6 +41,8 @@ message SetKeyValue {
   // 	 Value, if Writers were present in CreateSkipchain, the value should be
   // 	 signed by one of the keys.
   required bytes value = 4;
+  // 	 Signature is an RSA-sha384 signature on the key/value pair concatenated
+  required bytes signature = 5;
 }
 
 // SetKeyValueResponse gives the timestamp and the skipblock-id
@@ -70,4 +72,8 @@ message GetValueResponse {
   required sint32 version = 1;
   // 	 Value of the key
   optional bytes value = 2;
+  // 	 Signature as sent when the value was stored
+  optional bytes signature = 3;
+  // 	 Proof the value is correct
+  optional bytes proof = 4;
 }
