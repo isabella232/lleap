@@ -14,9 +14,11 @@ package main
 
 import (
 	"os"
+	"path"
 
 	"github.com/dedis/cothority"
 	"github.com/dedis/onet/app"
+	"github.com/dedis/onet/cfgpath"
 	"github.com/dedis/onet/log"
 	cli "gopkg.in/urfave/cli.v1"
 
@@ -68,7 +70,7 @@ func main() {
 		},
 		cli.StringFlag{
 			Name:  "config, c",
-			Value: ".config/lleap",
+			Value: path.Join(cfgpath.GetConfigPath("lleap"), "config.bin"),
 			Usage: "Configuration file of the server",
 		},
 	}

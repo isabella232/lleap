@@ -7,7 +7,9 @@ package main
 import (
 	"encoding/hex"
 	"errors"
+	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/dedis/lleap"
 	"github.com/dedis/onet/app"
@@ -18,16 +20,15 @@ import (
 
 func main() {
 	cliApp := cli.NewApp()
-	cliApp.Name = "Sicpa kv"
-	cliApp.Usage = "Used for building other apps."
+	cliApp.Name = "LLEAP kv"
+	cliApp.Usage = "Key/value storage for LLEAP project"
 	cliApp.Version = "0.1"
-	groupsDef := "the group-definition-file"
 	cliApp.Commands = []cli.Command{
 		{
 			Name:      "create",
 			Usage:     "creates a new skipchain",
 			Aliases:   []string{"c"},
-			ArgsUsage: groupsDef,
+			ArgsUsage: "group.toml public.key",
 			Action:    create,
 		},
 		{
@@ -61,12 +62,20 @@ func main() {
 func create(c *cli.Context) error {
 	log.Info("Create a new skipchain")
 
-	if c.NArg() != 1 {
-		return errors.New("please give: group.toml")
+	if c.NArg() != 2 {
+		return errors.New("please give: group.toml public.key")
 	}
 	group := readGroup(c)
 	client := lleap.NewClient()
-	resp, err := client.CreateSkipchain(group.Roster, nil)
+	keyStr, err := ioutil.ReadFile(c.Args().Get(1))
+	if err != nil {
+		return errors.New("couldn't read key-file: " + err.Error())
+	}
+	key, err := hex.DecodeString(strings.TrimSpace(string(keyStr)))
+	if err != nil {
+		return errors.New("couldn't decode key-file: " + err.Error())
+	}
+	resp, err := client.CreateSkipchain(group.Roster, key)
 	if err != nil {
 		return errors.New("during creation of skipchain: " + err.Error())
 	}

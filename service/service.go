@@ -1,16 +1,21 @@
+// Package service implements the lleap service using the collection library to
+// handle the merkle-tree. Each call to SetKeyValue updates the Merkle-tree and
+// creates a new block containing the root of the Merkle-tree plus the new value
+// that has been stored last in the Merkle-tree.
 package service
 
-/*
-The service.go defines what to do for each API-call. This part of the service
-runs on the node.
-*/
-
 import (
+	"crypto"
+	"crypto/rsa"
+	"crypto/sha256"
+	"crypto/x509"
 	"errors"
+	"fmt"
 	"sync"
 
 	"github.com/dedis/cothority"
 	"github.com/dedis/cothority/identity"
+	"github.com/dedis/cothority/skipchain"
 	"github.com/dedis/kyber"
 	"github.com/dedis/kyber/sign/schnorr"
 	"github.com/dedis/kyber/util/key"
@@ -22,6 +27,10 @@ import (
 
 // Used for tests
 var lleapID onet.ServiceID
+
+const keyMerkleRoot = "merkleroot"
+const keyNewKey = "newkey"
+const keyNewValue = "newvalue"
 
 func init() {
 	var err error
@@ -35,6 +44,9 @@ type Service struct {
 	// We need to embed the ServiceProcessor, so that incoming messages
 	// are correctly handled.
 	*onet.ServiceProcessor
+	// collections cannot be stored, so they will be re-created whenever the
+	// service reloads.
+	collectionDB map[string]*collectionDB
 
 	storage *storage
 }
@@ -47,11 +59,15 @@ const storageID = "main"
 type storage struct {
 	Identities map[string]*identity.IDBlock
 	Private    map[string]kyber.Scalar
+	Writers    map[string][]byte
 	sync.Mutex
 }
 
 // CreateSkipchain asks the cisc-service to create a new skipchain ready to store
-// key/value pairs.
+// key/value pairs. If it is given exactly one writer, this writer will be stored
+// in the skipchain.
+// For faster access, all data is also stored locally in the Service.storage
+// structure.
 func (s *Service) CreateSkipchain(req *lleap.CreateSkipchain) (*lleap.CreateSkipchainResponse, error) {
 	if req.Version != lleap.CurrentVersion {
 		return nil, errors.New("version mismatch")
@@ -62,6 +78,10 @@ func (s *Service) CreateSkipchain(req *lleap.CreateSkipchain) (*lleap.CreateSkip
 		Threshold: 2,
 		Device:    map[string]*identity.Device{"service": &identity.Device{Point: kp.Public}},
 		Roster:    &req.Roster,
+	}
+
+	if len(*req.Writers) == 1 {
+		data.Storage = map[string]string{"writer": string((*req.Writers)[0])}
 	}
 
 	cir, err := s.idService().CreateIdentityInternal(&identity.CreateIdentity{
@@ -76,6 +96,7 @@ func (s *Service) CreateSkipchain(req *lleap.CreateSkipchain) (*lleap.CreateSkip
 		LatestSkipblock: cir.Genesis,
 	}
 	s.storage.Private[gid] = kp.Private
+	s.storage.Writers[gid] = []byte(data.Storage["writer"])
 	s.save()
 	return &lleap.CreateSkipchainResponse{
 		Version:   lleap.CurrentVersion,
@@ -85,6 +106,8 @@ func (s *Service) CreateSkipchain(req *lleap.CreateSkipchain) (*lleap.CreateSkip
 
 // SetKeyValue asks cisc to add a new key/value pair.
 func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueResponse, error) {
+	// Check the input arguments
+	// TODO: verify the signature on the key/value pair
 	if req.Version != lleap.CurrentVersion {
 		return nil, errors.New("version mismatch")
 	}
@@ -94,10 +117,40 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 	if idb == nil || priv == nil {
 		return nil, errors.New("don't have this identity stored")
 	}
+	if pub := s.storage.Writers[gid]; pub != nil {
+		log.Lvl1("Verifying signature")
+		public, err := x509.ParsePKIXPublicKey(pub)
+		if err != nil || public == nil {
+			return nil, err
+		}
+		hash := sha256.New()
+		hash.Write(req.Key)
+		hash.Write(req.Value)
+		hashed := hash.Sum(nil)[:]
+		err = rsa.VerifyPKCS1v15(public.(*rsa.PublicKey), crypto.SHA256, hashed, req.Signature)
+		if err != nil {
+			log.Lvl1("signature verification failed")
+			return nil, errors.New("couldn't verify signature")
+		}
+		log.Lvl1("signature verification succeeded")
+	}
 
+	// Store the pair in the collection
+	coll := s.getCollection(req.SkipchainID)
+	if _, _, err := coll.GetValue(req.Key); err == nil {
+		return nil, errors.New("cannot overwrite existing value")
+	}
+	err := coll.Store(req.Key, req.Value, req.Signature)
+	if err != nil {
+		return nil, errors.New("error while storing in collection: " + err.Error())
+	}
+
+	// Update the identity
 	prop := idb.Latest.Copy()
-	prop.Storage[string(req.Key)] = string(req.Value)
-	_, err := s.idService().ProposeSend(&identity.ProposeSend{
+	prop.Storage[keyMerkleRoot] = string(coll.RootHash())
+	prop.Storage[keyNewKey] = string(req.Key)
+	prop.Storage[keyNewValue] = string(req.Value)
+	_, err = s.idService().ProposeSend(&identity.ProposeSend{
 		ID:      identity.ID(req.SkipchainID),
 		Propose: prop,
 	})
@@ -135,21 +188,26 @@ func (s *Service) GetValue(req *lleap.GetValue) (*lleap.GetValueResponse, error)
 		return nil, errors.New("version mismatch")
 	}
 
-	dur, err := s.idService().DataUpdate(&identity.DataUpdate{
-		ID: identity.ID(req.SkipchainID),
-	})
+	value, sig, err := s.getCollection(req.SkipchainID).GetValue(req.Key)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("couldn't get value for key: " + err.Error())
 	}
-	value, exists := dur.Data.Storage[string(req.Key)]
-	if !exists {
-		return nil, errors.New("this value doesn't exist")
-	}
-	valueB := []byte(value)
 	return &lleap.GetValueResponse{
-		Version: lleap.CurrentVersion,
-		Value:   &valueB,
+		Version:   lleap.CurrentVersion,
+		Value:     &value,
+		Signature: &sig,
 	}, nil
+}
+
+func (s *Service) getCollection(id skipchain.SkipBlockID) *collectionDB {
+	idStr := fmt.Sprintf("%x", id)
+	col := s.collectionDB[idStr]
+	if col == nil {
+		db, name := s.GetAdditionalBucket(idStr)
+		s.collectionDB[idStr] = newCollectionDB(db, name)
+		return s.collectionDB[idStr]
+	}
+	return col
 }
 
 func (s *Service) idService() *identity.Service {
@@ -189,6 +247,13 @@ func (s *Service) tryLoad() error {
 	}
 	if s.storage.Private == nil {
 		s.storage.Private = map[string]kyber.Scalar{}
+	}
+	if s.storage.Writers == nil {
+		s.storage.Writers = map[string][]byte{}
+	}
+	s.collectionDB = map[string]*collectionDB{}
+	for _, id := range s.storage.Identities {
+		s.getCollection(id.LatestSkipblock.SkipChainID())
 	}
 	return nil
 }
