@@ -11,6 +11,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
+import java.text.SimpleDateFormat;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +26,8 @@ public class TestSkipchainRPC {
 
     @BeforeAll
     public static void initAll() throws Exception {
-        key = "first".getBytes();
+        String keyStr = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
+        key = keyStr.getBytes();
         value = "value".getBytes();
 
         privateKey = Rosters.getPrivate();
@@ -70,6 +72,9 @@ public class TestSkipchainRPC {
 
         // And write using the signature
         sc.setKeyValue(key, value, signature.sign());
+
+        // Verify we cannot overwrite value
+        assertThrows(CothorityCommunicationException.class, ()->sc.setKeyValue(key, value, signature.sign()));
 
         // Get back value/signature from CISC
         Pair<byte[], byte[]> valueSig = sc.getValue(key);

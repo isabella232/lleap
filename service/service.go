@@ -137,6 +137,9 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 
 	// Store the pair in the collection
 	coll := s.getCollection(req.SkipchainID)
+	if _, _, err := coll.GetValue(req.Key); err == nil {
+		return nil, errors.New("cannot overwrite existing value")
+	}
 	err := coll.Store(req.Key, req.Value, req.Signature)
 	if err != nil {
 		return nil, errors.New("error while storing in collection: " + err.Error())
