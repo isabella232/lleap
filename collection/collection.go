@@ -90,3 +90,9 @@ func (this *Collection) Clone() (collection Collection) {
 
 	return
 }
+
+// GetRoot returns the root hash of the collection, which cryptographically
+// represents the whole set of key/value pairs in the collection.
+func (this *Collection) GetRoot() []byte {
+	return this.root.key
+}

@@ -165,6 +165,8 @@ type SetKeyValue struct {
 	// Value, if Writers were present in CreateSkipchain, the value should be
 	// signed by one of the keys.
 	Value []byte
+	// Signature is an RSA-sha384 signature on the key/value pair concatenated
+	Signature []byte
 }
 
 // SetKeyValueResponse gives the timestamp and the skipblock-id
@@ -194,4 +196,8 @@ type GetValueResponse struct {
 	Version Version
 	// Value of the key
 	Value *[]byte
+	// Signature as sent when the value was stored
+	Signature *[]byte
+	// Proof the value is correct
+	Proof *[]byte
 }

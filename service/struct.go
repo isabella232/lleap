@@ -9,7 +9,7 @@ import (
 )
 
 type collectionDB struct {
-	*bolt.DB
+	db         *bolt.DB
 	bucketName string
 	coll       collection.Collection
 }
@@ -18,11 +18,11 @@ type collectionDB struct {
 // it in the collection.
 func newCollectionDB(db *bolt.DB, name string) *collectionDB {
 	c := &collectionDB{
-		DB:         db,
+		db:         db,
 		bucketName: name,
-		coll:       collection.New(collection.Data{}),
+		coll:       collection.New(collection.Data{}, collection.Data{}),
 	}
-	c.Update(func(tx *bolt.Tx) error {
+	c.db.Update(func(tx *bolt.Tx) error {
 		_, err := tx.CreateBucket([]byte(name))
 		if err != nil {
 			return fmt.Errorf("create bucket: %s", err)
@@ -34,28 +34,36 @@ func newCollectionDB(db *bolt.DB, name string) *collectionDB {
 }
 
 func (c *collectionDB) loadAll() {
-	c.View(func(tx *bolt.Tx) error {
+	c.db.View(func(tx *bolt.Tx) error {
 		// Assume bucket exists and has keys
 		b := tx.Bucket([]byte(c.bucketName))
 		cur := b.Cursor()
 
 		for k, v := cur.First(); k != nil; k, v = cur.Next() {
-			c.coll.Add(k, v)
+			sig := b.Get(append(k, []byte("sig")...))
+			c.coll.Add(k, v, sig)
 		}
 
 		return nil
 	})
 }
 
-func (c *collectionDB) store(key, value []byte) error {
-	c.coll.Add(key, value)
-	err := c.Update(func(tx *bolt.Tx) error {
-		return tx.Bucket([]byte(c.bucketName)).Put(key, value)
+func (c *collectionDB) Store(key, value, sig []byte) error {
+	c.coll.Add(key, value, sig)
+	err := c.db.Update(func(tx *bolt.Tx) error {
+		bucket := tx.Bucket([]byte(c.bucketName))
+		if err := bucket.Put(key, value); err != nil {
+			return err
+		}
+		if err := bucket.Put(append(key, []byte("sig")...), sig); err != nil {
+			return err
+		}
+		return nil
 	})
 	return err
 }
 
-func (c *collectionDB) getValue(key []byte) (value []byte, err error) {
+func (c *collectionDB) GetValue(key []byte) (value, sig []byte, err error) {
 	proof, err := c.coll.Get(key).Record()
 	if err != nil {
 		return
@@ -70,18 +78,26 @@ func (c *collectionDB) getValue(key []byte) (value []byte, err error) {
 	// }
 	hashes, err := proof.Values()
 	if err != nil {
-		return nil, err
+		return
 	}
 	if len(hashes) == 0 {
-		return nil, errors.New("nothing stored under that key")
+		err = errors.New("nothing stored under that key")
+		return
 	}
 	value, ok := hashes[0].([]byte)
 	if !ok {
-		return nil, errors.New("the value is not of type []byte")
+		err = errors.New("the value is not of type []byte")
+		return
+	}
+	sig, ok = hashes[1].([]byte)
+	if !ok {
+		err = errors.New("the signature is not of type []byte")
+		return
 	}
 	return
 }
 
-func (c *collectionDB) storeTransaction() error {
-	return nil
+// RootHash returns the hash of the root node in the merkle tree.
+func (c *collectionDB) RootHash() []byte {
+	return c.coll.GetRoot()
 }
