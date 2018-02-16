@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestSkipchainRPC {
-    private static byte[] key;
     private static byte[] value;
     private static PublicKey publicKey;
     private static PrivateKey privateKey;
@@ -24,8 +23,6 @@ public class TestSkipchainRPC {
 
     @BeforeAll
     public static void initAll() throws Exception {
-        String keyStr = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
-        key = keyStr.getBytes();
         value = "value".getBytes();
 
         privateKey = DEDISSkipchain.getPrivate();
@@ -56,14 +53,20 @@ public class TestSkipchainRPC {
     @Test
     public void wrongSignature(){
         // Write with wrong signature
+        String keyStr = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS").format(new java.util.Date());
+        byte[] key = keyStr.getBytes();
         assertThrows(CothorityCommunicationException.class, ()->sc.setKeyValue(key, value, "".getBytes()));
     }
 
     @Test
     public void writeAndReadFull() throws Exception {
+        String keyStr = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS").format(new java.util.Date());
+        byte[] key = keyStr.getBytes();
+
         // Create correct signature
         Signature signature = Signature.getInstance("SHA256withRSA");
         signature.initSign(privateKey);
+
         byte[] message = new byte[key.length + value.length];
         System.arraycopy(key, 0, message, 0, key.length);
         System.arraycopy(value, 0, message, key.length, value.length);

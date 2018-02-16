@@ -24,7 +24,7 @@ public class TestApp {
         // Writing a key/value pair to the skipchain - we cannot overwrite
         // existing values, so we create a different value depending on
         // date/time.
-        String keyStr = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
+        String keyStr = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS").format(new java.util.Date());
         byte[] key = keyStr.getBytes();
         byte[] value = "hashes".getBytes();
         sc.setKeyValue(key, value, privateKey);
