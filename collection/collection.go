@@ -1,7 +1,11 @@
+// Package collection is a Merkle-tree based data structure to securely and
+// verifiably store key / value associations on untrusted nodes. The library
+// in this package focuses on ease of use and flexibility, allowing to easily
+// develop applications ranging from simple client-server storage to fully
+// distributed and decentralized ledgers with minimal bootstrapping time.
 package collection
 
-// Structs
-
+// Collection
 type Collection struct {
 	root   *node
 	fields []Field

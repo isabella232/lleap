@@ -1,16 +1,14 @@
 package ch.epfl.dedis.lleap;
 
+import ch.epfl.dedis.Local;
 import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
 import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import sun.security.rsa.RSAPrivateCrtKeyImpl;
 
 import javax.xml.bind.DatatypeConverter;
 
 import java.security.*;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.RSAPublicKeySpec;
 import java.text.SimpleDateFormat;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,12 +28,12 @@ public class TestSkipchainRPC {
         key = keyStr.getBytes();
         value = "value".getBytes();
 
-        privateKey = Rosters.getPrivate();
-        publicKey = Rosters.getPublic();
+        privateKey = DEDISSkipchain.getPrivate();
+        publicKey = DEDISSkipchain.getPublic();
 
         boolean useLocal = false;
         if (useLocal) {
-            sc = new SkipchainRPC(Rosters.Local, publicKey);
+            sc = new SkipchainRPC(Local.roster, publicKey);
         } else {
             sc = new SkipchainRPC();
         }

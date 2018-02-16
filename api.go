@@ -6,13 +6,19 @@ package lleap
  */
 
 import (
+	"crypto"
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/sha256"
+	"errors"
+
 	"github.com/dedis/cothority"
 	"github.com/dedis/cothority/skipchain"
 	"github.com/dedis/onet"
 )
 
 // ServiceName is used for registration on the onet.
-const ServiceName = "Sicpa"
+const ServiceName = "LLEAP"
 
 // Client is a structure to communicate with the CoSi
 // service
@@ -41,13 +47,23 @@ func (c *Client) CreateSkipchain(r *onet.Roster, key []byte) (*CreateSkipchainRe
 }
 
 // SetKeyValue sets a key/value pair and returns the created skipblock.
-func (c *Client) SetKeyValue(r *onet.Roster, id skipchain.SkipBlockID, key, value []byte) (*SetKeyValueResponse, error) {
+func (c *Client) SetKeyValue(r *onet.Roster, id skipchain.SkipBlockID, priv *rsa.PrivateKey,
+	key, value []byte) (*SetKeyValueResponse, error) {
 	reply := &SetKeyValueResponse{}
-	err := c.SendProtobuf(r.List[0], &SetKeyValue{
+	hash := sha256.New()
+	hash.Write(key)
+	hash.Write(value)
+	hashed := hash.Sum(nil)[:]
+	sig, err := rsa.SignPKCS1v15(rand.Reader, priv, crypto.SHA256, hashed)
+	if err != nil {
+		return nil, errors.New("couldn't sign: " + err.Error())
+	}
+	err = c.SendProtobuf(r.List[0], &SetKeyValue{
 		Version:     CurrentVersion,
 		SkipchainID: id,
 		Key:         key,
 		Value:       value,
+		Signature:   sig,
 	}, reply)
 	if err != nil {
 		return nil, err

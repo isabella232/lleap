@@ -1,10 +1,9 @@
-/*
-* This is a template for creating an app. It only has one command which
-* prints out the name of the app.
- */
+// Package main is an app to interact with a lleap service. It can set up
+// a new skipchain, store key/value pairs and retrieve values given a key.
 package main
 
 import (
+	"crypto/x509"
 	"encoding/hex"
 	"errors"
 	"io/ioutil"
@@ -83,21 +82,35 @@ func create(c *cli.Context) error {
 	return nil
 }
 
-// Returns the number of calls.
+// set stores a key/value pair on the given skipchain.
 func set(c *cli.Context) error {
-	log.Info("Set key/value pair")
-
-	if c.NArg() != 4 {
-		return errors.New("please give: group.toml skipchain-ID key value")
+	log.Error("Not tested! Will not work!")
+	if c.NArg() != 5 {
+		return errors.New("please give: group.toml skipchain-ID private.key key value")
 	}
 	group := readGroup(c)
 	scid, err := hex.DecodeString(c.Args().Get(1))
 	if err != nil {
 		return err
 	}
-	key := c.Args().Get(2)
-	value := c.Args().Get(3)
-	resp, err := lleap.NewClient().SetKeyValue(group.Roster, scid, []byte(key), []byte(value))
+	privStr, err := ioutil.ReadFile(c.Args().Get(2))
+	if err != nil {
+		return errors.New("couldn't read file of private key: " + err.Error())
+	}
+	privTrimmed := strings.TrimSpace(string(privStr))
+	privByte, err := hex.DecodeString(privTrimmed)
+	if err != nil {
+		return errors.New("couldn't decode private key: " + err.Error())
+	}
+	priv, err := x509.ParsePKCS1PrivateKey(privByte)
+	if err != nil {
+		return errors.New("couldn't parse private key: " + err.Error())
+	}
+
+	key := c.Args().Get(3)
+	value := c.Args().Get(4)
+	resp, err := lleap.NewClient().SetKeyValue(group.Roster, scid, priv,
+		[]byte(key), []byte(value))
 	if err != nil {
 		return errors.New("couldn't set new key/value pair: " + err.Error())
 	}
@@ -105,7 +118,8 @@ func set(c *cli.Context) error {
 	return nil
 }
 
-// Returns the value of the key
+// get returns the value of the key but doesn't verify against the public
+// key.
 func get(c *cli.Context) error {
 	log.Info("Get value")
 
@@ -126,6 +140,8 @@ func get(c *cli.Context) error {
 	return nil
 }
 
+// readGroup decodes the group given in the file with the name in the
+// first argument of the cli.Context.
 func readGroup(c *cli.Context) *app.Group {
 	name := c.Args().First()
 	f, err := os.Open(name)

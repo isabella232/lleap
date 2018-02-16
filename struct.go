@@ -37,7 +37,7 @@ const CurrentVersion Version = 1
 // import "roster.proto";
 //
 // option java_package = "ch.epfl.dedis.proto";
-// option java_outer_classname = "SicpaProto";
+// option java_outer_classname = "LleapProto";
 
 // ***
 // These are the messages used in the API-calls
