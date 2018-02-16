@@ -174,6 +174,9 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 	if err != nil {
 		return nil, err
 	}
+	if resp.Data == nil {
+		return nil, errors.New("couldn't store new skipblock")
+	}
 	timestamp := int64(resp.Data.Index)
 	return &lleap.SetKeyValueResponse{
 		Version:     lleap.CurrentVersion,
