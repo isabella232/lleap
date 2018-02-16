@@ -18,7 +18,7 @@ import (
 )
 
 // ServiceName is used for registration on the onet.
-const ServiceName = "LLEAP"
+const ServiceName = "Lleap"
 
 // Client is a structure to communicate with the CoSi
 // service

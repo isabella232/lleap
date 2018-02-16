@@ -45,6 +45,7 @@ public class TestSkipchainRPC {
         kpc.initialize(KEY_SIZE, new SecureRandom());
         KeyPair kp = kpc.generateKeyPair();
         System.out.println(DatatypeConverter.printHexBinary(kp.getPrivate().getEncoded()));
+        System.out.println(DatatypeConverter.printHexBinary(kp.getPublic().getEncoded()));
     }
 
     @Test
