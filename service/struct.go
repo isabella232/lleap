@@ -30,6 +30,7 @@ func newCollectionDB(db *bolt.DB, name string) *collectionDB {
 		return nil
 	})
 	c.loadAll()
+	// TODO: Check the merkle tree root.
 	return c
 }
 

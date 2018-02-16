@@ -20,24 +20,25 @@ public class DEDISSkipchain {
     private static String rosterStr = "[[servers]]\n" +
             "  Address = \"tcp://lleap.dedis.ch:15002\"\n" +
             "  Suite = \"Ed25519\"\n" +
-            "  Public = \"23450be83c652c2d88309cced350360b989be08b93ed3ef03f33f90fa62204ab\"\n" +
+            "  Public = \"a863cf64422ab15f405369134cd057f99e2b40cb45afe7848dde11f34853f708\"\n" +
             "  Description = \"Conode_1\"\n" +
             "[[servers]]\n" +
             "  Address = \"tcp://lleap.dedis.ch:15004\"\n" +
             "  Suite = \"Ed25519\"\n" +
-            "  Public = \"b6aee135eb2c562a39fd37fbe270dcdb7da944d4599375fd8242f6bf9d9667ec\"\n" +
+            "  Public = \"4706d99de05a58179ccc11ea3c452d9e44b43290de696f83f0fbc8ae26b6679a\"\n" +
             "  Description = \"Conode_2\"\n" +
             "[[servers]]\n" +
             "  Address = \"tcp://lleap.dedis.ch:15006\"\n" +
             "  Suite = \"Ed25519\"\n" +
-            "  Public = \"21c83de7c829455a656afca02963488b87704b3d0ed0c309bdc62c79f89e0ae1\"\n" +
+            "  Public = \"4c4d5dd6fa750d5fb32f005b0a357a39d3886454d9fe63255a89ef0542f835d9\"\n" +
             "  Description = \"Conode_3\"\n";
+
 
     // roster is used to communicate with the cothority
     public static Roster roster = Roster.FromToml(rosterStr);
     // skipchainID is the pre-configured skipchain on the cothority. As it is a cryptographic hash,
     // it is secure to trust it as nobody should be able to forge a block with the same ID.
-    public static byte[] skipchainID = DatatypeConverter.parseHexBinary("77d81678c3b27595d75fed7edf079b1f8804da7d6ecb95cb7b6b7d83954d3abd");
+    public static byte[] skipchainID = DatatypeConverter.parseHexBinary("5da91cfa590947b11fa8f81c69319d26f9be7b7b890ed2707e09a5a9e2d6e3cd");
 
     /**
      * Returns the private key that can be used to sign key/value pairs when they are stored on the

@@ -150,6 +150,7 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 	prop.Storage[keyMerkleRoot] = string(coll.RootHash())
 	prop.Storage[keyNewKey] = string(req.Key)
 	prop.Storage[keyNewValue] = string(req.Value)
+	// TODO: Should also store the signature.
 	_, err = s.idService().ProposeSend(&identity.ProposeSend{
 		ID:      identity.ID(req.SkipchainID),
 		Propose: prop,
