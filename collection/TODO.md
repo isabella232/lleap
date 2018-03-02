@@ -1,4 +1,4 @@
-- make golint happy:
+- make golint and go vet happy:
   - change all methods to follow golint's suggestions
   - add comments to all Public methods
 
