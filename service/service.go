@@ -207,8 +207,8 @@ func (s *Service) getCollection(id skipchain.SkipBlockID) *collectionDB {
 	idStr := fmt.Sprintf("%x", id)
 	col := s.collectionDB[idStr]
 	if col == nil {
-		db, name := s.GetAdditionalBucket(idStr)
-		s.collectionDB[idStr] = newCollectionDB(db, name)
+		db, name := s.GetAdditionalBucket([]byte(idStr))
+		s.collectionDB[idStr] = newCollectionDB(db, string(name))
 		return s.collectionDB[idStr]
 	}
 	return col
@@ -222,7 +222,7 @@ func (s *Service) idService() *identity.Service {
 func (s *Service) save() {
 	s.storage.Lock()
 	defer s.storage.Unlock()
-	err := s.Save(storageID, s.storage)
+	err := s.Save([]byte(storageID), s.storage)
 	if err != nil {
 		log.Error("Couldn't save file:", err)
 	}
@@ -232,7 +232,7 @@ func (s *Service) save() {
 // if it finds a valid config-file.
 func (s *Service) tryLoad() error {
 	s.storage = &storage{}
-	msg, err := s.Load(storageID)
+	msg, err := s.Load([]byte(storageID))
 	if err != nil {
 		return err
 	}
