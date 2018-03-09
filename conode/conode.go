@@ -23,7 +23,7 @@ import (
 	cli "gopkg.in/urfave/cli.v1"
 
 	// Import your service:
-	_ "github.com/dedis/lleap/service"
+	_ "github.com/dedis/student_18_omniledger/lleap/service"
 	// Here you can import any other needed service for your conode.
 	// For example, if your service needs cosi available in the server
 	// as well, uncomment this:
