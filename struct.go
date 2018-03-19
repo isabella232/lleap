@@ -15,7 +15,7 @@ func init() {
 	network.RegisterMessages(
 		&CreateSkipchain{}, &CreateSkipchainResponse{},
 		&SetKeyValue{}, &SetKeyValueResponse{},
-		&GetValue{}, &GetValueResponse{},
+		&GetKeyBlock{}, &GetKeyBlockResponse{},
 	)
 }
 
@@ -30,7 +30,7 @@ const (
 type Version int
 
 // CurrentVersion is what we're running now
-const CurrentVersion Version = 1
+const CurrentVersion Version = 2
 
 // PROTOSTART
 // import "skipblock.proto";
@@ -42,6 +42,13 @@ const CurrentVersion Version = 1
 // ***
 // These are the messages used in the API-calls
 // ***
+
+type Proof struct {
+	GenesisID     []byte
+	GenesisRoster onet.Roster
+	Links         []skipchain.ForwardLink
+	SkipBlock     skipchain.SkipBlock
+}
 
 // CreateSkipchain asks the cisc-service to set up a new skipchain.
 type CreateSkipchain struct {
@@ -89,9 +96,9 @@ type SetKeyValueResponse struct {
 	SkipblockID *skipchain.SkipBlockID
 }
 
-// GetValue looks up the value in the given skipchain and returns the
+// GetKeyBlock looks up the value in the given skipchain and returns the
 // stored value, or an error if either the skipchain or the key doesn't exist.
-type GetValue struct {
+type GetKeyBlock struct {
 	// Version of the protocol
 	Version Version
 	// SkipchainID represents the skipchain where the value is stored
@@ -100,14 +107,11 @@ type GetValue struct {
 	Key []byte
 }
 
-// GetValueResponse returns the value or an error if the key hasn't been found.
-type GetValueResponse struct {
-	//Version of the protocol
+// GetKeyBlockResponse returns the skipblock holding the value or an error
+// if it hasn't been found.
+type GetKeyBlockResponse struct {
+	// Version of the protocol
 	Version Version
-	// Value of the key
-	Value *[]byte
-	// Signature as sent when the value was stored
-	Signature *[]byte
-	// Proof the value is correct
-	Proof *[]byte
+	// The skipblock holding the key/value pair.
+	SkipBlock skipchain.SkipBlock
 }

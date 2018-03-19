@@ -2,7 +2,9 @@ package ch.epfl.dedis.lleap;
 
 import ch.epfl.dedis.lib.Roster;
 import ch.epfl.dedis.lib.ServerIdentity;
-import ch.epfl.dedis.lib.SkipblockId;
+import ch.epfl.dedis.lib.skipblock.Proof;
+import ch.epfl.dedis.lib.skipblock.SkipBlock;
+import ch.epfl.dedis.lib.skipblock.SkipblockId;
 import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
 import ch.epfl.dedis.lib.exception.CothorityCryptoException;
 import ch.epfl.dedis.proto.LleapProto;
@@ -13,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.DatatypeConverter;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.security.*;
 
 /**
@@ -180,26 +184,8 @@ public class SkipchainRPC {
      * @throws CothorityCommunicationException
      */
     public Pair<byte[], byte[]> getValue(byte[] key) throws CothorityCommunicationException {
-        LleapProto.GetValue.Builder request =
-                LleapProto.GetValue.newBuilder();
-        request.setKey(ByteString.copyFrom(key));
-        request.setSkipchainid(scid.toBS());
-        request.setVersion(version);
-
-        ByteString msg = roster.sendMessage("Lleap/GetValue",
-                request.build());
-
-        try {
-            LleapProto.GetValueResponse reply = LleapProto.GetValueResponse.parseFrom(msg);
-            if (reply.getVersion() != version) {
-                throw new CothorityCommunicationException("Version mismatch");
-            }
-            logger.info("Got value");
-            return new Pair<>(reply.getValue().toByteArray(),
-                    reply.getSignature().toByteArray());
-        } catch (InvalidProtocolBufferException e) {
-            throw new CothorityCommunicationException(e);
-        }
+        SkipBlock kb = getKeyBlock(key);
+        return new Pair<>(null, null);
     }
 
     /**
@@ -226,7 +212,6 @@ public class SkipchainRPC {
             if (!verify.verify(valueSig.getValue())) {
                 throw new CothorityCommunicationException("Signature verification failed");
             }
-            // TODO: verify the inclusion proof
         } catch (InvalidKeyException e) {
             throw new RuntimeException(e.getMessage());
         } catch (NoSuchAlgorithmException e) {
@@ -235,6 +220,47 @@ public class SkipchainRPC {
             throw new RuntimeException(e.getMessage());
         }
         return value;
+    }
+
+    /**
+     * Gets the offline-verifiable proof that key/value is in the blockchain. We suppose that
+     * the verifier doesn't have access to the internet, but that he does have a copy of the genesis-
+     * block of the skipchain.
+     * Ideally, the proof would consist of the list of needed forwardlinks to get to the latest block
+     * together with an inclusion proof of the key/value pair in the merkle tree.
+     * For the PoC, this proof only consists of the forward-links leading to the block holding
+     * the key/value pair. Knowing the genesis-block, and the forward-links, a verifier can
+     * check the collective signature on all forward-links and then decrypt the block and get the
+     * key/value pair.
+     */
+    public KeyBlock getKeyBlock(byte[]key) throws CothorityCommunicationException{
+        LleapProto.GetKeyBlock.Builder request =
+                LleapProto.GetKeyBlock.newBuilder();
+        request.setKey(ByteString.copyFrom(key));
+        request.setSkipchainid(scid.toBS());
+        request.setVersion(version);
+
+        ByteString msg = roster.sendMessage("Lleap/GetProof",
+                request.build());
+
+        try {
+            LleapProto.GetKeyBlockResponse reply = LleapProto.GetKeyBlockResponse.parseFrom(msg);
+            if (reply.getVersion() != version) {
+                throw new CothorityCommunicationException("Version mismatch");
+            }
+            logger.info("Got value");
+            try {
+                return new KeyBlock(reply.getKeyBlock());
+            } catch (CothorityCryptoException e){
+                throw new CothorityCommunicationException("Received wrong skiblock");
+            } catch (URISyntaxException e){
+                throw new CothorityCommunicationException("Received wrong skiblock");
+            } catch (IOException e){
+                throw new CothorityCommunicationException("Received wrong skiblock");
+            }
+        } catch (InvalidProtocolBufferException e) {
+            throw new CothorityCommunicationException(e);
+        }
     }
 
     /**

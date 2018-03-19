@@ -116,4 +116,8 @@ public class Point {
         }
         throw new CothorityCryptoException("did not find matching point!?!");
     }
+
+    public static Point zero(){
+        return new Point("00");
+    }
 }

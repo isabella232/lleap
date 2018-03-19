@@ -55,9 +55,9 @@ message SetKeyValueResponse {
   optional bytes skipblockid = 3;
 }
 
-// GetValue looks up the value in the given skipchain and returns the
+// GetKeyBlock looks up the value in the given skipchain and returns the
 // stored value, or an error if either the skipchain or the key doesn't exist.
-message GetValue {
+message GetKeyBlock {
   // 	 Version of the protocol
   required sint32 version = 1;
   // 	 SkipchainID represents the skipchain where the value is stored
@@ -66,14 +66,10 @@ message GetValue {
   required bytes key = 3;
 }
 
-// GetValueResponse returns the value or an error if the key hasn't been found.
-message GetValueResponse {
-  // 	Version of the protocol
+// GetKeyBlockResponse returns the value or an error if the key hasn't been found.
+message GetKeyBlockResponse {
+  // Version of the protocol
   required sint32 version = 1;
-  // 	 Value of the key
-  optional bytes value = 2;
-  // 	 Signature as sent when the value was stored
-  optional bytes signature = 3;
-  // 	 Proof the value is correct
-  optional bytes proof = 4;
+  // The skipblock where the key/value pair has been stored.
+  required SkipBlock keyBlock = 2;
 }

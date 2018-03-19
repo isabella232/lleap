@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/dedis/lleap"
+	"github.com/dedis/lleap/service"
 	"github.com/dedis/onet/app"
 
 	"github.com/dedis/onet/log"
@@ -136,7 +137,11 @@ func get(c *cli.Context) error {
 	if err != nil {
 		return errors.New("couldn't get value: " + err.Error())
 	}
-	log.Infof("Read value: %x = %x", key, *resp.Value)
+	_, v, _, _, err := service.GetSBData(&resp.SkipBlock)
+	if err != nil {
+		return errors.New("got wrong skipblock: " + err.Error())
+	}
+	log.Infof("Read value: %x = %x", key, v)
 	return nil
 }
 

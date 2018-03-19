@@ -22,6 +22,10 @@ public class Sha256id implements HashId {
         this.id = Arrays.copyOf(id, id.length);
     }
 
+    public Sha256id(ByteString id) throws CothorityCryptoException{
+        this(id.toByteArray());
+    }
+
     @Override
     @Nonnull
     public byte[] getId() {

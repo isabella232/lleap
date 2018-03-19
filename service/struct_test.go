@@ -24,13 +24,14 @@ func TestCollectionDBStrange(t *testing.T) {
 	db, err := bolt.Open(tmpDB.Name(), 0600, nil)
 	require.Nil(t, err)
 
-	cdb := newCollectionDB(db, "coll1")
-	err = cdb.Store([]byte("first"), []byte("value"), []byte("mysig"))
+	cdb := newCollectionDB(db, []byte("coll1"))
+	err = cdb.Store([]byte("first"), []byte("value"), []byte("mysig"), int64(1234))
 	require.Nil(t, err)
-	value, sig, err := cdb.GetValue([]byte("first"))
+	value, sig, ts, err := cdb.GetValue([]byte("first"))
 	require.Nil(t, err)
 	require.Equal(t, []byte("value"), value)
 	require.Equal(t, []byte("mysig"), sig)
+	require.Equal(t, int64(1234), ts)
 }
 
 func TestCollectionDB(t *testing.T) {
@@ -44,7 +45,7 @@ func TestCollectionDB(t *testing.T) {
 	db, err := bolt.Open(tmpDB.Name(), 0600, nil)
 	require.Nil(t, err)
 
-	cdb := newCollectionDB(db, "coll1")
+	cdb := newCollectionDB(db, []byte("coll1"))
 	pairs := map[string]string{}
 	mysig := []byte("mysignature")
 	for i := 0; i < kvPairs; i++ {
@@ -53,25 +54,28 @@ func TestCollectionDB(t *testing.T) {
 
 	// Store all key/value pairs
 	for k, v := range pairs {
-		require.Nil(t, cdb.Store([]byte(k), []byte(v), mysig))
+		require.Nil(t, cdb.Store([]byte(k), []byte(v), mysig, int64(1234)))
 	}
 
 	// Verify it's all there
 	for k, v := range pairs {
-		stored, sig, err := cdb.GetValue([]byte(k))
+		stored, sig, ts, err := cdb.GetValue([]byte(k))
 		require.Nil(t, err)
 		require.Equal(t, v, string(stored))
 		require.Equal(t, mysig, sig)
+		require.Equal(t, ts, int64(1234))
 	}
 
 	// Get a new db handler
-	cdb2 := newCollectionDB(db, "coll1")
+	cdb2 := newCollectionDB(db, []byte("coll1"))
 
 	// Verify it's all there
 	for k, v := range pairs {
-		stored, _, err := cdb2.GetValue([]byte(k))
+		stored, sig, ts, err := cdb2.GetValue([]byte(k))
 		require.Nil(t, err)
 		require.Equal(t, v, string(stored))
+		require.Equal(t, mysig, sig)
+		require.Equal(t, ts, int64(1234))
 	}
 }
 
@@ -110,13 +114,15 @@ func TestService_Store(t *testing.T) {
 
 	// Retrieve the keypairs
 	for key, value := range pairs {
-		gvResp, err := service.GetValue(&lleap.GetValue{
+		gvResp, err := service.GetKeyBlock(&lleap.GetKeyBlock{
 			Version:     lleap.CurrentVersion,
 			SkipchainID: genesis.Hash,
 			Key:         []byte(key),
 		})
 		require.Nil(t, err)
-		require.Equal(t, 0, bytes.Compare(value, *gvResp.Value))
+		_, v, _, _, err := GetSBData(&gvResp.SkipBlock)
+		require.Nil(t, err)
+		require.Equal(t, 0, bytes.Compare(value, v))
 	}
 
 	// Now read the key/values from a new service
@@ -126,12 +132,14 @@ func TestService_Store(t *testing.T) {
 
 	// Retrieve the keypairs
 	for key, value := range pairs {
-		gvResp, err := service.GetValue(&lleap.GetValue{
+		gvResp, err := service.GetKeyBlock(&lleap.GetKeyBlock{
 			Version:     lleap.CurrentVersion,
 			SkipchainID: genesis.Hash,
 			Key:         []byte(key),
 		})
 		require.Nil(t, err)
-		require.Equal(t, 0, bytes.Compare(value, *gvResp.Value))
+		_, v, _, _, err := GetSBData(&gvResp.SkipBlock)
+		require.Nil(t, err)
+		require.Equal(t, 0, bytes.Compare(value, v))
 	}
 }

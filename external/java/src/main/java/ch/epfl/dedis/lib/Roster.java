@@ -4,12 +4,17 @@ import ch.epfl.dedis.lib.crypto.Ed25519;
 import ch.epfl.dedis.lib.crypto.Point;
 import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
 import ch.epfl.dedis.proto.RosterProto;
+import ch.epfl.dedis.proto.ServerIdentityProto;
 import com.google.protobuf.ByteString;
 import com.moandjiezana.toml.Toml;
 
+import javax.xml.bind.DatatypeConverter;
 import java.net.URISyntaxException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * dedis/lib
@@ -21,28 +26,52 @@ import java.util.List;
 public class Roster {
     private List<ServerIdentity> nodes = new ArrayList<>();
     private Point aggregate; // TODO: can we find better name for it? like aggregatePublicKey or aggregatedKey?
+    private UUID id;
 
     public Roster(List<ServerIdentity> servers) {
         nodes.addAll(servers);
 
-        for (final ServerIdentity serverIdentity : nodes) {
-            if (aggregate == null) {
-                // TODO: it will be much better if there is some kind of 'zero' element for Point type. Is it possible to use just a new created Point
-                aggregate = serverIdentity.Public;
-            } else {
+        aggregate = Point.zero();
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            for (final ServerIdentity serverIdentity : nodes) {
                 aggregate = aggregate.add(serverIdentity.Public);
+                digest.update(serverIdentity.Public.toBytes());
             }
+            id = UUIDType5.nameUUIDFromNamespaceAndString(UUIDType5.NAMESPACE_URL, DatatypeConverter.printHexBinary(digest.digest()));
+        } catch (NoSuchAlgorithmException e){
+            throw new RuntimeException("didn't find sha256");
         }
+    }
+
+    public Roster(RosterProto.Roster roster) throws URISyntaxException {
+        aggregate = Point.zero();
+        id = UUIDType5.fromBytes(roster.getId().toByteArray());
+        for (ServerIdentityProto.ServerIdentity siP : roster.getListList()) {
+            ServerIdentity si = new ServerIdentity(siP);
+            nodes.add(si);
+            aggregate = aggregate.add(si.Public);
+        }
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public List<ServerIdentity> getNodes() {
         return nodes;
     }
 
+    public Point getAggregate(){
+        return aggregate;
+    }
+
     public RosterProto.Roster getProto() {
         RosterProto.Roster.Builder r = RosterProto.Roster.newBuilder();
         r.setId(ByteString.copyFrom(Ed25519.uuid4()));
-        nodes.forEach(n -> r.addList(n.getProto()));
+        for (ServerIdentity si : nodes) {
+            r.addList(si.getProto());
+        }
         r.setAggregate(aggregate.toProto());
 
         return r.build();

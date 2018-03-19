@@ -1,8 +1,18 @@
 syntax = "proto2";
 
+import "skipblock.proto";
+import "roster.proto";
+
 option java_package = "ch.epfl.dedis.proto";
 option java_outer_classname = "SkipchainProto";
 
 message GetSingleBlock {
     required bytes id = 1;
+}
+
+message Proof {
+    required bytes genesisId = 1;
+    required Roster genesisRoster = 2;
+    repeated ForwardLink links = 3;
+    optional SkipBlock skipBlock = 4;
 }

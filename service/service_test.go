@@ -61,13 +61,14 @@ func TestService_GetValue(t *testing.T) {
 	s := newSer(t, 2)
 	defer s.local.CloseAll()
 
-	rep, err := s.service.GetValue(&lleap.GetValue{
+	rep, err := s.service.GetKeyBlock(&lleap.GetKeyBlock{
 		Version:     lleap.CurrentVersion,
 		SkipchainID: s.sb.SkipChainID(),
 		Key:         s.key,
 	})
 	require.Nil(t, err)
-	require.Equal(t, s.value, *rep.Value)
+	_, v, _, _, err := GetSBData(&rep.SkipBlock)
+	require.Equal(t, s.value, v)
 }
 
 type ser struct {

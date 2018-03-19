@@ -501,11 +501,1304 @@ public final class SkipchainProto {
 
   }
 
+  public interface ProofOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Proof)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required bytes genesisId = 1;</code>
+     */
+    boolean hasGenesisId();
+    /**
+     * <code>required bytes genesisId = 1;</code>
+     */
+    com.google.protobuf.ByteString getGenesisId();
+
+    /**
+     * <code>required .Roster genesisRoster = 2;</code>
+     */
+    boolean hasGenesisRoster();
+    /**
+     * <code>required .Roster genesisRoster = 2;</code>
+     */
+    ch.epfl.dedis.proto.RosterProto.Roster getGenesisRoster();
+    /**
+     * <code>required .Roster genesisRoster = 2;</code>
+     */
+    ch.epfl.dedis.proto.RosterProto.RosterOrBuilder getGenesisRosterOrBuilder();
+
+    /**
+     * <code>repeated .ForwardLink links = 3;</code>
+     */
+    java.util.List<ch.epfl.dedis.proto.SkipBlockProto.ForwardLink> 
+        getLinksList();
+    /**
+     * <code>repeated .ForwardLink links = 3;</code>
+     */
+    ch.epfl.dedis.proto.SkipBlockProto.ForwardLink getLinks(int index);
+    /**
+     * <code>repeated .ForwardLink links = 3;</code>
+     */
+    int getLinksCount();
+    /**
+     * <code>repeated .ForwardLink links = 3;</code>
+     */
+    java.util.List<? extends ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder> 
+        getLinksOrBuilderList();
+    /**
+     * <code>repeated .ForwardLink links = 3;</code>
+     */
+    ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder getLinksOrBuilder(
+        int index);
+
+    /**
+     * <code>optional .SkipBlock skipBlock = 4;</code>
+     */
+    boolean hasSkipBlock();
+    /**
+     * <code>optional .SkipBlock skipBlock = 4;</code>
+     */
+    ch.epfl.dedis.proto.SkipBlockProto.SkipBlock getSkipBlock();
+    /**
+     * <code>optional .SkipBlock skipBlock = 4;</code>
+     */
+    ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder getSkipBlockOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Proof}
+   */
+  public  static final class Proof extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Proof)
+      ProofOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use Proof.newBuilder() to construct.
+    private Proof(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Proof() {
+      genesisId_ = com.google.protobuf.ByteString.EMPTY;
+      links_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Proof(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              genesisId_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              ch.epfl.dedis.proto.RosterProto.Roster.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = genesisRoster_.toBuilder();
+              }
+              genesisRoster_ = input.readMessage(ch.epfl.dedis.proto.RosterProto.Roster.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(genesisRoster_);
+                genesisRoster_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                links_ = new java.util.ArrayList<ch.epfl.dedis.proto.SkipBlockProto.ForwardLink>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              links_.add(
+                  input.readMessage(ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.PARSER, extensionRegistry));
+              break;
+            }
+            case 34: {
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = skipBlock_.toBuilder();
+              }
+              skipBlock_ = input.readMessage(ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(skipBlock_);
+                skipBlock_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          links_ = java.util.Collections.unmodifiableList(links_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ch.epfl.dedis.proto.SkipchainProto.internal_static_Proof_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ch.epfl.dedis.proto.SkipchainProto.internal_static_Proof_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ch.epfl.dedis.proto.SkipchainProto.Proof.class, ch.epfl.dedis.proto.SkipchainProto.Proof.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int GENESISID_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString genesisId_;
+    /**
+     * <code>required bytes genesisId = 1;</code>
+     */
+    public boolean hasGenesisId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required bytes genesisId = 1;</code>
+     */
+    public com.google.protobuf.ByteString getGenesisId() {
+      return genesisId_;
+    }
+
+    public static final int GENESISROSTER_FIELD_NUMBER = 2;
+    private ch.epfl.dedis.proto.RosterProto.Roster genesisRoster_;
+    /**
+     * <code>required .Roster genesisRoster = 2;</code>
+     */
+    public boolean hasGenesisRoster() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .Roster genesisRoster = 2;</code>
+     */
+    public ch.epfl.dedis.proto.RosterProto.Roster getGenesisRoster() {
+      return genesisRoster_ == null ? ch.epfl.dedis.proto.RosterProto.Roster.getDefaultInstance() : genesisRoster_;
+    }
+    /**
+     * <code>required .Roster genesisRoster = 2;</code>
+     */
+    public ch.epfl.dedis.proto.RosterProto.RosterOrBuilder getGenesisRosterOrBuilder() {
+      return genesisRoster_ == null ? ch.epfl.dedis.proto.RosterProto.Roster.getDefaultInstance() : genesisRoster_;
+    }
+
+    public static final int LINKS_FIELD_NUMBER = 3;
+    private java.util.List<ch.epfl.dedis.proto.SkipBlockProto.ForwardLink> links_;
+    /**
+     * <code>repeated .ForwardLink links = 3;</code>
+     */
+    public java.util.List<ch.epfl.dedis.proto.SkipBlockProto.ForwardLink> getLinksList() {
+      return links_;
+    }
+    /**
+     * <code>repeated .ForwardLink links = 3;</code>
+     */
+    public java.util.List<? extends ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder> 
+        getLinksOrBuilderList() {
+      return links_;
+    }
+    /**
+     * <code>repeated .ForwardLink links = 3;</code>
+     */
+    public int getLinksCount() {
+      return links_.size();
+    }
+    /**
+     * <code>repeated .ForwardLink links = 3;</code>
+     */
+    public ch.epfl.dedis.proto.SkipBlockProto.ForwardLink getLinks(int index) {
+      return links_.get(index);
+    }
+    /**
+     * <code>repeated .ForwardLink links = 3;</code>
+     */
+    public ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder getLinksOrBuilder(
+        int index) {
+      return links_.get(index);
+    }
+
+    public static final int SKIPBLOCK_FIELD_NUMBER = 4;
+    private ch.epfl.dedis.proto.SkipBlockProto.SkipBlock skipBlock_;
+    /**
+     * <code>optional .SkipBlock skipBlock = 4;</code>
+     */
+    public boolean hasSkipBlock() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .SkipBlock skipBlock = 4;</code>
+     */
+    public ch.epfl.dedis.proto.SkipBlockProto.SkipBlock getSkipBlock() {
+      return skipBlock_ == null ? ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : skipBlock_;
+    }
+    /**
+     * <code>optional .SkipBlock skipBlock = 4;</code>
+     */
+    public ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder getSkipBlockOrBuilder() {
+      return skipBlock_ == null ? ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : skipBlock_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasGenesisId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGenesisRoster()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getGenesisRoster().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getLinksCount(); i++) {
+        if (!getLinks(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasSkipBlock()) {
+        if (!getSkipBlock().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, genesisId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, getGenesisRoster());
+      }
+      for (int i = 0; i < links_.size(); i++) {
+        output.writeMessage(3, links_.get(i));
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(4, getSkipBlock());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, genesisId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getGenesisRoster());
+      }
+      for (int i = 0; i < links_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, links_.get(i));
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getSkipBlock());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ch.epfl.dedis.proto.SkipchainProto.Proof)) {
+        return super.equals(obj);
+      }
+      ch.epfl.dedis.proto.SkipchainProto.Proof other = (ch.epfl.dedis.proto.SkipchainProto.Proof) obj;
+
+      boolean result = true;
+      result = result && (hasGenesisId() == other.hasGenesisId());
+      if (hasGenesisId()) {
+        result = result && getGenesisId()
+            .equals(other.getGenesisId());
+      }
+      result = result && (hasGenesisRoster() == other.hasGenesisRoster());
+      if (hasGenesisRoster()) {
+        result = result && getGenesisRoster()
+            .equals(other.getGenesisRoster());
+      }
+      result = result && getLinksList()
+          .equals(other.getLinksList());
+      result = result && (hasSkipBlock() == other.hasSkipBlock());
+      if (hasSkipBlock()) {
+        result = result && getSkipBlock()
+            .equals(other.getSkipBlock());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasGenesisId()) {
+        hash = (37 * hash) + GENESISID_FIELD_NUMBER;
+        hash = (53 * hash) + getGenesisId().hashCode();
+      }
+      if (hasGenesisRoster()) {
+        hash = (37 * hash) + GENESISROSTER_FIELD_NUMBER;
+        hash = (53 * hash) + getGenesisRoster().hashCode();
+      }
+      if (getLinksCount() > 0) {
+        hash = (37 * hash) + LINKS_FIELD_NUMBER;
+        hash = (53 * hash) + getLinksList().hashCode();
+      }
+      if (hasSkipBlock()) {
+        hash = (37 * hash) + SKIPBLOCK_FIELD_NUMBER;
+        hash = (53 * hash) + getSkipBlock().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ch.epfl.dedis.proto.SkipchainProto.Proof prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Proof}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Proof)
+        ch.epfl.dedis.proto.SkipchainProto.ProofOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ch.epfl.dedis.proto.SkipchainProto.internal_static_Proof_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ch.epfl.dedis.proto.SkipchainProto.internal_static_Proof_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ch.epfl.dedis.proto.SkipchainProto.Proof.class, ch.epfl.dedis.proto.SkipchainProto.Proof.Builder.class);
+      }
+
+      // Construct using ch.epfl.dedis.proto.SkipchainProto.Proof.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getGenesisRosterFieldBuilder();
+          getLinksFieldBuilder();
+          getSkipBlockFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        genesisId_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (genesisRosterBuilder_ == null) {
+          genesisRoster_ = null;
+        } else {
+          genesisRosterBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (linksBuilder_ == null) {
+          links_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          linksBuilder_.clear();
+        }
+        if (skipBlockBuilder_ == null) {
+          skipBlock_ = null;
+        } else {
+          skipBlockBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ch.epfl.dedis.proto.SkipchainProto.internal_static_Proof_descriptor;
+      }
+
+      public ch.epfl.dedis.proto.SkipchainProto.Proof getDefaultInstanceForType() {
+        return ch.epfl.dedis.proto.SkipchainProto.Proof.getDefaultInstance();
+      }
+
+      public ch.epfl.dedis.proto.SkipchainProto.Proof build() {
+        ch.epfl.dedis.proto.SkipchainProto.Proof result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public ch.epfl.dedis.proto.SkipchainProto.Proof buildPartial() {
+        ch.epfl.dedis.proto.SkipchainProto.Proof result = new ch.epfl.dedis.proto.SkipchainProto.Proof(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.genesisId_ = genesisId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (genesisRosterBuilder_ == null) {
+          result.genesisRoster_ = genesisRoster_;
+        } else {
+          result.genesisRoster_ = genesisRosterBuilder_.build();
+        }
+        if (linksBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            links_ = java.util.Collections.unmodifiableList(links_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.links_ = links_;
+        } else {
+          result.links_ = linksBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        if (skipBlockBuilder_ == null) {
+          result.skipBlock_ = skipBlock_;
+        } else {
+          result.skipBlock_ = skipBlockBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ch.epfl.dedis.proto.SkipchainProto.Proof) {
+          return mergeFrom((ch.epfl.dedis.proto.SkipchainProto.Proof)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ch.epfl.dedis.proto.SkipchainProto.Proof other) {
+        if (other == ch.epfl.dedis.proto.SkipchainProto.Proof.getDefaultInstance()) return this;
+        if (other.hasGenesisId()) {
+          setGenesisId(other.getGenesisId());
+        }
+        if (other.hasGenesisRoster()) {
+          mergeGenesisRoster(other.getGenesisRoster());
+        }
+        if (linksBuilder_ == null) {
+          if (!other.links_.isEmpty()) {
+            if (links_.isEmpty()) {
+              links_ = other.links_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureLinksIsMutable();
+              links_.addAll(other.links_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.links_.isEmpty()) {
+            if (linksBuilder_.isEmpty()) {
+              linksBuilder_.dispose();
+              linksBuilder_ = null;
+              links_ = other.links_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              linksBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getLinksFieldBuilder() : null;
+            } else {
+              linksBuilder_.addAllMessages(other.links_);
+            }
+          }
+        }
+        if (other.hasSkipBlock()) {
+          mergeSkipBlock(other.getSkipBlock());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasGenesisId()) {
+          return false;
+        }
+        if (!hasGenesisRoster()) {
+          return false;
+        }
+        if (!getGenesisRoster().isInitialized()) {
+          return false;
+        }
+        for (int i = 0; i < getLinksCount(); i++) {
+          if (!getLinks(i).isInitialized()) {
+            return false;
+          }
+        }
+        if (hasSkipBlock()) {
+          if (!getSkipBlock().isInitialized()) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ch.epfl.dedis.proto.SkipchainProto.Proof parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ch.epfl.dedis.proto.SkipchainProto.Proof) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.ByteString genesisId_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes genesisId = 1;</code>
+       */
+      public boolean hasGenesisId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required bytes genesisId = 1;</code>
+       */
+      public com.google.protobuf.ByteString getGenesisId() {
+        return genesisId_;
+      }
+      /**
+       * <code>required bytes genesisId = 1;</code>
+       */
+      public Builder setGenesisId(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        genesisId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes genesisId = 1;</code>
+       */
+      public Builder clearGenesisId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        genesisId_ = getDefaultInstance().getGenesisId();
+        onChanged();
+        return this;
+      }
+
+      private ch.epfl.dedis.proto.RosterProto.Roster genesisRoster_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ch.epfl.dedis.proto.RosterProto.Roster, ch.epfl.dedis.proto.RosterProto.Roster.Builder, ch.epfl.dedis.proto.RosterProto.RosterOrBuilder> genesisRosterBuilder_;
+      /**
+       * <code>required .Roster genesisRoster = 2;</code>
+       */
+      public boolean hasGenesisRoster() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .Roster genesisRoster = 2;</code>
+       */
+      public ch.epfl.dedis.proto.RosterProto.Roster getGenesisRoster() {
+        if (genesisRosterBuilder_ == null) {
+          return genesisRoster_ == null ? ch.epfl.dedis.proto.RosterProto.Roster.getDefaultInstance() : genesisRoster_;
+        } else {
+          return genesisRosterBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .Roster genesisRoster = 2;</code>
+       */
+      public Builder setGenesisRoster(ch.epfl.dedis.proto.RosterProto.Roster value) {
+        if (genesisRosterBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          genesisRoster_ = value;
+          onChanged();
+        } else {
+          genesisRosterBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .Roster genesisRoster = 2;</code>
+       */
+      public Builder setGenesisRoster(
+          ch.epfl.dedis.proto.RosterProto.Roster.Builder builderForValue) {
+        if (genesisRosterBuilder_ == null) {
+          genesisRoster_ = builderForValue.build();
+          onChanged();
+        } else {
+          genesisRosterBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .Roster genesisRoster = 2;</code>
+       */
+      public Builder mergeGenesisRoster(ch.epfl.dedis.proto.RosterProto.Roster value) {
+        if (genesisRosterBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              genesisRoster_ != null &&
+              genesisRoster_ != ch.epfl.dedis.proto.RosterProto.Roster.getDefaultInstance()) {
+            genesisRoster_ =
+              ch.epfl.dedis.proto.RosterProto.Roster.newBuilder(genesisRoster_).mergeFrom(value).buildPartial();
+          } else {
+            genesisRoster_ = value;
+          }
+          onChanged();
+        } else {
+          genesisRosterBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .Roster genesisRoster = 2;</code>
+       */
+      public Builder clearGenesisRoster() {
+        if (genesisRosterBuilder_ == null) {
+          genesisRoster_ = null;
+          onChanged();
+        } else {
+          genesisRosterBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>required .Roster genesisRoster = 2;</code>
+       */
+      public ch.epfl.dedis.proto.RosterProto.Roster.Builder getGenesisRosterBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getGenesisRosterFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .Roster genesisRoster = 2;</code>
+       */
+      public ch.epfl.dedis.proto.RosterProto.RosterOrBuilder getGenesisRosterOrBuilder() {
+        if (genesisRosterBuilder_ != null) {
+          return genesisRosterBuilder_.getMessageOrBuilder();
+        } else {
+          return genesisRoster_ == null ?
+              ch.epfl.dedis.proto.RosterProto.Roster.getDefaultInstance() : genesisRoster_;
+        }
+      }
+      /**
+       * <code>required .Roster genesisRoster = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ch.epfl.dedis.proto.RosterProto.Roster, ch.epfl.dedis.proto.RosterProto.Roster.Builder, ch.epfl.dedis.proto.RosterProto.RosterOrBuilder> 
+          getGenesisRosterFieldBuilder() {
+        if (genesisRosterBuilder_ == null) {
+          genesisRosterBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ch.epfl.dedis.proto.RosterProto.Roster, ch.epfl.dedis.proto.RosterProto.Roster.Builder, ch.epfl.dedis.proto.RosterProto.RosterOrBuilder>(
+                  getGenesisRoster(),
+                  getParentForChildren(),
+                  isClean());
+          genesisRoster_ = null;
+        }
+        return genesisRosterBuilder_;
+      }
+
+      private java.util.List<ch.epfl.dedis.proto.SkipBlockProto.ForwardLink> links_ =
+        java.util.Collections.emptyList();
+      private void ensureLinksIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          links_ = new java.util.ArrayList<ch.epfl.dedis.proto.SkipBlockProto.ForwardLink>(links_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ch.epfl.dedis.proto.SkipBlockProto.ForwardLink, ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder, ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder> linksBuilder_;
+
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public java.util.List<ch.epfl.dedis.proto.SkipBlockProto.ForwardLink> getLinksList() {
+        if (linksBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(links_);
+        } else {
+          return linksBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public int getLinksCount() {
+        if (linksBuilder_ == null) {
+          return links_.size();
+        } else {
+          return linksBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public ch.epfl.dedis.proto.SkipBlockProto.ForwardLink getLinks(int index) {
+        if (linksBuilder_ == null) {
+          return links_.get(index);
+        } else {
+          return linksBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public Builder setLinks(
+          int index, ch.epfl.dedis.proto.SkipBlockProto.ForwardLink value) {
+        if (linksBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLinksIsMutable();
+          links_.set(index, value);
+          onChanged();
+        } else {
+          linksBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public Builder setLinks(
+          int index, ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder builderForValue) {
+        if (linksBuilder_ == null) {
+          ensureLinksIsMutable();
+          links_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          linksBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public Builder addLinks(ch.epfl.dedis.proto.SkipBlockProto.ForwardLink value) {
+        if (linksBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLinksIsMutable();
+          links_.add(value);
+          onChanged();
+        } else {
+          linksBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public Builder addLinks(
+          int index, ch.epfl.dedis.proto.SkipBlockProto.ForwardLink value) {
+        if (linksBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLinksIsMutable();
+          links_.add(index, value);
+          onChanged();
+        } else {
+          linksBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public Builder addLinks(
+          ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder builderForValue) {
+        if (linksBuilder_ == null) {
+          ensureLinksIsMutable();
+          links_.add(builderForValue.build());
+          onChanged();
+        } else {
+          linksBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public Builder addLinks(
+          int index, ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder builderForValue) {
+        if (linksBuilder_ == null) {
+          ensureLinksIsMutable();
+          links_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          linksBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public Builder addAllLinks(
+          java.lang.Iterable<? extends ch.epfl.dedis.proto.SkipBlockProto.ForwardLink> values) {
+        if (linksBuilder_ == null) {
+          ensureLinksIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, links_);
+          onChanged();
+        } else {
+          linksBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public Builder clearLinks() {
+        if (linksBuilder_ == null) {
+          links_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          linksBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public Builder removeLinks(int index) {
+        if (linksBuilder_ == null) {
+          ensureLinksIsMutable();
+          links_.remove(index);
+          onChanged();
+        } else {
+          linksBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder getLinksBuilder(
+          int index) {
+        return getLinksFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder getLinksOrBuilder(
+          int index) {
+        if (linksBuilder_ == null) {
+          return links_.get(index);  } else {
+          return linksBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public java.util.List<? extends ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder> 
+           getLinksOrBuilderList() {
+        if (linksBuilder_ != null) {
+          return linksBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(links_);
+        }
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder addLinksBuilder() {
+        return getLinksFieldBuilder().addBuilder(
+            ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder addLinksBuilder(
+          int index) {
+        return getLinksFieldBuilder().addBuilder(
+            index, ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ForwardLink links = 3;</code>
+       */
+      public java.util.List<ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder> 
+           getLinksBuilderList() {
+        return getLinksFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ch.epfl.dedis.proto.SkipBlockProto.ForwardLink, ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder, ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder> 
+          getLinksFieldBuilder() {
+        if (linksBuilder_ == null) {
+          linksBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              ch.epfl.dedis.proto.SkipBlockProto.ForwardLink, ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder, ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder>(
+                  links_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          links_ = null;
+        }
+        return linksBuilder_;
+      }
+
+      private ch.epfl.dedis.proto.SkipBlockProto.SkipBlock skipBlock_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ch.epfl.dedis.proto.SkipBlockProto.SkipBlock, ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder, ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder> skipBlockBuilder_;
+      /**
+       * <code>optional .SkipBlock skipBlock = 4;</code>
+       */
+      public boolean hasSkipBlock() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .SkipBlock skipBlock = 4;</code>
+       */
+      public ch.epfl.dedis.proto.SkipBlockProto.SkipBlock getSkipBlock() {
+        if (skipBlockBuilder_ == null) {
+          return skipBlock_ == null ? ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : skipBlock_;
+        } else {
+          return skipBlockBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .SkipBlock skipBlock = 4;</code>
+       */
+      public Builder setSkipBlock(ch.epfl.dedis.proto.SkipBlockProto.SkipBlock value) {
+        if (skipBlockBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          skipBlock_ = value;
+          onChanged();
+        } else {
+          skipBlockBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .SkipBlock skipBlock = 4;</code>
+       */
+      public Builder setSkipBlock(
+          ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder builderForValue) {
+        if (skipBlockBuilder_ == null) {
+          skipBlock_ = builderForValue.build();
+          onChanged();
+        } else {
+          skipBlockBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .SkipBlock skipBlock = 4;</code>
+       */
+      public Builder mergeSkipBlock(ch.epfl.dedis.proto.SkipBlockProto.SkipBlock value) {
+        if (skipBlockBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              skipBlock_ != null &&
+              skipBlock_ != ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance()) {
+            skipBlock_ =
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.newBuilder(skipBlock_).mergeFrom(value).buildPartial();
+          } else {
+            skipBlock_ = value;
+          }
+          onChanged();
+        } else {
+          skipBlockBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .SkipBlock skipBlock = 4;</code>
+       */
+      public Builder clearSkipBlock() {
+        if (skipBlockBuilder_ == null) {
+          skipBlock_ = null;
+          onChanged();
+        } else {
+          skipBlockBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .SkipBlock skipBlock = 4;</code>
+       */
+      public ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder getSkipBlockBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getSkipBlockFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .SkipBlock skipBlock = 4;</code>
+       */
+      public ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder getSkipBlockOrBuilder() {
+        if (skipBlockBuilder_ != null) {
+          return skipBlockBuilder_.getMessageOrBuilder();
+        } else {
+          return skipBlock_ == null ?
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : skipBlock_;
+        }
+      }
+      /**
+       * <code>optional .SkipBlock skipBlock = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ch.epfl.dedis.proto.SkipBlockProto.SkipBlock, ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder, ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder> 
+          getSkipBlockFieldBuilder() {
+        if (skipBlockBuilder_ == null) {
+          skipBlockBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock, ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder, ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder>(
+                  getSkipBlock(),
+                  getParentForChildren(),
+                  isClean());
+          skipBlock_ = null;
+        }
+        return skipBlockBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Proof)
+    }
+
+    // @@protoc_insertion_point(class_scope:Proof)
+    private static final ch.epfl.dedis.proto.SkipchainProto.Proof DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ch.epfl.dedis.proto.SkipchainProto.Proof();
+    }
+
+    public static ch.epfl.dedis.proto.SkipchainProto.Proof getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<Proof>
+        PARSER = new com.google.protobuf.AbstractParser<Proof>() {
+      public Proof parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Proof(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Proof> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Proof> getParserForType() {
+      return PARSER;
+    }
+
+    public ch.epfl.dedis.proto.SkipchainProto.Proof getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_GetSingleBlock_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_GetSingleBlock_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Proof_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Proof_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -515,9 +1808,12 @@ public final class SkipchainProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017skipchain.proto\"\034\n\016GetSingleBlock\022\n\n\002i" +
-      "d\030\001 \002(\014B%\n\023ch.epfl.dedis.protoB\016Skipchai" +
-      "nProto"
+      "\n\017skipchain.proto\032\017skipblock.proto\032\014rost" +
+      "er.proto\"\034\n\016GetSingleBlock\022\n\n\002id\030\001 \002(\014\"v" +
+      "\n\005Proof\022\021\n\tgenesisId\030\001 \002(\014\022\036\n\rgenesisRos" +
+      "ter\030\002 \002(\0132\007.Roster\022\033\n\005links\030\003 \003(\0132\014.Forw" +
+      "ardLink\022\035\n\tskipBlock\030\004 \001(\0132\n.SkipBlockB%" +
+      "\n\023ch.epfl.dedis.protoB\016SkipchainProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -530,6 +1826,8 @@ public final class SkipchainProto {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          ch.epfl.dedis.proto.SkipBlockProto.getDescriptor(),
+          ch.epfl.dedis.proto.RosterProto.getDescriptor(),
         }, assigner);
     internal_static_GetSingleBlock_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -537,6 +1835,14 @@ public final class SkipchainProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetSingleBlock_descriptor,
         new java.lang.String[] { "Id", });
+    internal_static_Proof_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_Proof_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Proof_descriptor,
+        new java.lang.String[] { "GenesisId", "GenesisRoster", "Links", "SkipBlock", });
+    ch.epfl.dedis.proto.SkipBlockProto.getDescriptor();
+    ch.epfl.dedis.proto.RosterProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

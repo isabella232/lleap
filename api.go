@@ -72,9 +72,9 @@ func (c *Client) SetKeyValue(r *onet.Roster, id skipchain.SkipBlockID, priv *rsa
 }
 
 // GetValue returns the value of a key or nil if it doesn't exist.
-func (c *Client) GetValue(r *onet.Roster, id skipchain.SkipBlockID, key []byte) (*GetValueResponse, error) {
-	reply := &GetValueResponse{}
-	err := c.SendProtobuf(r.List[0], &GetValue{
+func (c *Client) GetValue(r *onet.Roster, id skipchain.SkipBlockID, key []byte) (*GetKeyBlockResponse, error) {
+	reply := &GetKeyBlockResponse{}
+	err := c.SendProtobuf(r.List[0], &GetKeyBlock{
 		Version:     CurrentVersion,
 		SkipchainID: id,
 		Key:         key,

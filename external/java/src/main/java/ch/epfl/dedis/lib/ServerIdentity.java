@@ -40,6 +40,11 @@ public class ServerIdentity {
         this(new URI(siToml.getString("Address")), siToml.getString("Public"));
     }
 
+    public ServerIdentity(ServerIdentityProto.ServerIdentity siProto) throws URISyntaxException{
+        this.conodeAddress = new URI(siProto.getAddress());
+        this.Public = new Point(siProto.getPublic());
+    }
+
     public URI getAddress() {
         return conodeAddress;
     }
@@ -75,7 +80,7 @@ public class ServerIdentity {
         public ByteBuffer response;
         public String error;
 
-        public SyncSendMessage(String path, byte[] msg) throws CothorityCommunicationException {
+        public SyncSendMessage(String path, final byte[] msg) throws CothorityCommunicationException {
             final CountDownLatch statusLatch = new CountDownLatch(1);
             try {
                 WebSocketClient ws = new WebSocketClient(buildWebSocketAdddress(path)) {

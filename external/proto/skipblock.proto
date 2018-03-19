@@ -18,23 +18,35 @@ message SkipBlock {
     required bytes data = 9;
     required Roster roster = 10;
     required bytes hash = 11;
-    repeated BlockLink forward = 12;
-    repeated BlockLink children = 13;
+    repeated ForwardLink forward = 12;
+    repeated bytes children = 13;
 }
 
-message BlockLink {
-    required bytes sig = 1;
-    required bytes msg = 2;
-    repeated Exception exceptions = 3;
+// ForwardLink can be used to jump from old blocks to newer
+// blocks. Depending on the BaseHeight and MaximumHeight, older
+// rosters are asked to sign direct links to new blocks.
+message ForwardLink {
+	// From - where this forward link comes from
+	required bytes from = 1;
+	// To - where this forward link points to
+  required bytes to = 2;
+	// NewRoster is only set to non-nil if the From block has a
+	// different roster from the To-block.
+	optional Roster newRoster = 3;
+	// Signature is calculated on the
+	// sha256(From.Hash()|To.Hash()|NewRoster)
+	// In the case that NewRoster is nil, the signature is
+	// calculated on the sha256(From.Hash()|To.Hash())
+	required FinalSignature finalSignature = 4;
+}
+
+// FinalSignature holds the message Msg and its signature
+message FinalSignature {
+	required bytes Msg = 1;
+	required bytes Sig = 2;
 }
 
 message SchnorrSig {
     required bytes challenge = 1;
     required bytes response = 2;
 }
-
-message Exception {
-    required int32 index = 1;
-    required bytes commitment = 2;
-}
-

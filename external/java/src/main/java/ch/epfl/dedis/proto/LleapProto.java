@@ -3749,8 +3749,8 @@ public final class LleapProto {
 
   }
 
-  public interface GetValueOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GetValue)
+  public interface GetKeyBlockOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:GetKeyBlock)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -3806,22 +3806,22 @@ public final class LleapProto {
   }
   /**
    * <pre>
-   * GetValue looks up the value in the given skipchain and returns the
+   * GetKeyBlock looks up the value in the given skipchain and returns the
    * stored value, or an error if either the skipchain or the key doesn't exist.
    * </pre>
    *
-   * Protobuf type {@code GetValue}
+   * Protobuf type {@code GetKeyBlock}
    */
-  public  static final class GetValue extends
+  public  static final class GetKeyBlock extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:GetValue)
-      GetValueOrBuilder {
+      // @@protoc_insertion_point(message_implements:GetKeyBlock)
+      GetKeyBlockOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use GetValue.newBuilder() to construct.
-    private GetValue(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use GetKeyBlock.newBuilder() to construct.
+    private GetKeyBlock(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private GetValue() {
+    private GetKeyBlock() {
       version_ = 0;
       skipchainid_ = com.google.protobuf.ByteString.EMPTY;
       key_ = com.google.protobuf.ByteString.EMPTY;
@@ -3832,7 +3832,7 @@ public final class LleapProto {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private GetValue(
+    private GetKeyBlock(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3884,14 +3884,14 @@ public final class LleapProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return ch.epfl.dedis.proto.LleapProto.internal_static_GetValue_descriptor;
+      return ch.epfl.dedis.proto.LleapProto.internal_static_GetKeyBlock_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return ch.epfl.dedis.proto.LleapProto.internal_static_GetValue_fieldAccessorTable
+      return ch.epfl.dedis.proto.LleapProto.internal_static_GetKeyBlock_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ch.epfl.dedis.proto.LleapProto.GetValue.class, ch.epfl.dedis.proto.LleapProto.GetValue.Builder.class);
+              ch.epfl.dedis.proto.LleapProto.GetKeyBlock.class, ch.epfl.dedis.proto.LleapProto.GetKeyBlock.Builder.class);
     }
 
     private int bitField0_;
@@ -4027,10 +4027,10 @@ public final class LleapProto {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof ch.epfl.dedis.proto.LleapProto.GetValue)) {
+      if (!(obj instanceof ch.epfl.dedis.proto.LleapProto.GetKeyBlock)) {
         return super.equals(obj);
       }
-      ch.epfl.dedis.proto.LleapProto.GetValue other = (ch.epfl.dedis.proto.LleapProto.GetValue) obj;
+      ch.epfl.dedis.proto.LleapProto.GetKeyBlock other = (ch.epfl.dedis.proto.LleapProto.GetKeyBlock) obj;
 
       boolean result = true;
       result = result && (hasVersion() == other.hasVersion());
@@ -4076,69 +4076,69 @@ public final class LleapProto {
       return hash;
     }
 
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseFrom(byte[] data)
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseFrom(java.io.InputStream input)
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseDelimitedFrom(java.io.InputStream input)
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseDelimitedFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValue parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4150,7 +4150,7 @@ public final class LleapProto {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(ch.epfl.dedis.proto.LleapProto.GetValue prototype) {
+    public static Builder newBuilder(ch.epfl.dedis.proto.LleapProto.GetKeyBlock prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -4166,29 +4166,29 @@ public final class LleapProto {
     }
     /**
      * <pre>
-     * GetValue looks up the value in the given skipchain and returns the
+     * GetKeyBlock looks up the value in the given skipchain and returns the
      * stored value, or an error if either the skipchain or the key doesn't exist.
      * </pre>
      *
-     * Protobuf type {@code GetValue}
+     * Protobuf type {@code GetKeyBlock}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:GetValue)
-        ch.epfl.dedis.proto.LleapProto.GetValueOrBuilder {
+        // @@protoc_insertion_point(builder_implements:GetKeyBlock)
+        ch.epfl.dedis.proto.LleapProto.GetKeyBlockOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return ch.epfl.dedis.proto.LleapProto.internal_static_GetValue_descriptor;
+        return ch.epfl.dedis.proto.LleapProto.internal_static_GetKeyBlock_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return ch.epfl.dedis.proto.LleapProto.internal_static_GetValue_fieldAccessorTable
+        return ch.epfl.dedis.proto.LleapProto.internal_static_GetKeyBlock_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                ch.epfl.dedis.proto.LleapProto.GetValue.class, ch.epfl.dedis.proto.LleapProto.GetValue.Builder.class);
+                ch.epfl.dedis.proto.LleapProto.GetKeyBlock.class, ch.epfl.dedis.proto.LleapProto.GetKeyBlock.Builder.class);
       }
 
-      // Construct using ch.epfl.dedis.proto.LleapProto.GetValue.newBuilder()
+      // Construct using ch.epfl.dedis.proto.LleapProto.GetKeyBlock.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4216,23 +4216,23 @@ public final class LleapProto {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return ch.epfl.dedis.proto.LleapProto.internal_static_GetValue_descriptor;
+        return ch.epfl.dedis.proto.LleapProto.internal_static_GetKeyBlock_descriptor;
       }
 
-      public ch.epfl.dedis.proto.LleapProto.GetValue getDefaultInstanceForType() {
-        return ch.epfl.dedis.proto.LleapProto.GetValue.getDefaultInstance();
+      public ch.epfl.dedis.proto.LleapProto.GetKeyBlock getDefaultInstanceForType() {
+        return ch.epfl.dedis.proto.LleapProto.GetKeyBlock.getDefaultInstance();
       }
 
-      public ch.epfl.dedis.proto.LleapProto.GetValue build() {
-        ch.epfl.dedis.proto.LleapProto.GetValue result = buildPartial();
+      public ch.epfl.dedis.proto.LleapProto.GetKeyBlock build() {
+        ch.epfl.dedis.proto.LleapProto.GetKeyBlock result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public ch.epfl.dedis.proto.LleapProto.GetValue buildPartial() {
-        ch.epfl.dedis.proto.LleapProto.GetValue result = new ch.epfl.dedis.proto.LleapProto.GetValue(this);
+      public ch.epfl.dedis.proto.LleapProto.GetKeyBlock buildPartial() {
+        ch.epfl.dedis.proto.LleapProto.GetKeyBlock result = new ch.epfl.dedis.proto.LleapProto.GetKeyBlock(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -4279,16 +4279,16 @@ public final class LleapProto {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof ch.epfl.dedis.proto.LleapProto.GetValue) {
-          return mergeFrom((ch.epfl.dedis.proto.LleapProto.GetValue)other);
+        if (other instanceof ch.epfl.dedis.proto.LleapProto.GetKeyBlock) {
+          return mergeFrom((ch.epfl.dedis.proto.LleapProto.GetKeyBlock)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(ch.epfl.dedis.proto.LleapProto.GetValue other) {
-        if (other == ch.epfl.dedis.proto.LleapProto.GetValue.getDefaultInstance()) return this;
+      public Builder mergeFrom(ch.epfl.dedis.proto.LleapProto.GetKeyBlock other) {
+        if (other == ch.epfl.dedis.proto.LleapProto.GetKeyBlock.getDefaultInstance()) return this;
         if (other.hasVersion()) {
           setVersion(other.getVersion());
         }
@@ -4320,11 +4320,11 @@ public final class LleapProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        ch.epfl.dedis.proto.LleapProto.GetValue parsedMessage = null;
+        ch.epfl.dedis.proto.LleapProto.GetKeyBlock parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (ch.epfl.dedis.proto.LleapProto.GetValue) e.getUnfinishedMessage();
+          parsedMessage = (ch.epfl.dedis.proto.LleapProto.GetKeyBlock) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -4495,51 +4495,51 @@ public final class LleapProto {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:GetValue)
+      // @@protoc_insertion_point(builder_scope:GetKeyBlock)
     }
 
-    // @@protoc_insertion_point(class_scope:GetValue)
-    private static final ch.epfl.dedis.proto.LleapProto.GetValue DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:GetKeyBlock)
+    private static final ch.epfl.dedis.proto.LleapProto.GetKeyBlock DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new ch.epfl.dedis.proto.LleapProto.GetValue();
+      DEFAULT_INSTANCE = new ch.epfl.dedis.proto.LleapProto.GetKeyBlock();
     }
 
-    public static ch.epfl.dedis.proto.LleapProto.GetValue getDefaultInstance() {
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlock getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<GetValue>
-        PARSER = new com.google.protobuf.AbstractParser<GetValue>() {
-      public GetValue parsePartialFrom(
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<GetKeyBlock>
+        PARSER = new com.google.protobuf.AbstractParser<GetKeyBlock>() {
+      public GetKeyBlock parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetValue(input, extensionRegistry);
+          return new GetKeyBlock(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<GetValue> parser() {
+    public static com.google.protobuf.Parser<GetKeyBlock> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<GetValue> getParserForType() {
+    public com.google.protobuf.Parser<GetKeyBlock> getParserForType() {
       return PARSER;
     }
 
-    public ch.epfl.dedis.proto.LleapProto.GetValue getDefaultInstanceForType() {
+    public ch.epfl.dedis.proto.LleapProto.GetKeyBlock getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface GetValueResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GetValueResponse)
+  public interface GetKeyBlockResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:GetKeyBlockResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <pre>
-     * 	Version of the protocol
+     * Version of the protocol
      * </pre>
      *
      * <code>required sint32 version = 1;</code>
@@ -4547,7 +4547,7 @@ public final class LleapProto {
     boolean hasVersion();
     /**
      * <pre>
-     * 	Version of the protocol
+     * Version of the protocol
      * </pre>
      *
      * <code>required sint32 version = 1;</code>
@@ -4556,76 +4556,47 @@ public final class LleapProto {
 
     /**
      * <pre>
-     * 	 Value of the key
+     * The skipblock where the key/value pair has been stored.
      * </pre>
      *
-     * <code>optional bytes value = 2;</code>
+     * <code>required .SkipBlock keyBlock = 2;</code>
      */
-    boolean hasValue();
+    boolean hasKeyBlock();
     /**
      * <pre>
-     * 	 Value of the key
+     * The skipblock where the key/value pair has been stored.
      * </pre>
      *
-     * <code>optional bytes value = 2;</code>
+     * <code>required .SkipBlock keyBlock = 2;</code>
      */
-    com.google.protobuf.ByteString getValue();
-
+    ch.epfl.dedis.proto.SkipBlockProto.SkipBlock getKeyBlock();
     /**
      * <pre>
-     * 	 Signature as sent when the value was stored
+     * The skipblock where the key/value pair has been stored.
      * </pre>
      *
-     * <code>optional bytes signature = 3;</code>
+     * <code>required .SkipBlock keyBlock = 2;</code>
      */
-    boolean hasSignature();
-    /**
-     * <pre>
-     * 	 Signature as sent when the value was stored
-     * </pre>
-     *
-     * <code>optional bytes signature = 3;</code>
-     */
-    com.google.protobuf.ByteString getSignature();
-
-    /**
-     * <pre>
-     * 	 Proof the value is correct
-     * </pre>
-     *
-     * <code>optional bytes proof = 4;</code>
-     */
-    boolean hasProof();
-    /**
-     * <pre>
-     * 	 Proof the value is correct
-     * </pre>
-     *
-     * <code>optional bytes proof = 4;</code>
-     */
-    com.google.protobuf.ByteString getProof();
+    ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder getKeyBlockOrBuilder();
   }
   /**
    * <pre>
-   * GetValueResponse returns the value or an error if the key hasn't been found.
+   * GetKeyBlockResponse returns the value or an error if the key hasn't been found.
    * </pre>
    *
-   * Protobuf type {@code GetValueResponse}
+   * Protobuf type {@code GetKeyBlockResponse}
    */
-  public  static final class GetValueResponse extends
+  public  static final class GetKeyBlockResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:GetValueResponse)
-      GetValueResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:GetKeyBlockResponse)
+      GetKeyBlockResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use GetValueResponse.newBuilder() to construct.
-    private GetValueResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use GetKeyBlockResponse.newBuilder() to construct.
+    private GetKeyBlockResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private GetValueResponse() {
+    private GetKeyBlockResponse() {
       version_ = 0;
-      value_ = com.google.protobuf.ByteString.EMPTY;
-      signature_ = com.google.protobuf.ByteString.EMPTY;
-      proof_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -4633,7 +4604,7 @@ public final class LleapProto {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private GetValueResponse(
+    private GetKeyBlockResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4662,18 +4633,16 @@ public final class LleapProto {
               break;
             }
             case 18: {
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = keyBlock_.toBuilder();
+              }
+              keyBlock_ = input.readMessage(ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(keyBlock_);
+                keyBlock_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000002;
-              value_ = input.readBytes();
-              break;
-            }
-            case 26: {
-              bitField0_ |= 0x00000004;
-              signature_ = input.readBytes();
-              break;
-            }
-            case 34: {
-              bitField0_ |= 0x00000008;
-              proof_ = input.readBytes();
               break;
             }
           }
@@ -4690,14 +4659,14 @@ public final class LleapProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return ch.epfl.dedis.proto.LleapProto.internal_static_GetValueResponse_descriptor;
+      return ch.epfl.dedis.proto.LleapProto.internal_static_GetKeyBlockResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return ch.epfl.dedis.proto.LleapProto.internal_static_GetValueResponse_fieldAccessorTable
+      return ch.epfl.dedis.proto.LleapProto.internal_static_GetKeyBlockResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ch.epfl.dedis.proto.LleapProto.GetValueResponse.class, ch.epfl.dedis.proto.LleapProto.GetValueResponse.Builder.class);
+              ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse.class, ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse.Builder.class);
     }
 
     private int bitField0_;
@@ -4705,7 +4674,7 @@ public final class LleapProto {
     private int version_;
     /**
      * <pre>
-     * 	Version of the protocol
+     * Version of the protocol
      * </pre>
      *
      * <code>required sint32 version = 1;</code>
@@ -4715,7 +4684,7 @@ public final class LleapProto {
     }
     /**
      * <pre>
-     * 	Version of the protocol
+     * Version of the protocol
      * </pre>
      *
      * <code>required sint32 version = 1;</code>
@@ -4724,73 +4693,37 @@ public final class LleapProto {
       return version_;
     }
 
-    public static final int VALUE_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString value_;
+    public static final int KEYBLOCK_FIELD_NUMBER = 2;
+    private ch.epfl.dedis.proto.SkipBlockProto.SkipBlock keyBlock_;
     /**
      * <pre>
-     * 	 Value of the key
+     * The skipblock where the key/value pair has been stored.
      * </pre>
      *
-     * <code>optional bytes value = 2;</code>
+     * <code>required .SkipBlock keyBlock = 2;</code>
      */
-    public boolean hasValue() {
+    public boolean hasKeyBlock() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <pre>
-     * 	 Value of the key
+     * The skipblock where the key/value pair has been stored.
      * </pre>
      *
-     * <code>optional bytes value = 2;</code>
+     * <code>required .SkipBlock keyBlock = 2;</code>
      */
-    public com.google.protobuf.ByteString getValue() {
-      return value_;
-    }
-
-    public static final int SIGNATURE_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString signature_;
-    /**
-     * <pre>
-     * 	 Signature as sent when the value was stored
-     * </pre>
-     *
-     * <code>optional bytes signature = 3;</code>
-     */
-    public boolean hasSignature() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+    public ch.epfl.dedis.proto.SkipBlockProto.SkipBlock getKeyBlock() {
+      return keyBlock_ == null ? ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : keyBlock_;
     }
     /**
      * <pre>
-     * 	 Signature as sent when the value was stored
+     * The skipblock where the key/value pair has been stored.
      * </pre>
      *
-     * <code>optional bytes signature = 3;</code>
+     * <code>required .SkipBlock keyBlock = 2;</code>
      */
-    public com.google.protobuf.ByteString getSignature() {
-      return signature_;
-    }
-
-    public static final int PROOF_FIELD_NUMBER = 4;
-    private com.google.protobuf.ByteString proof_;
-    /**
-     * <pre>
-     * 	 Proof the value is correct
-     * </pre>
-     *
-     * <code>optional bytes proof = 4;</code>
-     */
-    public boolean hasProof() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <pre>
-     * 	 Proof the value is correct
-     * </pre>
-     *
-     * <code>optional bytes proof = 4;</code>
-     */
-    public com.google.protobuf.ByteString getProof() {
-      return proof_;
+    public ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder getKeyBlockOrBuilder() {
+      return keyBlock_ == null ? ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : keyBlock_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4800,6 +4733,14 @@ public final class LleapProto {
       if (isInitialized == 0) return false;
 
       if (!hasVersion()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasKeyBlock()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getKeyBlock().isInitialized()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -4813,13 +4754,7 @@ public final class LleapProto {
         output.writeSInt32(1, version_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, value_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, signature_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, proof_);
+        output.writeMessage(2, getKeyBlock());
       }
       unknownFields.writeTo(output);
     }
@@ -4835,15 +4770,7 @@ public final class LleapProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, value_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, signature_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, proof_);
+          .computeMessageSize(2, getKeyBlock());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4855,10 +4782,10 @@ public final class LleapProto {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof ch.epfl.dedis.proto.LleapProto.GetValueResponse)) {
+      if (!(obj instanceof ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse)) {
         return super.equals(obj);
       }
-      ch.epfl.dedis.proto.LleapProto.GetValueResponse other = (ch.epfl.dedis.proto.LleapProto.GetValueResponse) obj;
+      ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse other = (ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse) obj;
 
       boolean result = true;
       result = result && (hasVersion() == other.hasVersion());
@@ -4866,20 +4793,10 @@ public final class LleapProto {
         result = result && (getVersion()
             == other.getVersion());
       }
-      result = result && (hasValue() == other.hasValue());
-      if (hasValue()) {
-        result = result && getValue()
-            .equals(other.getValue());
-      }
-      result = result && (hasSignature() == other.hasSignature());
-      if (hasSignature()) {
-        result = result && getSignature()
-            .equals(other.getSignature());
-      }
-      result = result && (hasProof() == other.hasProof());
-      if (hasProof()) {
-        result = result && getProof()
-            .equals(other.getProof());
+      result = result && (hasKeyBlock() == other.hasKeyBlock());
+      if (hasKeyBlock()) {
+        result = result && getKeyBlock()
+            .equals(other.getKeyBlock());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -4896,86 +4813,78 @@ public final class LleapProto {
         hash = (37 * hash) + VERSION_FIELD_NUMBER;
         hash = (53 * hash) + getVersion();
       }
-      if (hasValue()) {
-        hash = (37 * hash) + VALUE_FIELD_NUMBER;
-        hash = (53 * hash) + getValue().hashCode();
-      }
-      if (hasSignature()) {
-        hash = (37 * hash) + SIGNATURE_FIELD_NUMBER;
-        hash = (53 * hash) + getSignature().hashCode();
-      }
-      if (hasProof()) {
-        hash = (37 * hash) + PROOF_FIELD_NUMBER;
-        hash = (53 * hash) + getProof().hashCode();
+      if (hasKeyBlock()) {
+        hash = (37 * hash) + KEYBLOCK_FIELD_NUMBER;
+        hash = (53 * hash) + getKeyBlock().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseFrom(byte[] data)
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseFrom(java.io.InputStream input)
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseDelimitedFrom(java.io.InputStream input)
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseDelimitedFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse parseFrom(
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4987,7 +4896,7 @@ public final class LleapProto {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(ch.epfl.dedis.proto.LleapProto.GetValueResponse prototype) {
+    public static Builder newBuilder(ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -5003,28 +4912,28 @@ public final class LleapProto {
     }
     /**
      * <pre>
-     * GetValueResponse returns the value or an error if the key hasn't been found.
+     * GetKeyBlockResponse returns the value or an error if the key hasn't been found.
      * </pre>
      *
-     * Protobuf type {@code GetValueResponse}
+     * Protobuf type {@code GetKeyBlockResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:GetValueResponse)
-        ch.epfl.dedis.proto.LleapProto.GetValueResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:GetKeyBlockResponse)
+        ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return ch.epfl.dedis.proto.LleapProto.internal_static_GetValueResponse_descriptor;
+        return ch.epfl.dedis.proto.LleapProto.internal_static_GetKeyBlockResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return ch.epfl.dedis.proto.LleapProto.internal_static_GetValueResponse_fieldAccessorTable
+        return ch.epfl.dedis.proto.LleapProto.internal_static_GetKeyBlockResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                ch.epfl.dedis.proto.LleapProto.GetValueResponse.class, ch.epfl.dedis.proto.LleapProto.GetValueResponse.Builder.class);
+                ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse.class, ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse.Builder.class);
       }
 
-      // Construct using ch.epfl.dedis.proto.LleapProto.GetValueResponse.newBuilder()
+      // Construct using ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -5037,40 +4946,41 @@ public final class LleapProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getKeyBlockFieldBuilder();
         }
       }
       public Builder clear() {
         super.clear();
         version_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = com.google.protobuf.ByteString.EMPTY;
+        if (keyBlockBuilder_ == null) {
+          keyBlock_ = null;
+        } else {
+          keyBlockBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000002);
-        signature_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        proof_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return ch.epfl.dedis.proto.LleapProto.internal_static_GetValueResponse_descriptor;
+        return ch.epfl.dedis.proto.LleapProto.internal_static_GetKeyBlockResponse_descriptor;
       }
 
-      public ch.epfl.dedis.proto.LleapProto.GetValueResponse getDefaultInstanceForType() {
-        return ch.epfl.dedis.proto.LleapProto.GetValueResponse.getDefaultInstance();
+      public ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse getDefaultInstanceForType() {
+        return ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse.getDefaultInstance();
       }
 
-      public ch.epfl.dedis.proto.LleapProto.GetValueResponse build() {
-        ch.epfl.dedis.proto.LleapProto.GetValueResponse result = buildPartial();
+      public ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse build() {
+        ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public ch.epfl.dedis.proto.LleapProto.GetValueResponse buildPartial() {
-        ch.epfl.dedis.proto.LleapProto.GetValueResponse result = new ch.epfl.dedis.proto.LleapProto.GetValueResponse(this);
+      public ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse buildPartial() {
+        ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse result = new ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -5080,15 +4990,11 @@ public final class LleapProto {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.value_ = value_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
+        if (keyBlockBuilder_ == null) {
+          result.keyBlock_ = keyBlock_;
+        } else {
+          result.keyBlock_ = keyBlockBuilder_.build();
         }
-        result.signature_ = signature_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.proof_ = proof_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5121,27 +5027,21 @@ public final class LleapProto {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof ch.epfl.dedis.proto.LleapProto.GetValueResponse) {
-          return mergeFrom((ch.epfl.dedis.proto.LleapProto.GetValueResponse)other);
+        if (other instanceof ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse) {
+          return mergeFrom((ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(ch.epfl.dedis.proto.LleapProto.GetValueResponse other) {
-        if (other == ch.epfl.dedis.proto.LleapProto.GetValueResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse other) {
+        if (other == ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse.getDefaultInstance()) return this;
         if (other.hasVersion()) {
           setVersion(other.getVersion());
         }
-        if (other.hasValue()) {
-          setValue(other.getValue());
-        }
-        if (other.hasSignature()) {
-          setSignature(other.getSignature());
-        }
-        if (other.hasProof()) {
-          setProof(other.getProof());
+        if (other.hasKeyBlock()) {
+          mergeKeyBlock(other.getKeyBlock());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5152,6 +5052,12 @@ public final class LleapProto {
         if (!hasVersion()) {
           return false;
         }
+        if (!hasKeyBlock()) {
+          return false;
+        }
+        if (!getKeyBlock().isInitialized()) {
+          return false;
+        }
         return true;
       }
 
@@ -5159,11 +5065,11 @@ public final class LleapProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        ch.epfl.dedis.proto.LleapProto.GetValueResponse parsedMessage = null;
+        ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (ch.epfl.dedis.proto.LleapProto.GetValueResponse) e.getUnfinishedMessage();
+          parsedMessage = (ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -5177,7 +5083,7 @@ public final class LleapProto {
       private int version_ ;
       /**
        * <pre>
-       * 	Version of the protocol
+       * Version of the protocol
        * </pre>
        *
        * <code>required sint32 version = 1;</code>
@@ -5187,7 +5093,7 @@ public final class LleapProto {
       }
       /**
        * <pre>
-       * 	Version of the protocol
+       * Version of the protocol
        * </pre>
        *
        * <code>required sint32 version = 1;</code>
@@ -5197,7 +5103,7 @@ public final class LleapProto {
       }
       /**
        * <pre>
-       * 	Version of the protocol
+       * Version of the protocol
        * </pre>
        *
        * <code>required sint32 version = 1;</code>
@@ -5210,7 +5116,7 @@ public final class LleapProto {
       }
       /**
        * <pre>
-       * 	Version of the protocol
+       * Version of the protocol
        * </pre>
        *
        * <code>required sint32 version = 1;</code>
@@ -5222,157 +5128,158 @@ public final class LleapProto {
         return this;
       }
 
-      private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
+      private ch.epfl.dedis.proto.SkipBlockProto.SkipBlock keyBlock_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ch.epfl.dedis.proto.SkipBlockProto.SkipBlock, ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder, ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder> keyBlockBuilder_;
       /**
        * <pre>
-       * 	 Value of the key
+       * The skipblock where the key/value pair has been stored.
        * </pre>
        *
-       * <code>optional bytes value = 2;</code>
+       * <code>required .SkipBlock keyBlock = 2;</code>
        */
-      public boolean hasValue() {
+      public boolean hasKeyBlock() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <pre>
-       * 	 Value of the key
+       * The skipblock where the key/value pair has been stored.
        * </pre>
        *
-       * <code>optional bytes value = 2;</code>
+       * <code>required .SkipBlock keyBlock = 2;</code>
        */
-      public com.google.protobuf.ByteString getValue() {
-        return value_;
+      public ch.epfl.dedis.proto.SkipBlockProto.SkipBlock getKeyBlock() {
+        if (keyBlockBuilder_ == null) {
+          return keyBlock_ == null ? ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : keyBlock_;
+        } else {
+          return keyBlockBuilder_.getMessage();
+        }
       }
       /**
        * <pre>
-       * 	 Value of the key
+       * The skipblock where the key/value pair has been stored.
        * </pre>
        *
-       * <code>optional bytes value = 2;</code>
+       * <code>required .SkipBlock keyBlock = 2;</code>
        */
-      public Builder setValue(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        value_ = value;
-        onChanged();
+      public Builder setKeyBlock(ch.epfl.dedis.proto.SkipBlockProto.SkipBlock value) {
+        if (keyBlockBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          keyBlock_ = value;
+          onChanged();
+        } else {
+          keyBlockBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
         return this;
       }
       /**
        * <pre>
-       * 	 Value of the key
+       * The skipblock where the key/value pair has been stored.
        * </pre>
        *
-       * <code>optional bytes value = 2;</code>
+       * <code>required .SkipBlock keyBlock = 2;</code>
        */
-      public Builder clearValue() {
+      public Builder setKeyBlock(
+          ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder builderForValue) {
+        if (keyBlockBuilder_ == null) {
+          keyBlock_ = builderForValue.build();
+          onChanged();
+        } else {
+          keyBlockBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <pre>
+       * The skipblock where the key/value pair has been stored.
+       * </pre>
+       *
+       * <code>required .SkipBlock keyBlock = 2;</code>
+       */
+      public Builder mergeKeyBlock(ch.epfl.dedis.proto.SkipBlockProto.SkipBlock value) {
+        if (keyBlockBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              keyBlock_ != null &&
+              keyBlock_ != ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance()) {
+            keyBlock_ =
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.newBuilder(keyBlock_).mergeFrom(value).buildPartial();
+          } else {
+            keyBlock_ = value;
+          }
+          onChanged();
+        } else {
+          keyBlockBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <pre>
+       * The skipblock where the key/value pair has been stored.
+       * </pre>
+       *
+       * <code>required .SkipBlock keyBlock = 2;</code>
+       */
+      public Builder clearKeyBlock() {
+        if (keyBlockBuilder_ == null) {
+          keyBlock_ = null;
+          onChanged();
+        } else {
+          keyBlockBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000002);
-        value_ = getDefaultInstance().getValue();
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.ByteString signature_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <pre>
-       * 	 Signature as sent when the value was stored
-       * </pre>
-       *
-       * <code>optional bytes signature = 3;</code>
-       */
-      public boolean hasSignature() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <pre>
-       * 	 Signature as sent when the value was stored
-       * </pre>
-       *
-       * <code>optional bytes signature = 3;</code>
-       */
-      public com.google.protobuf.ByteString getSignature() {
-        return signature_;
-      }
-      /**
-       * <pre>
-       * 	 Signature as sent when the value was stored
-       * </pre>
-       *
-       * <code>optional bytes signature = 3;</code>
-       */
-      public Builder setSignature(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        signature_ = value;
-        onChanged();
         return this;
       }
       /**
        * <pre>
-       * 	 Signature as sent when the value was stored
+       * The skipblock where the key/value pair has been stored.
        * </pre>
        *
-       * <code>optional bytes signature = 3;</code>
+       * <code>required .SkipBlock keyBlock = 2;</code>
        */
-      public Builder clearSignature() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        signature_ = getDefaultInstance().getSignature();
+      public ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder getKeyBlockBuilder() {
+        bitField0_ |= 0x00000002;
         onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.ByteString proof_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <pre>
-       * 	 Proof the value is correct
-       * </pre>
-       *
-       * <code>optional bytes proof = 4;</code>
-       */
-      public boolean hasProof() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return getKeyBlockFieldBuilder().getBuilder();
       }
       /**
        * <pre>
-       * 	 Proof the value is correct
+       * The skipblock where the key/value pair has been stored.
        * </pre>
        *
-       * <code>optional bytes proof = 4;</code>
+       * <code>required .SkipBlock keyBlock = 2;</code>
        */
-      public com.google.protobuf.ByteString getProof() {
-        return proof_;
+      public ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder getKeyBlockOrBuilder() {
+        if (keyBlockBuilder_ != null) {
+          return keyBlockBuilder_.getMessageOrBuilder();
+        } else {
+          return keyBlock_ == null ?
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : keyBlock_;
+        }
       }
       /**
        * <pre>
-       * 	 Proof the value is correct
+       * The skipblock where the key/value pair has been stored.
        * </pre>
        *
-       * <code>optional bytes proof = 4;</code>
+       * <code>required .SkipBlock keyBlock = 2;</code>
        */
-      public Builder setProof(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        proof_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * 	 Proof the value is correct
-       * </pre>
-       *
-       * <code>optional bytes proof = 4;</code>
-       */
-      public Builder clearProof() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        proof_ = getDefaultInstance().getProof();
-        onChanged();
-        return this;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ch.epfl.dedis.proto.SkipBlockProto.SkipBlock, ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder, ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder> 
+          getKeyBlockFieldBuilder() {
+        if (keyBlockBuilder_ == null) {
+          keyBlockBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock, ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder, ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder>(
+                  getKeyBlock(),
+                  getParentForChildren(),
+                  isClean());
+          keyBlock_ = null;
+        }
+        return keyBlockBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5385,39 +5292,39 @@ public final class LleapProto {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:GetValueResponse)
+      // @@protoc_insertion_point(builder_scope:GetKeyBlockResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:GetValueResponse)
-    private static final ch.epfl.dedis.proto.LleapProto.GetValueResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:GetKeyBlockResponse)
+    private static final ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new ch.epfl.dedis.proto.LleapProto.GetValueResponse();
+      DEFAULT_INSTANCE = new ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse();
     }
 
-    public static ch.epfl.dedis.proto.LleapProto.GetValueResponse getDefaultInstance() {
+    public static ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<GetValueResponse>
-        PARSER = new com.google.protobuf.AbstractParser<GetValueResponse>() {
-      public GetValueResponse parsePartialFrom(
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<GetKeyBlockResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetKeyBlockResponse>() {
+      public GetKeyBlockResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetValueResponse(input, extensionRegistry);
+          return new GetKeyBlockResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<GetValueResponse> parser() {
+    public static com.google.protobuf.Parser<GetKeyBlockResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<GetValueResponse> getParserForType() {
+    public com.google.protobuf.Parser<GetKeyBlockResponse> getParserForType() {
       return PARSER;
     }
 
-    public ch.epfl.dedis.proto.LleapProto.GetValueResponse getDefaultInstanceForType() {
+    public ch.epfl.dedis.proto.LleapProto.GetKeyBlockResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -5444,15 +5351,15 @@ public final class LleapProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_SetKeyValueResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_GetValue_descriptor;
+    internal_static_GetKeyBlock_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_GetValue_fieldAccessorTable;
+      internal_static_GetKeyBlock_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_GetValueResponse_descriptor;
+    internal_static_GetKeyBlockResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_GetValueResponse_fieldAccessorTable;
+      internal_static_GetKeyBlockResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5471,12 +5378,12 @@ public final class LleapProto {
       "on\030\001 \002(\021\022\023\n\013skipchainid\030\002 \002(\014\022\013\n\003key\030\003 \002" +
       "(\014\022\r\n\005value\030\004 \002(\014\022\021\n\tsignature\030\005 \002(\014\"N\n\023" +
       "SetKeyValueResponse\022\017\n\007version\030\001 \002(\021\022\021\n\t" +
-      "timestamp\030\002 \001(\022\022\023\n\013skipblockid\030\003 \001(\014\"=\n\010",
-      "GetValue\022\017\n\007version\030\001 \002(\021\022\023\n\013skipchainid" +
-      "\030\002 \002(\014\022\013\n\003key\030\003 \002(\014\"T\n\020GetValueResponse\022" +
-      "\017\n\007version\030\001 \002(\021\022\r\n\005value\030\002 \001(\014\022\021\n\tsigna" +
-      "ture\030\003 \001(\014\022\r\n\005proof\030\004 \001(\014B!\n\023ch.epfl.ded" +
-      "is.protoB\nLleapProto"
+      "timestamp\030\002 \001(\022\022\023\n\013skipblockid\030\003 \001(\014\"@\n\013",
+      "GetKeyBlock\022\017\n\007version\030\001 \002(\021\022\023\n\013skipchai" +
+      "nid\030\002 \002(\014\022\013\n\003key\030\003 \002(\014\"D\n\023GetKeyBlockRes" +
+      "ponse\022\017\n\007version\030\001 \002(\021\022\034\n\010keyBlock\030\002 \002(\013" +
+      "2\n.SkipBlockB!\n\023ch.epfl.dedis.protoB\nLle" +
+      "apProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5516,18 +5423,18 @@ public final class LleapProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SetKeyValueResponse_descriptor,
         new java.lang.String[] { "Version", "Timestamp", "Skipblockid", });
-    internal_static_GetValue_descriptor =
+    internal_static_GetKeyBlock_descriptor =
       getDescriptor().getMessageTypes().get(4);
-    internal_static_GetValue_fieldAccessorTable = new
+    internal_static_GetKeyBlock_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_GetValue_descriptor,
+        internal_static_GetKeyBlock_descriptor,
         new java.lang.String[] { "Version", "Skipchainid", "Key", });
-    internal_static_GetValueResponse_descriptor =
+    internal_static_GetKeyBlockResponse_descriptor =
       getDescriptor().getMessageTypes().get(5);
-    internal_static_GetValueResponse_fieldAccessorTable = new
+    internal_static_GetKeyBlockResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_GetValueResponse_descriptor,
-        new java.lang.String[] { "Version", "Value", "Signature", "Proof", });
+        internal_static_GetKeyBlockResponse_descriptor,
+        new java.lang.String[] { "Version", "KeyBlock", });
     ch.epfl.dedis.proto.SkipBlockProto.getDescriptor();
     ch.epfl.dedis.proto.RosterProto.getDescriptor();
   }
