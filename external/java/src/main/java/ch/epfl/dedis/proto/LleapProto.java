@@ -134,6 +134,9 @@ public final class LleapProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1120,7 +1123,7 @@ public final class LleapProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateSkipchain(input, extensionRegistry);
+        return new CreateSkipchain(input, extensionRegistry);
       }
     };
 
@@ -1215,6 +1218,9 @@ public final class LleapProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1914,7 +1920,7 @@ public final class LleapProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateSkipchainResponse(input, extensionRegistry);
+        return new CreateSkipchainResponse(input, extensionRegistry);
       }
     };
 
@@ -2059,6 +2065,9 @@ public final class LleapProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2964,7 +2973,7 @@ public final class LleapProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SetKeyValue(input, extensionRegistry);
+        return new SetKeyValue(input, extensionRegistry);
       }
     };
 
@@ -3070,6 +3079,9 @@ public final class LleapProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3730,7 +3742,7 @@ public final class LleapProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SetKeyValueResponse(input, extensionRegistry);
+        return new SetKeyValueResponse(input, extensionRegistry);
       }
     };
 
@@ -3837,6 +3849,9 @@ public final class LleapProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4514,7 +4529,7 @@ public final class LleapProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetValue(input, extensionRegistry);
+        return new GetValue(input, extensionRegistry);
       }
     };
 
@@ -4556,54 +4571,53 @@ public final class LleapProto {
 
     /**
      * <pre>
-     * 	 Value of the key
+     * 	 SkipBlock is the data structure that holds the key/value pair
      * </pre>
      *
-     * <code>optional bytes value = 2;</code>
+     * <code>required .SkipBlock skipblock = 2;</code>
      */
-    boolean hasValue();
+    boolean hasSkipblock();
     /**
      * <pre>
-     * 	 Value of the key
+     * 	 SkipBlock is the data structure that holds the key/value pair
      * </pre>
      *
-     * <code>optional bytes value = 2;</code>
+     * <code>required .SkipBlock skipblock = 2;</code>
      */
-    com.google.protobuf.ByteString getValue();
+    ch.epfl.dedis.proto.SkipBlockProto.SkipBlock getSkipblock();
+    /**
+     * <pre>
+     * 	 SkipBlock is the data structure that holds the key/value pair
+     * </pre>
+     *
+     * <code>required .SkipBlock skipblock = 2;</code>
+     */
+    ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder getSkipblockOrBuilder();
 
     /**
      * <pre>
-     * 	 Signature as sent when the value was stored
+     * 	 ForwardLink is a signature that signs of SkipBlock
      * </pre>
      *
-     * <code>optional bytes signature = 3;</code>
+     * <code>required .ForwardLink forwardlink = 3;</code>
      */
-    boolean hasSignature();
+    boolean hasForwardlink();
     /**
      * <pre>
-     * 	 Signature as sent when the value was stored
+     * 	 ForwardLink is a signature that signs of SkipBlock
      * </pre>
      *
-     * <code>optional bytes signature = 3;</code>
+     * <code>required .ForwardLink forwardlink = 3;</code>
      */
-    com.google.protobuf.ByteString getSignature();
-
+    ch.epfl.dedis.proto.SkipBlockProto.ForwardLink getForwardlink();
     /**
      * <pre>
-     * 	 Proof the value is correct
+     * 	 ForwardLink is a signature that signs of SkipBlock
      * </pre>
      *
-     * <code>optional bytes proof = 4;</code>
+     * <code>required .ForwardLink forwardlink = 3;</code>
      */
-    boolean hasProof();
-    /**
-     * <pre>
-     * 	 Proof the value is correct
-     * </pre>
-     *
-     * <code>optional bytes proof = 4;</code>
-     */
-    com.google.protobuf.ByteString getProof();
+    ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder getForwardlinkOrBuilder();
   }
   /**
    * <pre>
@@ -4623,9 +4637,6 @@ public final class LleapProto {
     }
     private GetValueResponse() {
       version_ = 0;
-      value_ = com.google.protobuf.ByteString.EMPTY;
-      signature_ = com.google.protobuf.ByteString.EMPTY;
-      proof_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -4638,6 +4649,9 @@ public final class LleapProto {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4662,18 +4676,29 @@ public final class LleapProto {
               break;
             }
             case 18: {
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = skipblock_.toBuilder();
+              }
+              skipblock_ = input.readMessage(ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(skipblock_);
+                skipblock_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000002;
-              value_ = input.readBytes();
               break;
             }
             case 26: {
+              ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = forwardlink_.toBuilder();
+              }
+              forwardlink_ = input.readMessage(ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(forwardlink_);
+                forwardlink_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000004;
-              signature_ = input.readBytes();
-              break;
-            }
-            case 34: {
-              bitField0_ |= 0x00000008;
-              proof_ = input.readBytes();
               break;
             }
           }
@@ -4724,73 +4749,70 @@ public final class LleapProto {
       return version_;
     }
 
-    public static final int VALUE_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString value_;
+    public static final int SKIPBLOCK_FIELD_NUMBER = 2;
+    private ch.epfl.dedis.proto.SkipBlockProto.SkipBlock skipblock_;
     /**
      * <pre>
-     * 	 Value of the key
+     * 	 SkipBlock is the data structure that holds the key/value pair
      * </pre>
      *
-     * <code>optional bytes value = 2;</code>
+     * <code>required .SkipBlock skipblock = 2;</code>
      */
-    public boolean hasValue() {
+    public boolean hasSkipblock() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <pre>
-     * 	 Value of the key
+     * 	 SkipBlock is the data structure that holds the key/value pair
      * </pre>
      *
-     * <code>optional bytes value = 2;</code>
+     * <code>required .SkipBlock skipblock = 2;</code>
      */
-    public com.google.protobuf.ByteString getValue() {
-      return value_;
+    public ch.epfl.dedis.proto.SkipBlockProto.SkipBlock getSkipblock() {
+      return skipblock_ == null ? ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : skipblock_;
     }
-
-    public static final int SIGNATURE_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString signature_;
     /**
      * <pre>
-     * 	 Signature as sent when the value was stored
+     * 	 SkipBlock is the data structure that holds the key/value pair
      * </pre>
      *
-     * <code>optional bytes signature = 3;</code>
+     * <code>required .SkipBlock skipblock = 2;</code>
      */
-    public boolean hasSignature() {
+    public ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder getSkipblockOrBuilder() {
+      return skipblock_ == null ? ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : skipblock_;
+    }
+
+    public static final int FORWARDLINK_FIELD_NUMBER = 3;
+    private ch.epfl.dedis.proto.SkipBlockProto.ForwardLink forwardlink_;
+    /**
+     * <pre>
+     * 	 ForwardLink is a signature that signs of SkipBlock
+     * </pre>
+     *
+     * <code>required .ForwardLink forwardlink = 3;</code>
+     */
+    public boolean hasForwardlink() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <pre>
-     * 	 Signature as sent when the value was stored
+     * 	 ForwardLink is a signature that signs of SkipBlock
      * </pre>
      *
-     * <code>optional bytes signature = 3;</code>
+     * <code>required .ForwardLink forwardlink = 3;</code>
      */
-    public com.google.protobuf.ByteString getSignature() {
-      return signature_;
-    }
-
-    public static final int PROOF_FIELD_NUMBER = 4;
-    private com.google.protobuf.ByteString proof_;
-    /**
-     * <pre>
-     * 	 Proof the value is correct
-     * </pre>
-     *
-     * <code>optional bytes proof = 4;</code>
-     */
-    public boolean hasProof() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+    public ch.epfl.dedis.proto.SkipBlockProto.ForwardLink getForwardlink() {
+      return forwardlink_ == null ? ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.getDefaultInstance() : forwardlink_;
     }
     /**
      * <pre>
-     * 	 Proof the value is correct
+     * 	 ForwardLink is a signature that signs of SkipBlock
      * </pre>
      *
-     * <code>optional bytes proof = 4;</code>
+     * <code>required .ForwardLink forwardlink = 3;</code>
      */
-    public com.google.protobuf.ByteString getProof() {
-      return proof_;
+    public ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder getForwardlinkOrBuilder() {
+      return forwardlink_ == null ? ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.getDefaultInstance() : forwardlink_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4800,6 +4822,22 @@ public final class LleapProto {
       if (isInitialized == 0) return false;
 
       if (!hasVersion()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSkipblock()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasForwardlink()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getSkipblock().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getForwardlink().isInitialized()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -4813,13 +4851,10 @@ public final class LleapProto {
         output.writeSInt32(1, version_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, value_);
+        output.writeMessage(2, getSkipblock());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, signature_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, proof_);
+        output.writeMessage(3, getForwardlink());
       }
       unknownFields.writeTo(output);
     }
@@ -4835,15 +4870,11 @@ public final class LleapProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, value_);
+          .computeMessageSize(2, getSkipblock());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, signature_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, proof_);
+          .computeMessageSize(3, getForwardlink());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4866,20 +4897,15 @@ public final class LleapProto {
         result = result && (getVersion()
             == other.getVersion());
       }
-      result = result && (hasValue() == other.hasValue());
-      if (hasValue()) {
-        result = result && getValue()
-            .equals(other.getValue());
+      result = result && (hasSkipblock() == other.hasSkipblock());
+      if (hasSkipblock()) {
+        result = result && getSkipblock()
+            .equals(other.getSkipblock());
       }
-      result = result && (hasSignature() == other.hasSignature());
-      if (hasSignature()) {
-        result = result && getSignature()
-            .equals(other.getSignature());
-      }
-      result = result && (hasProof() == other.hasProof());
-      if (hasProof()) {
-        result = result && getProof()
-            .equals(other.getProof());
+      result = result && (hasForwardlink() == other.hasForwardlink());
+      if (hasForwardlink()) {
+        result = result && getForwardlink()
+            .equals(other.getForwardlink());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -4896,17 +4922,13 @@ public final class LleapProto {
         hash = (37 * hash) + VERSION_FIELD_NUMBER;
         hash = (53 * hash) + getVersion();
       }
-      if (hasValue()) {
-        hash = (37 * hash) + VALUE_FIELD_NUMBER;
-        hash = (53 * hash) + getValue().hashCode();
+      if (hasSkipblock()) {
+        hash = (37 * hash) + SKIPBLOCK_FIELD_NUMBER;
+        hash = (53 * hash) + getSkipblock().hashCode();
       }
-      if (hasSignature()) {
-        hash = (37 * hash) + SIGNATURE_FIELD_NUMBER;
-        hash = (53 * hash) + getSignature().hashCode();
-      }
-      if (hasProof()) {
-        hash = (37 * hash) + PROOF_FIELD_NUMBER;
-        hash = (53 * hash) + getProof().hashCode();
+      if (hasForwardlink()) {
+        hash = (37 * hash) + FORWARDLINK_FIELD_NUMBER;
+        hash = (53 * hash) + getForwardlink().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -5037,18 +5059,26 @@ public final class LleapProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getSkipblockFieldBuilder();
+          getForwardlinkFieldBuilder();
         }
       }
       public Builder clear() {
         super.clear();
         version_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = com.google.protobuf.ByteString.EMPTY;
+        if (skipblockBuilder_ == null) {
+          skipblock_ = null;
+        } else {
+          skipblockBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000002);
-        signature_ = com.google.protobuf.ByteString.EMPTY;
+        if (forwardlinkBuilder_ == null) {
+          forwardlink_ = null;
+        } else {
+          forwardlinkBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000004);
-        proof_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -5080,15 +5110,19 @@ public final class LleapProto {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.value_ = value_;
+        if (skipblockBuilder_ == null) {
+          result.skipblock_ = skipblock_;
+        } else {
+          result.skipblock_ = skipblockBuilder_.build();
+        }
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.signature_ = signature_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
+        if (forwardlinkBuilder_ == null) {
+          result.forwardlink_ = forwardlink_;
+        } else {
+          result.forwardlink_ = forwardlinkBuilder_.build();
         }
-        result.proof_ = proof_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5134,14 +5168,11 @@ public final class LleapProto {
         if (other.hasVersion()) {
           setVersion(other.getVersion());
         }
-        if (other.hasValue()) {
-          setValue(other.getValue());
+        if (other.hasSkipblock()) {
+          mergeSkipblock(other.getSkipblock());
         }
-        if (other.hasSignature()) {
-          setSignature(other.getSignature());
-        }
-        if (other.hasProof()) {
-          setProof(other.getProof());
+        if (other.hasForwardlink()) {
+          mergeForwardlink(other.getForwardlink());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5150,6 +5181,18 @@ public final class LleapProto {
 
       public final boolean isInitialized() {
         if (!hasVersion()) {
+          return false;
+        }
+        if (!hasSkipblock()) {
+          return false;
+        }
+        if (!hasForwardlink()) {
+          return false;
+        }
+        if (!getSkipblock().isInitialized()) {
+          return false;
+        }
+        if (!getForwardlink().isInitialized()) {
           return false;
         }
         return true;
@@ -5222,157 +5265,312 @@ public final class LleapProto {
         return this;
       }
 
-      private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
+      private ch.epfl.dedis.proto.SkipBlockProto.SkipBlock skipblock_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ch.epfl.dedis.proto.SkipBlockProto.SkipBlock, ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder, ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder> skipblockBuilder_;
       /**
        * <pre>
-       * 	 Value of the key
+       * 	 SkipBlock is the data structure that holds the key/value pair
        * </pre>
        *
-       * <code>optional bytes value = 2;</code>
+       * <code>required .SkipBlock skipblock = 2;</code>
        */
-      public boolean hasValue() {
+      public boolean hasSkipblock() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <pre>
-       * 	 Value of the key
+       * 	 SkipBlock is the data structure that holds the key/value pair
        * </pre>
        *
-       * <code>optional bytes value = 2;</code>
+       * <code>required .SkipBlock skipblock = 2;</code>
        */
-      public com.google.protobuf.ByteString getValue() {
-        return value_;
+      public ch.epfl.dedis.proto.SkipBlockProto.SkipBlock getSkipblock() {
+        if (skipblockBuilder_ == null) {
+          return skipblock_ == null ? ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : skipblock_;
+        } else {
+          return skipblockBuilder_.getMessage();
+        }
       }
       /**
        * <pre>
-       * 	 Value of the key
+       * 	 SkipBlock is the data structure that holds the key/value pair
        * </pre>
        *
-       * <code>optional bytes value = 2;</code>
+       * <code>required .SkipBlock skipblock = 2;</code>
        */
-      public Builder setValue(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        value_ = value;
-        onChanged();
+      public Builder setSkipblock(ch.epfl.dedis.proto.SkipBlockProto.SkipBlock value) {
+        if (skipblockBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          skipblock_ = value;
+          onChanged();
+        } else {
+          skipblockBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
         return this;
       }
       /**
        * <pre>
-       * 	 Value of the key
+       * 	 SkipBlock is the data structure that holds the key/value pair
        * </pre>
        *
-       * <code>optional bytes value = 2;</code>
+       * <code>required .SkipBlock skipblock = 2;</code>
        */
-      public Builder clearValue() {
+      public Builder setSkipblock(
+          ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder builderForValue) {
+        if (skipblockBuilder_ == null) {
+          skipblock_ = builderForValue.build();
+          onChanged();
+        } else {
+          skipblockBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <pre>
+       * 	 SkipBlock is the data structure that holds the key/value pair
+       * </pre>
+       *
+       * <code>required .SkipBlock skipblock = 2;</code>
+       */
+      public Builder mergeSkipblock(ch.epfl.dedis.proto.SkipBlockProto.SkipBlock value) {
+        if (skipblockBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              skipblock_ != null &&
+              skipblock_ != ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance()) {
+            skipblock_ =
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.newBuilder(skipblock_).mergeFrom(value).buildPartial();
+          } else {
+            skipblock_ = value;
+          }
+          onChanged();
+        } else {
+          skipblockBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <pre>
+       * 	 SkipBlock is the data structure that holds the key/value pair
+       * </pre>
+       *
+       * <code>required .SkipBlock skipblock = 2;</code>
+       */
+      public Builder clearSkipblock() {
+        if (skipblockBuilder_ == null) {
+          skipblock_ = null;
+          onChanged();
+        } else {
+          skipblockBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000002);
-        value_ = getDefaultInstance().getValue();
-        onChanged();
         return this;
+      }
+      /**
+       * <pre>
+       * 	 SkipBlock is the data structure that holds the key/value pair
+       * </pre>
+       *
+       * <code>required .SkipBlock skipblock = 2;</code>
+       */
+      public ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder getSkipblockBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getSkipblockFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * 	 SkipBlock is the data structure that holds the key/value pair
+       * </pre>
+       *
+       * <code>required .SkipBlock skipblock = 2;</code>
+       */
+      public ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder getSkipblockOrBuilder() {
+        if (skipblockBuilder_ != null) {
+          return skipblockBuilder_.getMessageOrBuilder();
+        } else {
+          return skipblock_ == null ?
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.getDefaultInstance() : skipblock_;
+        }
+      }
+      /**
+       * <pre>
+       * 	 SkipBlock is the data structure that holds the key/value pair
+       * </pre>
+       *
+       * <code>required .SkipBlock skipblock = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ch.epfl.dedis.proto.SkipBlockProto.SkipBlock, ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder, ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder> 
+          getSkipblockFieldBuilder() {
+        if (skipblockBuilder_ == null) {
+          skipblockBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ch.epfl.dedis.proto.SkipBlockProto.SkipBlock, ch.epfl.dedis.proto.SkipBlockProto.SkipBlock.Builder, ch.epfl.dedis.proto.SkipBlockProto.SkipBlockOrBuilder>(
+                  getSkipblock(),
+                  getParentForChildren(),
+                  isClean());
+          skipblock_ = null;
+        }
+        return skipblockBuilder_;
       }
 
-      private com.google.protobuf.ByteString signature_ = com.google.protobuf.ByteString.EMPTY;
+      private ch.epfl.dedis.proto.SkipBlockProto.ForwardLink forwardlink_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ch.epfl.dedis.proto.SkipBlockProto.ForwardLink, ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder, ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder> forwardlinkBuilder_;
       /**
        * <pre>
-       * 	 Signature as sent when the value was stored
+       * 	 ForwardLink is a signature that signs of SkipBlock
        * </pre>
        *
-       * <code>optional bytes signature = 3;</code>
+       * <code>required .ForwardLink forwardlink = 3;</code>
        */
-      public boolean hasSignature() {
+      public boolean hasForwardlink() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <pre>
-       * 	 Signature as sent when the value was stored
+       * 	 ForwardLink is a signature that signs of SkipBlock
        * </pre>
        *
-       * <code>optional bytes signature = 3;</code>
+       * <code>required .ForwardLink forwardlink = 3;</code>
        */
-      public com.google.protobuf.ByteString getSignature() {
-        return signature_;
+      public ch.epfl.dedis.proto.SkipBlockProto.ForwardLink getForwardlink() {
+        if (forwardlinkBuilder_ == null) {
+          return forwardlink_ == null ? ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.getDefaultInstance() : forwardlink_;
+        } else {
+          return forwardlinkBuilder_.getMessage();
+        }
       }
       /**
        * <pre>
-       * 	 Signature as sent when the value was stored
+       * 	 ForwardLink is a signature that signs of SkipBlock
        * </pre>
        *
-       * <code>optional bytes signature = 3;</code>
+       * <code>required .ForwardLink forwardlink = 3;</code>
        */
-      public Builder setSignature(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        signature_ = value;
-        onChanged();
+      public Builder setForwardlink(ch.epfl.dedis.proto.SkipBlockProto.ForwardLink value) {
+        if (forwardlinkBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          forwardlink_ = value;
+          onChanged();
+        } else {
+          forwardlinkBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
        * <pre>
-       * 	 Signature as sent when the value was stored
+       * 	 ForwardLink is a signature that signs of SkipBlock
        * </pre>
        *
-       * <code>optional bytes signature = 3;</code>
+       * <code>required .ForwardLink forwardlink = 3;</code>
        */
-      public Builder clearSignature() {
+      public Builder setForwardlink(
+          ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder builderForValue) {
+        if (forwardlinkBuilder_ == null) {
+          forwardlink_ = builderForValue.build();
+          onChanged();
+        } else {
+          forwardlinkBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <pre>
+       * 	 ForwardLink is a signature that signs of SkipBlock
+       * </pre>
+       *
+       * <code>required .ForwardLink forwardlink = 3;</code>
+       */
+      public Builder mergeForwardlink(ch.epfl.dedis.proto.SkipBlockProto.ForwardLink value) {
+        if (forwardlinkBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              forwardlink_ != null &&
+              forwardlink_ != ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.getDefaultInstance()) {
+            forwardlink_ =
+              ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.newBuilder(forwardlink_).mergeFrom(value).buildPartial();
+          } else {
+            forwardlink_ = value;
+          }
+          onChanged();
+        } else {
+          forwardlinkBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <pre>
+       * 	 ForwardLink is a signature that signs of SkipBlock
+       * </pre>
+       *
+       * <code>required .ForwardLink forwardlink = 3;</code>
+       */
+      public Builder clearForwardlink() {
+        if (forwardlinkBuilder_ == null) {
+          forwardlink_ = null;
+          onChanged();
+        } else {
+          forwardlinkBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000004);
-        signature_ = getDefaultInstance().getSignature();
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.ByteString proof_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <pre>
-       * 	 Proof the value is correct
-       * </pre>
-       *
-       * <code>optional bytes proof = 4;</code>
-       */
-      public boolean hasProof() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <pre>
-       * 	 Proof the value is correct
-       * </pre>
-       *
-       * <code>optional bytes proof = 4;</code>
-       */
-      public com.google.protobuf.ByteString getProof() {
-        return proof_;
-      }
-      /**
-       * <pre>
-       * 	 Proof the value is correct
-       * </pre>
-       *
-       * <code>optional bytes proof = 4;</code>
-       */
-      public Builder setProof(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        proof_ = value;
-        onChanged();
         return this;
       }
       /**
        * <pre>
-       * 	 Proof the value is correct
+       * 	 ForwardLink is a signature that signs of SkipBlock
        * </pre>
        *
-       * <code>optional bytes proof = 4;</code>
+       * <code>required .ForwardLink forwardlink = 3;</code>
        */
-      public Builder clearProof() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        proof_ = getDefaultInstance().getProof();
+      public ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder getForwardlinkBuilder() {
+        bitField0_ |= 0x00000004;
         onChanged();
-        return this;
+        return getForwardlinkFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * 	 ForwardLink is a signature that signs of SkipBlock
+       * </pre>
+       *
+       * <code>required .ForwardLink forwardlink = 3;</code>
+       */
+      public ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder getForwardlinkOrBuilder() {
+        if (forwardlinkBuilder_ != null) {
+          return forwardlinkBuilder_.getMessageOrBuilder();
+        } else {
+          return forwardlink_ == null ?
+              ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.getDefaultInstance() : forwardlink_;
+        }
+      }
+      /**
+       * <pre>
+       * 	 ForwardLink is a signature that signs of SkipBlock
+       * </pre>
+       *
+       * <code>required .ForwardLink forwardlink = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ch.epfl.dedis.proto.SkipBlockProto.ForwardLink, ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder, ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder> 
+          getForwardlinkFieldBuilder() {
+        if (forwardlinkBuilder_ == null) {
+          forwardlinkBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ch.epfl.dedis.proto.SkipBlockProto.ForwardLink, ch.epfl.dedis.proto.SkipBlockProto.ForwardLink.Builder, ch.epfl.dedis.proto.SkipBlockProto.ForwardLinkOrBuilder>(
+                  getForwardlink(),
+                  getParentForChildren(),
+                  isClean());
+          forwardlink_ = null;
+        }
+        return forwardlinkBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5404,7 +5602,7 @@ public final class LleapProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetValueResponse(input, extensionRegistry);
+        return new GetValueResponse(input, extensionRegistry);
       }
     };
 
@@ -5471,12 +5669,12 @@ public final class LleapProto {
       "on\030\001 \002(\021\022\023\n\013skipchainid\030\002 \002(\014\022\013\n\003key\030\003 \002" +
       "(\014\022\r\n\005value\030\004 \002(\014\022\021\n\tsignature\030\005 \002(\014\"N\n\023" +
       "SetKeyValueResponse\022\017\n\007version\030\001 \002(\021\022\021\n\t" +
-      "timestamp\030\002 \001(\022\022\023\n\013skipblockid\030\003 \001(\014\"=\n\010",
+      "timestamp\030\002 \001(\022\022\023\n\013skipblockid\030\003 \001(\014\"=\n\010" +
       "GetValue\022\017\n\007version\030\001 \002(\021\022\023\n\013skipchainid" +
-      "\030\002 \002(\014\022\013\n\003key\030\003 \002(\014\"T\n\020GetValueResponse\022" +
-      "\017\n\007version\030\001 \002(\021\022\r\n\005value\030\002 \001(\014\022\021\n\tsigna" +
-      "ture\030\003 \001(\014\022\r\n\005proof\030\004 \001(\014B!\n\023ch.epfl.ded" +
-      "is.protoB\nLleapProto"
+      "\030\002 \002(\014\022\013\n\003key\030\003 \002(\014\"e\n\020GetValueResponse\022" +
+      "\017\n\007version\030\001 \002(\021\022\035\n\tskipblock\030\002 \002(\0132\n.Sk" +
+      "ipBlock\022!\n\013forwardlink\030\003 \002(\0132\014.ForwardLi" +
+      "nkB!\n\023ch.epfl.dedis.protoB\nLleapProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5527,7 +5725,7 @@ public final class LleapProto {
     internal_static_GetValueResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetValueResponse_descriptor,
-        new java.lang.String[] { "Version", "Value", "Signature", "Proof", });
+        new java.lang.String[] { "Version", "Skipblock", "Forwardlink", });
     ch.epfl.dedis.proto.SkipBlockProto.getDescriptor();
     ch.epfl.dedis.proto.RosterProto.getDescriptor();
   }

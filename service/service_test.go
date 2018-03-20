@@ -67,7 +67,9 @@ func TestService_GetValue(t *testing.T) {
 		Key:         s.key,
 	})
 	require.Nil(t, err)
-	require.Equal(t, s.value, *rep.Value)
+	v, err := getValueFromBlock(&rep.SkipBlock)
+	require.Nil(t, err)
+	require.Equal(t, s.value, v)
 }
 
 type ser struct {

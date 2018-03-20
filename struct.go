@@ -104,10 +104,8 @@ type GetValue struct {
 type GetValueResponse struct {
 	//Version of the protocol
 	Version Version
-	// Value of the key
-	Value *[]byte
-	// Signature as sent when the value was stored
-	Signature *[]byte
-	// Proof the value is correct
-	Proof *[]byte
+	// SkipBlock is the data structure that holds the key/value pair
+	SkipBlock skipchain.SkipBlock
+	// ForwardLink is a signature that signs of SkipBlock
+	ForwardLink skipchain.ForwardLink
 }

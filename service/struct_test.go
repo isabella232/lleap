@@ -9,9 +9,12 @@ import (
 
 	bolt "github.com/coreos/bbolt"
 	"github.com/dedis/cothority"
+	"github.com/dedis/cothority/identity"
+	"github.com/dedis/cothority/skipchain"
 	"github.com/dedis/lleap"
 	"github.com/dedis/onet"
 	"github.com/dedis/onet/log"
+	"github.com/dedis/onet/network"
 	"github.com/stretchr/testify/require"
 )
 
@@ -128,7 +131,9 @@ func TestService_Store(t *testing.T) {
 			Key:         []byte(key),
 		})
 		require.Nil(t, err)
-		require.Equal(t, 0, bytes.Compare(value, *gvResp.Value))
+		v, err := getValueFromBlock(&gvResp.SkipBlock)
+		require.Nil(t, err)
+		require.Equal(t, 0, bytes.Compare(value, v))
 	}
 
 	// Now read the key/values from a new service
@@ -144,6 +149,18 @@ func TestService_Store(t *testing.T) {
 			Key:         []byte(key),
 		})
 		require.Nil(t, err)
-		require.Equal(t, 0, bytes.Compare(value, *gvResp.Value))
+		v, err := getValueFromBlock(&gvResp.SkipBlock)
+		require.Nil(t, err)
+		require.Equal(t, 0, bytes.Compare(value, v))
 	}
+}
+
+func getValueFromBlock(sb *skipchain.SkipBlock) ([]byte, error) {
+	_, msg, err := network.Unmarshal(sb.Data, cothority.Suite)
+	if err != nil {
+		return nil, err
+	}
+
+	storage := msg.(*identity.Data).Storage
+	return []byte(storage[keyNewValue]), nil
 }

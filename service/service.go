@@ -12,6 +12,7 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/dedis/cothority"
 	"github.com/dedis/cothority/identity"
@@ -31,6 +32,8 @@ var lleapID onet.ServiceID
 const keyMerkleRoot = "merkleroot"
 const keyNewKey = "newkey"
 const keyNewValue = "newvalue"
+const keyNewSig = "newsig"
+const keyTimestamp = "timestamp"
 
 func init() {
 	var err error
@@ -80,7 +83,7 @@ func (s *Service) CreateSkipchain(req *lleap.CreateSkipchain) (*lleap.CreateSkip
 		Roster:    &req.Roster,
 	}
 
-	if len(*req.Writers) == 1 {
+	if req.Writers != nil && len(*req.Writers) == 1 {
 		data.Storage = map[string]string{"writer": string((*req.Writers)[0])}
 	}
 
@@ -117,7 +120,7 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 	if idb == nil || priv == nil {
 		return nil, errors.New("don't have this identity stored")
 	}
-	if pub := s.storage.Writers[gid]; pub != nil {
+	if pub := s.storage.Writers[gid]; len(pub) > 0 {
 		log.Lvl1("Verifying signature")
 		public, err := x509.ParsePKIXPublicKey(pub)
 		if err != nil || public == nil {
@@ -151,7 +154,9 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 	prop.Storage[keyMerkleRoot] = string(coll.RootHash())
 	prop.Storage[keyNewKey] = string(req.Key)
 	prop.Storage[keyNewValue] = string(req.Value)
-	// TODO: Should also store the signature.
+	prop.Storage[keyNewSig] = string(req.Signature)
+	timestamp := time.Now().Unix()
+	prop.Storage[keyTimestamp] = fmt.Sprintf("%d", timestamp)
 	_, err = s.idService().ProposeSend(&identity.ProposeSend{
 		ID:      identity.ID(req.SkipchainID),
 		Propose: prop,
@@ -179,7 +184,8 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 	if resp.Data == nil {
 		return nil, errors.New("couldn't store new skipblock")
 	}
-	timestamp := int64(resp.Data.Index)
+	idb.LatestSkipblock = resp.Data
+
 	return &lleap.SetKeyValueResponse{
 		Version:     lleap.CurrentVersion,
 		Timestamp:   &timestamp,
@@ -187,20 +193,35 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 	}, nil
 }
 
-// GetValue looks up the key in the given skipchain and returns the corresponding value.
+// GetValue looks up the key in the given skipchain and returns the
+// corresponding block containing the value.  The caller is responsible for
+// checking that the block is correct and the forward signature is valid.
 func (s *Service) GetValue(req *lleap.GetValue) (*lleap.GetValueResponse, error) {
 	if req.Version != lleap.CurrentVersion {
 		return nil, errors.New("version mismatch")
 	}
 
-	_, value, sig, err := s.getCollection(req.SkipchainID).GetValue(req.Key)
+	idx, _, _, err := s.getCollection(req.SkipchainID).GetValue(req.Key)
 	if err != nil {
 		return nil, errors.New("couldn't get value for key: " + err.Error())
 	}
+
+	gid := string(req.SkipchainID)
+	sb := s.storage.Identities[gid].LatestSkipblock
+	sbKV, err := skipchain.NewClient().GetSingleBlockByIndex(sb.Roster, sb.SkipChainID(), int(idx))
+	if err != nil {
+		return nil, err
+	}
+
+	sbBack, err := skipchain.NewClient().GetSingleBlock(sb.Roster, sbKV.BackLinkIDs[0])
+	if err != nil {
+		return nil, err
+	}
+
 	return &lleap.GetValueResponse{
-		Version:   lleap.CurrentVersion,
-		Value:     &value,
-		Signature: &sig,
+		Version:     lleap.CurrentVersion,
+		SkipBlock:   *sbKV,
+		ForwardLink: *sbBack.ForwardLink[0],
 	}, nil
 }
 

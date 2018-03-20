@@ -70,10 +70,8 @@ message GetValue {
 message GetValueResponse {
   // 	Version of the protocol
   required sint32 version = 1;
-  // 	 Value of the key
-  optional bytes value = 2;
-  // 	 Signature as sent when the value was stored
-  optional bytes signature = 3;
-  // 	 Proof the value is correct
-  optional bytes proof = 4;
+  // 	 SkipBlock is the data structure that holds the key/value pair
+  required SkipBlock skipblock = 2;
+  // 	 ForwardLink is a signature that signs of SkipBlock
+  required ForwardLink forwardlink = 3;
 }
