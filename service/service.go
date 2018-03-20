@@ -137,10 +137,11 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 
 	// Store the pair in the collection
 	coll := s.getCollection(req.SkipchainID)
-	if _, _, err := coll.GetValue(req.Key); err == nil {
+	if _, _, _, err := coll.GetValue(req.Key); err == nil {
 		return nil, errors.New("cannot overwrite existing value")
 	}
-	err := coll.Store(req.Key, req.Value, req.Signature)
+	idx := idb.LatestSkipblock.Index + 1
+	err := coll.Store(req.Key, uint64(idx), req.Value, req.Signature)
 	if err != nil {
 		return nil, errors.New("error while storing in collection: " + err.Error())
 	}
@@ -192,7 +193,7 @@ func (s *Service) GetValue(req *lleap.GetValue) (*lleap.GetValueResponse, error)
 		return nil, errors.New("version mismatch")
 	}
 
-	value, sig, err := s.getCollection(req.SkipchainID).GetValue(req.Key)
+	_, value, sig, err := s.getCollection(req.SkipchainID).GetValue(req.Key)
 	if err != nil {
 		return nil, errors.New("couldn't get value for key: " + err.Error())
 	}
@@ -208,7 +209,7 @@ func (s *Service) getCollection(id skipchain.SkipBlockID) *collectionDB {
 	col := s.collectionDB[idStr]
 	if col == nil {
 		db, name := s.GetAdditionalBucket([]byte(idStr))
-		s.collectionDB[idStr] = newCollectionDB(db, string(name))
+		s.collectionDB[idStr] = newCollectionDB(db, name)
 		return s.collectionDB[idStr]
 	}
 	return col

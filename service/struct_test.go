@@ -24,11 +24,12 @@ func TestCollectionDBStrange(t *testing.T) {
 	db, err := bolt.Open(tmpDB.Name(), 0600, nil)
 	require.Nil(t, err)
 
-	cdb := newCollectionDB(db, "coll1")
-	err = cdb.Store([]byte("first"), []byte("value"), []byte("mysig"))
+	cdb := newCollectionDB(db, []byte("coll1"))
+	err = cdb.Store([]byte("first"), 10, []byte("value"), []byte("mysig"))
 	require.Nil(t, err)
-	value, sig, err := cdb.GetValue([]byte("first"))
+	idx, value, sig, err := cdb.GetValue([]byte("first"))
 	require.Nil(t, err)
+	require.Equal(t, uint64(10), idx)
 	require.Equal(t, []byte("value"), value)
 	require.Equal(t, []byte("mysig"), sig)
 }
@@ -44,34 +45,45 @@ func TestCollectionDB(t *testing.T) {
 	db, err := bolt.Open(tmpDB.Name(), 0600, nil)
 	require.Nil(t, err)
 
-	cdb := newCollectionDB(db, "coll1")
-	pairs := map[string]string{}
+	cdb := newCollectionDB(db, []byte("coll1"))
+	pairs := map[string]struct {
+		v   string
+		idx uint64
+	}{}
 	mysig := []byte("mysignature")
 	for i := 0; i < kvPairs; i++ {
-		pairs[fmt.Sprintf("Key%d", i)] = fmt.Sprintf("value%d", i)
+		pairs[fmt.Sprintf("Key%d", i)] = struct {
+			v   string
+			idx uint64
+		}{
+			v:   fmt.Sprintf("value%d", i),
+			idx: uint64(i),
+		}
 	}
 
 	// Store all key/value pairs
 	for k, v := range pairs {
-		require.Nil(t, cdb.Store([]byte(k), []byte(v), mysig))
+		require.Nil(t, cdb.Store([]byte(k), v.idx, []byte(v.v), mysig))
 	}
 
 	// Verify it's all there
 	for k, v := range pairs {
-		stored, sig, err := cdb.GetValue([]byte(k))
+		idx, stored, sig, err := cdb.GetValue([]byte(k))
 		require.Nil(t, err)
-		require.Equal(t, v, string(stored))
+		require.Equal(t, v.idx, idx)
+		require.Equal(t, v.v, string(stored))
 		require.Equal(t, mysig, sig)
+		idx++
 	}
 
 	// Get a new db handler
-	cdb2 := newCollectionDB(db, "coll1")
+	cdb2 := newCollectionDB(db, []byte("coll1"))
 
 	// Verify it's all there
 	for k, v := range pairs {
-		stored, _, err := cdb2.GetValue([]byte(k))
+		_, stored, _, err := cdb2.GetValue([]byte(k))
 		require.Nil(t, err)
-		require.Equal(t, v, string(stored))
+		require.Equal(t, v.v, string(stored))
 	}
 }
 
