@@ -1,7 +1,7 @@
 package service
 
 import (
-	"bytes"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -11,9 +11,6 @@ import (
 	"github.com/dedis/cothority"
 	"github.com/dedis/cothority/identity"
 	"github.com/dedis/cothority/skipchain"
-	"github.com/dedis/lleap"
-	"github.com/dedis/onet"
-	"github.com/dedis/onet/log"
 	"github.com/dedis/onet/network"
 	"github.com/stretchr/testify/require"
 )
@@ -90,77 +87,15 @@ func TestCollectionDB(t *testing.T) {
 	}
 }
 
-func TestService_Store(t *testing.T) {
-	kvPairs := 2
-	pairs := map[string][]byte{}
-
-	// First create a roster to attach the data to it
-	local := onet.NewLocalTest(cothority.Suite)
-	defer local.CloseAll()
-	var genService onet.Service
-	_, roster, genService := local.MakeSRS(cothority.Suite, 4, lleapID)
-	service := genService.(*Service)
-
-	// Create a new skipchain
-	resp, err := service.CreateSkipchain(&lleap.CreateSkipchain{
-		Version: lleap.CurrentVersion,
-		Roster:  *roster,
-	})
-	require.Nil(t, err)
-	genesis := resp.Skipblock
-
-	// Store some keypairs
-	for i := 0; i < kvPairs; i++ {
-		key := []byte(fmt.Sprintf("Key%d", i))
-		value := []byte(fmt.Sprintf("value%d", i))
-		pairs[string(key)] = value
-		_, err := service.SetKeyValue(&lleap.SetKeyValue{
-			Version:     lleap.CurrentVersion,
-			SkipchainID: genesis.Hash,
-			Key:         key,
-			Value:       value,
-		})
-		require.Nil(t, err)
-	}
-
-	// Retrieve the keypairs
-	for key, value := range pairs {
-		gvResp, err := service.GetValue(&lleap.GetValue{
-			Version:     lleap.CurrentVersion,
-			SkipchainID: genesis.Hash,
-			Key:         []byte(key),
-		})
-		require.Nil(t, err)
-		v, err := getValueFromBlock(&gvResp.SkipBlock)
-		require.Nil(t, err)
-		require.Equal(t, 0, bytes.Compare(value, v))
-	}
-
-	// Now read the key/values from a new service
-	// First create a roster to attach the data to it
-	log.Lvl1("Recreate services and fetch keys again")
-	service.tryLoad()
-
-	// Retrieve the keypairs
-	for key, value := range pairs {
-		gvResp, err := service.GetValue(&lleap.GetValue{
-			Version:     lleap.CurrentVersion,
-			SkipchainID: genesis.Hash,
-			Key:         []byte(key),
-		})
-		require.Nil(t, err)
-		v, err := getValueFromBlock(&gvResp.SkipBlock)
-		require.Nil(t, err)
-		require.Equal(t, 0, bytes.Compare(value, v))
-	}
-}
-
-func getValueFromBlock(sb *skipchain.SkipBlock) ([]byte, error) {
+func getDataFromBlock(sb *skipchain.SkipBlock) (*identity.Data, error) {
 	_, msg, err := network.Unmarshal(sb.Data, cothority.Suite)
 	if err != nil {
 		return nil, err
 	}
 
-	storage := msg.(*identity.Data).Storage
-	return []byte(storage[keyNewValue]), nil
+	d, ok := msg.(*identity.Data)
+	if !ok {
+		return nil, errors.New("failed to cast to *identity.Data")
+	}
+	return d, nil
 }
