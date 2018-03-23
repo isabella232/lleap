@@ -1,9 +1,13 @@
 package service
 
 import (
+	"fmt"
 	"testing"
 
+	"github.com/dedis/cothority"
 	"github.com/dedis/cothority/skipchain"
+	"github.com/dedis/kyber"
+	"github.com/dedis/kyber/sign/cosi"
 	"github.com/dedis/kyber/suites"
 	"github.com/dedis/lleap"
 	"github.com/dedis/onet"
@@ -67,7 +71,84 @@ func TestService_GetValue(t *testing.T) {
 		Key:         s.key,
 	})
 	require.Nil(t, err)
-	require.Equal(t, s.value, *rep.Value)
+
+	checkValueBlock(t, rep, s.value, s.roster.Publics())
+}
+
+func TestService_Store(t *testing.T) {
+	kvPairs := 2
+	pairs := map[string][]byte{}
+
+	// First create a roster to attach the data to it
+	local := onet.NewLocalTest(cothority.Suite)
+	defer local.CloseAll()
+	var genService onet.Service
+	_, roster, genService := local.MakeSRS(cothority.Suite, 4, lleapID)
+	service := genService.(*Service)
+
+	// Create a new skipchain
+	resp, err := service.CreateSkipchain(&lleap.CreateSkipchain{
+		Version: lleap.CurrentVersion,
+		Roster:  *roster,
+	})
+	require.Nil(t, err)
+	genesis := resp.Skipblock
+
+	// Store some keypairs
+	for i := 0; i < kvPairs; i++ {
+		key := []byte(fmt.Sprintf("Key%d", i))
+		value := []byte(fmt.Sprintf("value%d", i))
+		pairs[string(key)] = value
+		_, err := service.SetKeyValue(&lleap.SetKeyValue{
+			Version:     lleap.CurrentVersion,
+			SkipchainID: genesis.Hash,
+			Key:         key,
+			Value:       value,
+		})
+		require.Nil(t, err)
+	}
+
+	// Retrieve the keypairs
+	for key, value := range pairs {
+		gvResp, err := service.GetValue(&lleap.GetValue{
+			Version:     lleap.CurrentVersion,
+			SkipchainID: genesis.Hash,
+			Key:         []byte(key),
+		})
+		require.Nil(t, err)
+		checkValueBlock(t, gvResp, value, roster.Publics())
+	}
+
+	// Now read the key/values from a new service
+	// First create a roster to attach the data to it
+	log.Lvl1("Recreate services and fetch keys again")
+	service.tryLoad()
+
+	// Retrieve the keypairs
+	for key, value := range pairs {
+		gvResp, err := service.GetValue(&lleap.GetValue{
+			Version:     lleap.CurrentVersion,
+			SkipchainID: genesis.Hash,
+			Key:         []byte(key),
+		})
+		require.Nil(t, err)
+		checkValueBlock(t, gvResp, value, roster.Publics())
+	}
+}
+
+func checkValueBlock(t *testing.T, rep *lleap.GetValueResponse, value []byte, publics []kyber.Point) {
+	d, err := getDataFromBlock(&rep.SkipBlock)
+	require.Equal(t, value, []byte(d.Storage[keyNewValue]))
+
+	// check the link
+	require.Equal(t, rep.ForwardLink.To, rep.SkipBlock.CalculateHash())
+
+	// check msg in the signature
+	require.Equal(t, []byte(rep.ForwardLink.Hash()), rep.ForwardLink.Signature.Msg)
+
+	// check the signature
+	err = cosi.Verify(cothority.Suite, publics, rep.ForwardLink.Signature.Msg, rep.ForwardLink.Signature.Sig, nil)
+	require.Nil(t, err)
 }
 
 type ser struct {

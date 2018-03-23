@@ -3,9 +3,12 @@ package ch.epfl.dedis.lleap;
 import ch.epfl.dedis.lib.Roster;
 import ch.epfl.dedis.lib.ServerIdentity;
 import ch.epfl.dedis.lib.SkipblockId;
+import ch.epfl.dedis.lib.crypto.SchnorrSig;
 import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
 import ch.epfl.dedis.lib.exception.CothorityCryptoException;
+import ch.epfl.dedis.proto.IdentityProto;
 import ch.epfl.dedis.proto.LleapProto;
+import ch.epfl.dedis.proto.SkipBlockProto;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import javafx.util.Pair;
@@ -14,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.*;
+import java.util.Arrays;
 
 /**
  * SkipchainRPC offers a reliable, fork-resistant storage of key/value pairs. This class connects to a
@@ -46,9 +50,9 @@ public class SkipchainRPC {
      * pre-initialized values from the DEDISSkipchain class and accesses the nodes run by roster on the
      * server conode.dedis.ch on ports 15002-15006.
      *
-     * @throws CothorityCommunicationException
+     * @throws CothorityCryptoException
      */
-    public SkipchainRPC() throws CothorityCommunicationException, CothorityCryptoException {
+    public SkipchainRPC() throws CothorityCryptoException {
         this(DEDISSkipchain.roster, new SkipblockId(DEDISSkipchain.skipchainID));
     }
 
@@ -58,9 +62,8 @@ public class SkipchainRPC {
      *
      * @param roster the list of conodes
      * @param id     the skipchain-id to connect to
-     * @throws CothorityCommunicationException
      */
-    public SkipchainRPC(Roster roster, SkipblockId id) throws CothorityCommunicationException {
+    public SkipchainRPC(Roster roster, SkipblockId id) {
         this.roster = roster;
         this.scid = id;
     }
@@ -90,7 +93,6 @@ public class SkipchainRPC {
             logger.info("Created new skipchain:");
             logger.info(DatatypeConverter.printHexBinary(reply.getSkipblock().getHash().toByteArray()));
             this.scid = new SkipblockId(reply.getSkipblock().getHash().toByteArray());
-            return;
         } catch (InvalidProtocolBufferException e) {
             throw new CothorityCommunicationException(e);
         } catch (CothorityCryptoException e) {
@@ -129,7 +131,6 @@ public class SkipchainRPC {
                 throw new CothorityCommunicationException("Version mismatch");
             }
             logger.info("Set key/value pair");
-            return;
         } catch (InvalidProtocolBufferException e) {
             throw new CothorityCommunicationException(e);
         }
@@ -161,11 +162,7 @@ public class SkipchainRPC {
             // And write using the signature
             byte[] sig = signature.sign();
             setKeyValue(key, value, sig);
-        } catch (InvalidKeyException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (SignatureException e) {
+        } catch (InvalidKeyException | NoSuchAlgorithmException | SignatureException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -189,17 +186,58 @@ public class SkipchainRPC {
         ByteString msg = roster.sendMessage("Lleap/GetValue",
                 request.build());
 
+        LleapProto.GetValueResponse reply;
+        SkipBlockProto.SkipBlock skipBlock;
+        IdentityProto.Data dataBlock;
         try {
-            LleapProto.GetValueResponse reply = LleapProto.GetValueResponse.parseFrom(msg);
+            reply = LleapProto.GetValueResponse.parseFrom(msg);
             if (reply.getVersion() != version) {
                 throw new CothorityCommunicationException("Version mismatch");
             }
+            skipBlock = reply.getSkipblock();
+            dataBlock = IdentityProto.Data.parseFrom(skipBlock.getData().substring(16));
             logger.info("Got value");
-            return new Pair<>(reply.getValue().toByteArray(),
-                    reply.getSignature().toByteArray());
         } catch (InvalidProtocolBufferException e) {
             throw new CothorityCommunicationException(e);
         }
+
+        // sanity check on the key/value pairs and the forward link
+        if (!dataBlock.getStorageMap().containsKey("newkey")) {
+            throw new CothorityCommunicationException("key 'newkey' does not exist");
+        }
+        if (!Arrays.equals(key, dataBlock.getStorageMap().get("newkey").toByteArray())) {
+            throw new CothorityCommunicationException("mismatch key");
+        }
+
+        if (!skipBlock.getHash().endsWith(reply.getForwardlink().getTo())) {
+            throw new CothorityCommunicationException("bad forward link");
+        }
+
+        // forward link hash and check it
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("must find SHA-256");
+        }
+        digest.update(reply.getForwardlink().getFrom().toByteArray());
+        digest.update(reply.getForwardlink().getTo().toByteArray());
+        if (reply.getForwardlink().hasNewRoster()) {
+            digest.update(reply.getForwardlink().getNewRoster().getId().toByteArray());
+        }
+        if (!Arrays.equals(reply.getForwardlink().getSignature().getMsg().toByteArray(), digest.digest())) {
+            throw new CothorityCommunicationException("msg in signature is not the same as forward link digest");
+        }
+
+        // check the collective signature
+        SkipBlockProto.FinalSignature fwlSig = reply.getForwardlink().getSignature();
+        SchnorrSig schnorr = new SchnorrSig(fwlSig.getSig().toByteArray());
+        if (!schnorr.verify(fwlSig.getMsg().toByteArray(), roster.getAggregate())) {
+            throw new CothorityCommunicationException("aggregate signature verification failed");
+        }
+
+        return new Pair<>(dataBlock.getStorageMap().get("newvalue").toByteArray(),
+                dataBlock.getStorageMap().get("newsig").toByteArray());
     }
 
     /**
@@ -215,6 +253,7 @@ public class SkipchainRPC {
     public byte[] getValue(byte[] key, PublicKey publicKey) throws CothorityCommunicationException {
         Pair<byte[], byte[]> valueSig = getValue(key);
 
+        // verify client side signature
         byte[] value = valueSig.getKey();
         byte[] message = new byte[key.length + value.length];
         System.arraycopy(key, 0, message, 0, key.length);
@@ -226,12 +265,7 @@ public class SkipchainRPC {
             if (!verify.verify(valueSig.getValue())) {
                 throw new CothorityCommunicationException("Signature verification failed");
             }
-            // TODO: verify the inclusion proof
-        } catch (InvalidKeyException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (SignatureException e) {
+        } catch (InvalidKeyException | NoSuchAlgorithmException | SignatureException e) {
             throw new RuntimeException(e.getMessage());
         }
         return value;

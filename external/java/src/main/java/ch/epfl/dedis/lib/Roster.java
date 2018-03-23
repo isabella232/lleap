@@ -62,8 +62,13 @@ public class Roster {
             try {
                 cothority.add(new ServerIdentity(s));
             } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
             }
         }
         return new Roster(cothority);
+    }
+
+    public Point getAggregate() {
+        return this.aggregate;
     }
 }
