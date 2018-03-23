@@ -1,7 +1,6 @@
 all: test_fmt test_lint test_local
 
 # gopkg fits all v1.1, v1.2, ... in v1
-PKG_STABLE = gopkg.in/dedis/onchain-secrets.v1
 gopath=$(shell go env GOPATH)
 include $(gopath)/src/github.com/dedis/Coding/bin/Makefile.base
 EXCLUDE_LINT = "should be.*UI|_test.go"
@@ -18,8 +17,8 @@ test_playground:
 # Other targets are:
 # make create_stable
 
-IMAGE_NAME = dedis/onchain-secrets
-TEST_IMAGE_NAME = dedis/onchain-secrets-test
+IMAGE_NAME = dedis/lleap
+TEST_IMAGE_NAME = dedis/lleap-test
 
 docker:
 	docker build -t $(IMAGE_NAME) .
@@ -28,7 +27,7 @@ docker_test:
 	docker build -t $(TEST_IMAGE_NAME) testImage
 
 docker_run:
-	docker run -it --rm -p 7003:7003 -p 7005:7005 -p 7007:7007 -p 7009:7009 --name ocs \
+	docker run -it --rm -p 7003:7003 -p 7005:7005 -p 7007:7007 -p 7009:7009 --name lleap \
 	 -v $(shell pwd)/data:/root/.local/share/conode $(TEST_IMAGE_NAME)
 
 proto:
