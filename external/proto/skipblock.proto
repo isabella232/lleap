@@ -45,8 +45,3 @@ message FinalSignature {
   required bytes Msg = 1;
   required bytes Sig = 2;
 }
-
-message SchnorrSig {
-  required bytes challenge = 1;
-  required bytes response = 2;
-}

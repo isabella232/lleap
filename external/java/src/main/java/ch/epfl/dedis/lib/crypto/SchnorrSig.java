@@ -40,7 +40,7 @@ public class SchnorrSig {
     }
 
     /**
-     * Function toHash convers a challenge, a public key and a message to a Scalar. Schnorr signatures work with any
+     * Function toHash converts a challenge, a public key and a message to a Scalar. Schnorr signatures work with any
      * hash function. We use SHA-256 here as it is what is needed for the corresponding conodes.
      */
     private Scalar toHash(Point challenge, Point pub, byte[] msg) {
@@ -54,13 +54,5 @@ public class SchnorrSig {
         } catch (NoSuchAlgorithmException e) {
             return null;
         }
-    }
-
-    public SkipBlockProto.SchnorrSig toProto() {
-        SkipBlockProto.SchnorrSig.Builder ss =
-                SkipBlockProto.SchnorrSig.newBuilder();
-        ss.setChallenge(challenge.toProto());
-        ss.setResponse(response.toProto());
-        return ss.build();
     }
 }

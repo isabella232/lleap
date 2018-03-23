@@ -208,7 +208,8 @@ public class SkipchainRPC {
         if (!Arrays.equals(key, dataBlock.getStorageMap().get("newkey").toByteArray())) {
             throw new CothorityCommunicationException("mismatch key");
         }
-        if (!Arrays.equals(skipBlock.getHash().toByteArray(), reply.getForwardlink().getTo().toByteArray())) {
+
+        if (!skipBlock.getHash().endsWith(reply.getForwardlink().getTo())) {
             throw new CothorityCommunicationException("bad forward link");
         }
 
