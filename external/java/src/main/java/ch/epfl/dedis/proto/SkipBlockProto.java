@@ -81,11 +81,11 @@ public final class SkipBlockProto {
     com.google.protobuf.ByteString getVerifiers(int index);
 
     /**
-     * <code>optional bytes parent = 7;</code>
+     * <code>required bytes parent = 7;</code>
      */
     boolean hasParent();
     /**
-     * <code>optional bytes parent = 7;</code>
+     * <code>required bytes parent = 7;</code>
      */
     com.google.protobuf.ByteString getParent();
 
@@ -454,13 +454,13 @@ public final class SkipBlockProto {
     public static final int PARENT_FIELD_NUMBER = 7;
     private com.google.protobuf.ByteString parent_;
     /**
-     * <code>optional bytes parent = 7;</code>
+     * <code>required bytes parent = 7;</code>
      */
     public boolean hasParent() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional bytes parent = 7;</code>
+     * <code>required bytes parent = 7;</code>
      */
     public com.google.protobuf.ByteString getParent() {
       return parent_;
@@ -608,6 +608,10 @@ public final class SkipBlockProto {
         return false;
       }
       if (!hasBaseHeight()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasParent()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1285,6 +1289,9 @@ public final class SkipBlockProto {
         if (!hasBaseHeight()) {
           return false;
         }
+        if (!hasParent()) {
+          return false;
+        }
         if (!hasGenesis()) {
           return false;
         }
@@ -1601,19 +1608,19 @@ public final class SkipBlockProto {
 
       private com.google.protobuf.ByteString parent_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes parent = 7;</code>
+       * <code>required bytes parent = 7;</code>
        */
       public boolean hasParent() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional bytes parent = 7;</code>
+       * <code>required bytes parent = 7;</code>
        */
       public com.google.protobuf.ByteString getParent() {
         return parent_;
       }
       /**
-       * <code>optional bytes parent = 7;</code>
+       * <code>required bytes parent = 7;</code>
        */
       public Builder setParent(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -1625,7 +1632,7 @@ public final class SkipBlockProto {
         return this;
       }
       /**
-       * <code>optional bytes parent = 7;</code>
+       * <code>required bytes parent = 7;</code>
        */
       public Builder clearParent() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -2257,29 +2264,29 @@ public final class SkipBlockProto {
 
     /**
      * <pre>
-     * NewRoster is only set to non-nil if the From block has a
+     * new_roster is only set to non-nil if the From block has a
      * different roster from the To-block.
      * </pre>
      *
-     * <code>optional .Roster newRoster = 3;</code>
+     * <code>optional .Roster new_roster = 3;</code>
      */
     boolean hasNewRoster();
     /**
      * <pre>
-     * NewRoster is only set to non-nil if the From block has a
+     * new_roster is only set to non-nil if the From block has a
      * different roster from the To-block.
      * </pre>
      *
-     * <code>optional .Roster newRoster = 3;</code>
+     * <code>optional .Roster new_roster = 3;</code>
      */
     ch.epfl.dedis.proto.RosterProto.Roster getNewRoster();
     /**
      * <pre>
-     * NewRoster is only set to non-nil if the From block has a
+     * new_roster is only set to non-nil if the From block has a
      * different roster from the To-block.
      * </pre>
      *
-     * <code>optional .Roster newRoster = 3;</code>
+     * <code>optional .Roster new_roster = 3;</code>
      */
     ch.epfl.dedis.proto.RosterProto.RosterOrBuilder getNewRosterOrBuilder();
 
@@ -2291,9 +2298,9 @@ public final class SkipBlockProto {
      * calculated on the sha256(From.Hash()|To.Hash())
      * </pre>
      *
-     * <code>required .FinalSignature finalSignature = 4;</code>
+     * <code>required .FinalSignature signature = 4;</code>
      */
-    boolean hasFinalSignature();
+    boolean hasSignature();
     /**
      * <pre>
      * Signature is calculated on the
@@ -2302,9 +2309,9 @@ public final class SkipBlockProto {
      * calculated on the sha256(From.Hash()|To.Hash())
      * </pre>
      *
-     * <code>required .FinalSignature finalSignature = 4;</code>
+     * <code>required .FinalSignature signature = 4;</code>
      */
-    ch.epfl.dedis.proto.SkipBlockProto.FinalSignature getFinalSignature();
+    ch.epfl.dedis.proto.SkipBlockProto.FinalSignature getSignature();
     /**
      * <pre>
      * Signature is calculated on the
@@ -2313,9 +2320,9 @@ public final class SkipBlockProto {
      * calculated on the sha256(From.Hash()|To.Hash())
      * </pre>
      *
-     * <code>required .FinalSignature finalSignature = 4;</code>
+     * <code>required .FinalSignature signature = 4;</code>
      */
-    ch.epfl.dedis.proto.SkipBlockProto.FinalSignatureOrBuilder getFinalSignatureOrBuilder();
+    ch.epfl.dedis.proto.SkipBlockProto.FinalSignatureOrBuilder getSignatureOrBuilder();
   }
   /**
    * <pre>
@@ -2397,12 +2404,12 @@ public final class SkipBlockProto {
             case 34: {
               ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.Builder subBuilder = null;
               if (((bitField0_ & 0x00000008) == 0x00000008)) {
-                subBuilder = finalSignature_.toBuilder();
+                subBuilder = signature_.toBuilder();
               }
-              finalSignature_ = input.readMessage(ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.PARSER, extensionRegistry);
+              signature_ = input.readMessage(ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(finalSignature_);
-                finalSignature_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(signature_);
+                signature_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000008;
               break;
@@ -2478,44 +2485,44 @@ public final class SkipBlockProto {
       return to_;
     }
 
-    public static final int NEWROSTER_FIELD_NUMBER = 3;
+    public static final int NEW_ROSTER_FIELD_NUMBER = 3;
     private ch.epfl.dedis.proto.RosterProto.Roster newRoster_;
     /**
      * <pre>
-     * NewRoster is only set to non-nil if the From block has a
+     * new_roster is only set to non-nil if the From block has a
      * different roster from the To-block.
      * </pre>
      *
-     * <code>optional .Roster newRoster = 3;</code>
+     * <code>optional .Roster new_roster = 3;</code>
      */
     public boolean hasNewRoster() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <pre>
-     * NewRoster is only set to non-nil if the From block has a
+     * new_roster is only set to non-nil if the From block has a
      * different roster from the To-block.
      * </pre>
      *
-     * <code>optional .Roster newRoster = 3;</code>
+     * <code>optional .Roster new_roster = 3;</code>
      */
     public ch.epfl.dedis.proto.RosterProto.Roster getNewRoster() {
       return newRoster_ == null ? ch.epfl.dedis.proto.RosterProto.Roster.getDefaultInstance() : newRoster_;
     }
     /**
      * <pre>
-     * NewRoster is only set to non-nil if the From block has a
+     * new_roster is only set to non-nil if the From block has a
      * different roster from the To-block.
      * </pre>
      *
-     * <code>optional .Roster newRoster = 3;</code>
+     * <code>optional .Roster new_roster = 3;</code>
      */
     public ch.epfl.dedis.proto.RosterProto.RosterOrBuilder getNewRosterOrBuilder() {
       return newRoster_ == null ? ch.epfl.dedis.proto.RosterProto.Roster.getDefaultInstance() : newRoster_;
     }
 
-    public static final int FINALSIGNATURE_FIELD_NUMBER = 4;
-    private ch.epfl.dedis.proto.SkipBlockProto.FinalSignature finalSignature_;
+    public static final int SIGNATURE_FIELD_NUMBER = 4;
+    private ch.epfl.dedis.proto.SkipBlockProto.FinalSignature signature_;
     /**
      * <pre>
      * Signature is calculated on the
@@ -2524,9 +2531,9 @@ public final class SkipBlockProto {
      * calculated on the sha256(From.Hash()|To.Hash())
      * </pre>
      *
-     * <code>required .FinalSignature finalSignature = 4;</code>
+     * <code>required .FinalSignature signature = 4;</code>
      */
-    public boolean hasFinalSignature() {
+    public boolean hasSignature() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
@@ -2537,10 +2544,10 @@ public final class SkipBlockProto {
      * calculated on the sha256(From.Hash()|To.Hash())
      * </pre>
      *
-     * <code>required .FinalSignature finalSignature = 4;</code>
+     * <code>required .FinalSignature signature = 4;</code>
      */
-    public ch.epfl.dedis.proto.SkipBlockProto.FinalSignature getFinalSignature() {
-      return finalSignature_ == null ? ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.getDefaultInstance() : finalSignature_;
+    public ch.epfl.dedis.proto.SkipBlockProto.FinalSignature getSignature() {
+      return signature_ == null ? ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.getDefaultInstance() : signature_;
     }
     /**
      * <pre>
@@ -2550,10 +2557,10 @@ public final class SkipBlockProto {
      * calculated on the sha256(From.Hash()|To.Hash())
      * </pre>
      *
-     * <code>required .FinalSignature finalSignature = 4;</code>
+     * <code>required .FinalSignature signature = 4;</code>
      */
-    public ch.epfl.dedis.proto.SkipBlockProto.FinalSignatureOrBuilder getFinalSignatureOrBuilder() {
-      return finalSignature_ == null ? ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.getDefaultInstance() : finalSignature_;
+    public ch.epfl.dedis.proto.SkipBlockProto.FinalSignatureOrBuilder getSignatureOrBuilder() {
+      return signature_ == null ? ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.getDefaultInstance() : signature_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -2570,7 +2577,7 @@ public final class SkipBlockProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasFinalSignature()) {
+      if (!hasSignature()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -2580,7 +2587,7 @@ public final class SkipBlockProto {
           return false;
         }
       }
-      if (!getFinalSignature().isInitialized()) {
+      if (!getSignature().isInitialized()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -2600,7 +2607,7 @@ public final class SkipBlockProto {
         output.writeMessage(3, getNewRoster());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(4, getFinalSignature());
+        output.writeMessage(4, getSignature());
       }
       unknownFields.writeTo(output);
     }
@@ -2624,7 +2631,7 @@ public final class SkipBlockProto {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, getFinalSignature());
+          .computeMessageSize(4, getSignature());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2657,10 +2664,10 @@ public final class SkipBlockProto {
         result = result && getNewRoster()
             .equals(other.getNewRoster());
       }
-      result = result && (hasFinalSignature() == other.hasFinalSignature());
-      if (hasFinalSignature()) {
-        result = result && getFinalSignature()
-            .equals(other.getFinalSignature());
+      result = result && (hasSignature() == other.hasSignature());
+      if (hasSignature()) {
+        result = result && getSignature()
+            .equals(other.getSignature());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -2682,12 +2689,12 @@ public final class SkipBlockProto {
         hash = (53 * hash) + getTo().hashCode();
       }
       if (hasNewRoster()) {
-        hash = (37 * hash) + NEWROSTER_FIELD_NUMBER;
+        hash = (37 * hash) + NEW_ROSTER_FIELD_NUMBER;
         hash = (53 * hash) + getNewRoster().hashCode();
       }
-      if (hasFinalSignature()) {
-        hash = (37 * hash) + FINALSIGNATURE_FIELD_NUMBER;
-        hash = (53 * hash) + getFinalSignature().hashCode();
+      if (hasSignature()) {
+        hash = (37 * hash) + SIGNATURE_FIELD_NUMBER;
+        hash = (53 * hash) + getSignature().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -2821,7 +2828,7 @@ public final class SkipBlockProto {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getNewRosterFieldBuilder();
-          getFinalSignatureFieldBuilder();
+          getSignatureFieldBuilder();
         }
       }
       public Builder clear() {
@@ -2836,10 +2843,10 @@ public final class SkipBlockProto {
           newRosterBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
-        if (finalSignatureBuilder_ == null) {
-          finalSignature_ = null;
+        if (signatureBuilder_ == null) {
+          signature_ = null;
         } else {
-          finalSignatureBuilder_.clear();
+          signatureBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
@@ -2885,10 +2892,10 @@ public final class SkipBlockProto {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        if (finalSignatureBuilder_ == null) {
-          result.finalSignature_ = finalSignature_;
+        if (signatureBuilder_ == null) {
+          result.signature_ = signature_;
         } else {
-          result.finalSignature_ = finalSignatureBuilder_.build();
+          result.signature_ = signatureBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -2941,8 +2948,8 @@ public final class SkipBlockProto {
         if (other.hasNewRoster()) {
           mergeNewRoster(other.getNewRoster());
         }
-        if (other.hasFinalSignature()) {
-          mergeFinalSignature(other.getFinalSignature());
+        if (other.hasSignature()) {
+          mergeSignature(other.getSignature());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2956,7 +2963,7 @@ public final class SkipBlockProto {
         if (!hasTo()) {
           return false;
         }
-        if (!hasFinalSignature()) {
+        if (!hasSignature()) {
           return false;
         }
         if (hasNewRoster()) {
@@ -2964,7 +2971,7 @@ public final class SkipBlockProto {
             return false;
           }
         }
-        if (!getFinalSignature().isInitialized()) {
+        if (!getSignature().isInitialized()) {
           return false;
         }
         return true;
@@ -3096,22 +3103,22 @@ public final class SkipBlockProto {
           ch.epfl.dedis.proto.RosterProto.Roster, ch.epfl.dedis.proto.RosterProto.Roster.Builder, ch.epfl.dedis.proto.RosterProto.RosterOrBuilder> newRosterBuilder_;
       /**
        * <pre>
-       * NewRoster is only set to non-nil if the From block has a
+       * new_roster is only set to non-nil if the From block has a
        * different roster from the To-block.
        * </pre>
        *
-       * <code>optional .Roster newRoster = 3;</code>
+       * <code>optional .Roster new_roster = 3;</code>
        */
       public boolean hasNewRoster() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <pre>
-       * NewRoster is only set to non-nil if the From block has a
+       * new_roster is only set to non-nil if the From block has a
        * different roster from the To-block.
        * </pre>
        *
-       * <code>optional .Roster newRoster = 3;</code>
+       * <code>optional .Roster new_roster = 3;</code>
        */
       public ch.epfl.dedis.proto.RosterProto.Roster getNewRoster() {
         if (newRosterBuilder_ == null) {
@@ -3122,11 +3129,11 @@ public final class SkipBlockProto {
       }
       /**
        * <pre>
-       * NewRoster is only set to non-nil if the From block has a
+       * new_roster is only set to non-nil if the From block has a
        * different roster from the To-block.
        * </pre>
        *
-       * <code>optional .Roster newRoster = 3;</code>
+       * <code>optional .Roster new_roster = 3;</code>
        */
       public Builder setNewRoster(ch.epfl.dedis.proto.RosterProto.Roster value) {
         if (newRosterBuilder_ == null) {
@@ -3143,11 +3150,11 @@ public final class SkipBlockProto {
       }
       /**
        * <pre>
-       * NewRoster is only set to non-nil if the From block has a
+       * new_roster is only set to non-nil if the From block has a
        * different roster from the To-block.
        * </pre>
        *
-       * <code>optional .Roster newRoster = 3;</code>
+       * <code>optional .Roster new_roster = 3;</code>
        */
       public Builder setNewRoster(
           ch.epfl.dedis.proto.RosterProto.Roster.Builder builderForValue) {
@@ -3162,11 +3169,11 @@ public final class SkipBlockProto {
       }
       /**
        * <pre>
-       * NewRoster is only set to non-nil if the From block has a
+       * new_roster is only set to non-nil if the From block has a
        * different roster from the To-block.
        * </pre>
        *
-       * <code>optional .Roster newRoster = 3;</code>
+       * <code>optional .Roster new_roster = 3;</code>
        */
       public Builder mergeNewRoster(ch.epfl.dedis.proto.RosterProto.Roster value) {
         if (newRosterBuilder_ == null) {
@@ -3187,11 +3194,11 @@ public final class SkipBlockProto {
       }
       /**
        * <pre>
-       * NewRoster is only set to non-nil if the From block has a
+       * new_roster is only set to non-nil if the From block has a
        * different roster from the To-block.
        * </pre>
        *
-       * <code>optional .Roster newRoster = 3;</code>
+       * <code>optional .Roster new_roster = 3;</code>
        */
       public Builder clearNewRoster() {
         if (newRosterBuilder_ == null) {
@@ -3205,11 +3212,11 @@ public final class SkipBlockProto {
       }
       /**
        * <pre>
-       * NewRoster is only set to non-nil if the From block has a
+       * new_roster is only set to non-nil if the From block has a
        * different roster from the To-block.
        * </pre>
        *
-       * <code>optional .Roster newRoster = 3;</code>
+       * <code>optional .Roster new_roster = 3;</code>
        */
       public ch.epfl.dedis.proto.RosterProto.Roster.Builder getNewRosterBuilder() {
         bitField0_ |= 0x00000004;
@@ -3218,11 +3225,11 @@ public final class SkipBlockProto {
       }
       /**
        * <pre>
-       * NewRoster is only set to non-nil if the From block has a
+       * new_roster is only set to non-nil if the From block has a
        * different roster from the To-block.
        * </pre>
        *
-       * <code>optional .Roster newRoster = 3;</code>
+       * <code>optional .Roster new_roster = 3;</code>
        */
       public ch.epfl.dedis.proto.RosterProto.RosterOrBuilder getNewRosterOrBuilder() {
         if (newRosterBuilder_ != null) {
@@ -3234,11 +3241,11 @@ public final class SkipBlockProto {
       }
       /**
        * <pre>
-       * NewRoster is only set to non-nil if the From block has a
+       * new_roster is only set to non-nil if the From block has a
        * different roster from the To-block.
        * </pre>
        *
-       * <code>optional .Roster newRoster = 3;</code>
+       * <code>optional .Roster new_roster = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           ch.epfl.dedis.proto.RosterProto.Roster, ch.epfl.dedis.proto.RosterProto.Roster.Builder, ch.epfl.dedis.proto.RosterProto.RosterOrBuilder> 
@@ -3254,9 +3261,9 @@ public final class SkipBlockProto {
         return newRosterBuilder_;
       }
 
-      private ch.epfl.dedis.proto.SkipBlockProto.FinalSignature finalSignature_ = null;
+      private ch.epfl.dedis.proto.SkipBlockProto.FinalSignature signature_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          ch.epfl.dedis.proto.SkipBlockProto.FinalSignature, ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.Builder, ch.epfl.dedis.proto.SkipBlockProto.FinalSignatureOrBuilder> finalSignatureBuilder_;
+          ch.epfl.dedis.proto.SkipBlockProto.FinalSignature, ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.Builder, ch.epfl.dedis.proto.SkipBlockProto.FinalSignatureOrBuilder> signatureBuilder_;
       /**
        * <pre>
        * Signature is calculated on the
@@ -3265,9 +3272,9 @@ public final class SkipBlockProto {
        * calculated on the sha256(From.Hash()|To.Hash())
        * </pre>
        *
-       * <code>required .FinalSignature finalSignature = 4;</code>
+       * <code>required .FinalSignature signature = 4;</code>
        */
-      public boolean hasFinalSignature() {
+      public boolean hasSignature() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
@@ -3278,13 +3285,13 @@ public final class SkipBlockProto {
        * calculated on the sha256(From.Hash()|To.Hash())
        * </pre>
        *
-       * <code>required .FinalSignature finalSignature = 4;</code>
+       * <code>required .FinalSignature signature = 4;</code>
        */
-      public ch.epfl.dedis.proto.SkipBlockProto.FinalSignature getFinalSignature() {
-        if (finalSignatureBuilder_ == null) {
-          return finalSignature_ == null ? ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.getDefaultInstance() : finalSignature_;
+      public ch.epfl.dedis.proto.SkipBlockProto.FinalSignature getSignature() {
+        if (signatureBuilder_ == null) {
+          return signature_ == null ? ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.getDefaultInstance() : signature_;
         } else {
-          return finalSignatureBuilder_.getMessage();
+          return signatureBuilder_.getMessage();
         }
       }
       /**
@@ -3295,17 +3302,17 @@ public final class SkipBlockProto {
        * calculated on the sha256(From.Hash()|To.Hash())
        * </pre>
        *
-       * <code>required .FinalSignature finalSignature = 4;</code>
+       * <code>required .FinalSignature signature = 4;</code>
        */
-      public Builder setFinalSignature(ch.epfl.dedis.proto.SkipBlockProto.FinalSignature value) {
-        if (finalSignatureBuilder_ == null) {
+      public Builder setSignature(ch.epfl.dedis.proto.SkipBlockProto.FinalSignature value) {
+        if (signatureBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          finalSignature_ = value;
+          signature_ = value;
           onChanged();
         } else {
-          finalSignatureBuilder_.setMessage(value);
+          signatureBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000008;
         return this;
@@ -3318,15 +3325,15 @@ public final class SkipBlockProto {
        * calculated on the sha256(From.Hash()|To.Hash())
        * </pre>
        *
-       * <code>required .FinalSignature finalSignature = 4;</code>
+       * <code>required .FinalSignature signature = 4;</code>
        */
-      public Builder setFinalSignature(
+      public Builder setSignature(
           ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.Builder builderForValue) {
-        if (finalSignatureBuilder_ == null) {
-          finalSignature_ = builderForValue.build();
+        if (signatureBuilder_ == null) {
+          signature_ = builderForValue.build();
           onChanged();
         } else {
-          finalSignatureBuilder_.setMessage(builderForValue.build());
+          signatureBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000008;
         return this;
@@ -3339,21 +3346,21 @@ public final class SkipBlockProto {
        * calculated on the sha256(From.Hash()|To.Hash())
        * </pre>
        *
-       * <code>required .FinalSignature finalSignature = 4;</code>
+       * <code>required .FinalSignature signature = 4;</code>
        */
-      public Builder mergeFinalSignature(ch.epfl.dedis.proto.SkipBlockProto.FinalSignature value) {
-        if (finalSignatureBuilder_ == null) {
+      public Builder mergeSignature(ch.epfl.dedis.proto.SkipBlockProto.FinalSignature value) {
+        if (signatureBuilder_ == null) {
           if (((bitField0_ & 0x00000008) == 0x00000008) &&
-              finalSignature_ != null &&
-              finalSignature_ != ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.getDefaultInstance()) {
-            finalSignature_ =
-              ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.newBuilder(finalSignature_).mergeFrom(value).buildPartial();
+              signature_ != null &&
+              signature_ != ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.getDefaultInstance()) {
+            signature_ =
+              ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.newBuilder(signature_).mergeFrom(value).buildPartial();
           } else {
-            finalSignature_ = value;
+            signature_ = value;
           }
           onChanged();
         } else {
-          finalSignatureBuilder_.mergeFrom(value);
+          signatureBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000008;
         return this;
@@ -3366,14 +3373,14 @@ public final class SkipBlockProto {
        * calculated on the sha256(From.Hash()|To.Hash())
        * </pre>
        *
-       * <code>required .FinalSignature finalSignature = 4;</code>
+       * <code>required .FinalSignature signature = 4;</code>
        */
-      public Builder clearFinalSignature() {
-        if (finalSignatureBuilder_ == null) {
-          finalSignature_ = null;
+      public Builder clearSignature() {
+        if (signatureBuilder_ == null) {
+          signature_ = null;
           onChanged();
         } else {
-          finalSignatureBuilder_.clear();
+          signatureBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
@@ -3386,12 +3393,12 @@ public final class SkipBlockProto {
        * calculated on the sha256(From.Hash()|To.Hash())
        * </pre>
        *
-       * <code>required .FinalSignature finalSignature = 4;</code>
+       * <code>required .FinalSignature signature = 4;</code>
        */
-      public ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.Builder getFinalSignatureBuilder() {
+      public ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.Builder getSignatureBuilder() {
         bitField0_ |= 0x00000008;
         onChanged();
-        return getFinalSignatureFieldBuilder().getBuilder();
+        return getSignatureFieldBuilder().getBuilder();
       }
       /**
        * <pre>
@@ -3401,14 +3408,14 @@ public final class SkipBlockProto {
        * calculated on the sha256(From.Hash()|To.Hash())
        * </pre>
        *
-       * <code>required .FinalSignature finalSignature = 4;</code>
+       * <code>required .FinalSignature signature = 4;</code>
        */
-      public ch.epfl.dedis.proto.SkipBlockProto.FinalSignatureOrBuilder getFinalSignatureOrBuilder() {
-        if (finalSignatureBuilder_ != null) {
-          return finalSignatureBuilder_.getMessageOrBuilder();
+      public ch.epfl.dedis.proto.SkipBlockProto.FinalSignatureOrBuilder getSignatureOrBuilder() {
+        if (signatureBuilder_ != null) {
+          return signatureBuilder_.getMessageOrBuilder();
         } else {
-          return finalSignature_ == null ?
-              ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.getDefaultInstance() : finalSignature_;
+          return signature_ == null ?
+              ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.getDefaultInstance() : signature_;
         }
       }
       /**
@@ -3419,20 +3426,20 @@ public final class SkipBlockProto {
        * calculated on the sha256(From.Hash()|To.Hash())
        * </pre>
        *
-       * <code>required .FinalSignature finalSignature = 4;</code>
+       * <code>required .FinalSignature signature = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           ch.epfl.dedis.proto.SkipBlockProto.FinalSignature, ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.Builder, ch.epfl.dedis.proto.SkipBlockProto.FinalSignatureOrBuilder> 
-          getFinalSignatureFieldBuilder() {
-        if (finalSignatureBuilder_ == null) {
-          finalSignatureBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          getSignatureFieldBuilder() {
+        if (signatureBuilder_ == null) {
+          signatureBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               ch.epfl.dedis.proto.SkipBlockProto.FinalSignature, ch.epfl.dedis.proto.SkipBlockProto.FinalSignature.Builder, ch.epfl.dedis.proto.SkipBlockProto.FinalSignatureOrBuilder>(
-                  getFinalSignature(),
+                  getSignature(),
                   getParentForChildren(),
                   isClean());
-          finalSignature_ = null;
+          signature_ = null;
         }
-        return finalSignatureBuilder_;
+        return signatureBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4698,16 +4705,16 @@ public final class SkipBlockProto {
       "\032\014roster.proto\"\200\002\n\tSkipBlock\022\r\n\005index\030\001 " +
       "\002(\005\022\016\n\006height\030\002 \002(\005\022\022\n\nmax_height\030\003 \002(\005\022" +
       "\023\n\013base_height\030\004 \002(\005\022\021\n\tbacklinks\030\005 \003(\014\022" +
-      "\021\n\tverifiers\030\006 \003(\014\022\016\n\006parent\030\007 \001(\014\022\017\n\007ge" +
+      "\021\n\tverifiers\030\006 \003(\014\022\016\n\006parent\030\007 \002(\014\022\017\n\007ge" +
       "nesis\030\010 \002(\014\022\014\n\004data\030\t \002(\014\022\027\n\006roster\030\n \002(" +
       "\0132\007.Roster\022\014\n\004hash\030\013 \002(\014\022\035\n\007forward\030\014 \003(" +
-      "\0132\014.ForwardLink\022\020\n\010children\030\r \003(\014\"l\n\013For" +
-      "wardLink\022\014\n\004from\030\001 \002(\014\022\n\n\002to\030\002 \002(\014\022\032\n\tne" +
-      "wRoster\030\003 \001(\0132\007.Roster\022\'\n\016finalSignature" +
-      "\030\004 \002(\0132\017.FinalSignature\"*\n\016FinalSignatur" +
-      "e\022\013\n\003Msg\030\001 \002(\014\022\013\n\003Sig\030\002 \002(\014\"1\n\nSchnorrSi" +
-      "g\022\021\n\tchallenge\030\001 \002(\014\022\020\n\010response\030\002 \002(\014B%" +
-      "\n\023ch.epfl.dedis.protoB\016SkipBlockProto"
+      "\0132\014.ForwardLink\022\020\n\010children\030\r \003(\014\"h\n\013For" +
+      "wardLink\022\014\n\004from\030\001 \002(\014\022\n\n\002to\030\002 \002(\014\022\033\n\nne" +
+      "w_roster\030\003 \001(\0132\007.Roster\022\"\n\tsignature\030\004 \002" +
+      "(\0132\017.FinalSignature\"*\n\016FinalSignature\022\013\n" +
+      "\003Msg\030\001 \002(\014\022\013\n\003Sig\030\002 \002(\014\"1\n\nSchnorrSig\022\021\n" +
+      "\tchallenge\030\001 \002(\014\022\020\n\010response\030\002 \002(\014B%\n\023ch" +
+      ".epfl.dedis.protoB\016SkipBlockProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4734,7 +4741,7 @@ public final class SkipBlockProto {
     internal_static_ForwardLink_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ForwardLink_descriptor,
-        new java.lang.String[] { "From", "To", "NewRoster", "FinalSignature", });
+        new java.lang.String[] { "From", "To", "NewRoster", "Signature", });
     internal_static_FinalSignature_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_FinalSignature_fieldAccessorTable = new

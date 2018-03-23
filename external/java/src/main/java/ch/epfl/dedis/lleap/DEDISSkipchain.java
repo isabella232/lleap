@@ -50,9 +50,7 @@ public class DEDISSkipchain {
         try {
             KeyFactory kf = KeyFactory.getInstance("RSA");
             return kf.generatePrivate(new PKCS8EncodedKeySpec(DatatypeConverter.parseHexBinary(DEDISSkipchain.privateKeyStr)));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -66,9 +64,7 @@ public class DEDISSkipchain {
         try {
             RSAPrivateCrtKeyImpl rsaPrivateKey = (RSAPrivateCrtKeyImpl) getPrivate();
             return KeyFactory.getInstance("RSA").generatePublic(new RSAPublicKeySpec(rsaPrivateKey.getModulus(), rsaPrivateKey.getPublicExponent()));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e.getMessage());
         }
     }

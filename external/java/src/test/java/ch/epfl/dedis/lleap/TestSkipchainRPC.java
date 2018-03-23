@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.xml.bind.DatatypeConverter;
-
 import java.security.*;
 import java.text.SimpleDateFormat;
 
@@ -18,8 +17,7 @@ public class TestSkipchainRPC {
     private static PublicKey publicKey;
     private static PrivateKey privateKey;
     private static SkipchainRPC sc;
-
-    static int KEY_SIZE = 4096;
+    private static int KEY_SIZE = 4096;
 
     @BeforeAll
     public static void initAll() throws Exception {
@@ -28,7 +26,7 @@ public class TestSkipchainRPC {
         privateKey = DEDISSkipchain.getPrivate();
         publicKey = DEDISSkipchain.getPublic();
 
-        boolean useLocal = false;
+        boolean useLocal = true;
         if (useLocal) {
             sc = new SkipchainRPC(Local.roster, publicKey);
         } else {
@@ -46,7 +44,7 @@ public class TestSkipchainRPC {
     }
 
     @Test
-    public void connect() throws Exception {
+    public void connect() {
         assertTrue(sc.verify());
     }
 
@@ -83,7 +81,6 @@ public class TestSkipchainRPC {
         assertArrayEquals(value, valueSig.getKey());
 
         // Verify the signature
-        // TODO: verify the inclusion proof
         Signature verify = Signature.getInstance("SHA256withRSA");
         verify.initVerify(publicKey);
         verify.update(message);
@@ -91,7 +88,7 @@ public class TestSkipchainRPC {
     }
 
     @Test
-    public void createSkipchain() throws Exception {
+    public void createSkipchain() {
         assertNotNull(sc);
     }
 }

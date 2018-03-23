@@ -13,7 +13,7 @@ message SkipBlock {
   required int32 base_height = 4;
   repeated bytes backlinks = 5;
   repeated bytes verifiers = 6;
-  optional bytes parent = 7;
+  required bytes parent = 7;
   required bytes genesis = 8;
   required bytes data = 9;
   required Roster roster = 10;
@@ -30,14 +30,14 @@ message ForwardLink {
   required bytes from = 1;
   // To - where this forward link points to
   required bytes to = 2;
-  // NewRoster is only set to non-nil if the From block has a
+  // new_roster is only set to non-nil if the From block has a
   // different roster from the To-block.
-  optional Roster newRoster = 3;
+  optional Roster new_roster = 3;
   // Signature is calculated on the
   // sha256(From.Hash()|To.Hash()|NewRoster)
   // In the case that NewRoster is nil, the signature is
   // calculated on the sha256(From.Hash()|To.Hash())
-  required FinalSignature finalSignature = 4;
+  required FinalSignature signature = 4;
 }
 
 // FinalSignature holds the message Msg and its signature

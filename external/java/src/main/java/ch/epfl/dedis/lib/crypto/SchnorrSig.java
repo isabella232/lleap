@@ -39,15 +39,18 @@ public class SchnorrSig {
         return buf;
     }
 
-    public Scalar toHash(Point challenge, Point pub, byte[] msg) {
+    /**
+     * Function toHash convers a challenge, a public key and a message to a Scalar. Schnorr signatures work with any
+     * hash function. We use SHA-256 here as it is what is needed for the corresponding conodes.
+     */
+    private Scalar toHash(Point challenge, Point pub, byte[] msg) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-512");
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
             digest.update(challenge.toBytes());
             digest.update(pub.toBytes());
             digest.update(msg);
             byte[] hash = Arrays.copyOfRange(digest.digest(), 0, 64);
-            Scalar s = new Scalar(hash);
-            return s;
+            return new Scalar(hash);
         } catch (NoSuchAlgorithmException e) {
             return null;
         }

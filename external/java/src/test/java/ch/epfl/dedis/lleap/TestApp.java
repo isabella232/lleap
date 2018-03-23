@@ -1,5 +1,6 @@
 package ch.epfl.dedis.lleap;
 
+import ch.epfl.dedis.Local;
 import org.junit.jupiter.api.Test;
 
 import java.security.PrivateKey;
@@ -16,7 +17,7 @@ public class TestApp {
         PublicKey publicKey = DEDISSkipchain.getPublic();
 
         // Connecting to the skipchain and verifying the connection
-        SkipchainRPC sc = new SkipchainRPC();
+        SkipchainRPC sc = new SkipchainRPC(Local.roster, publicKey);
         if (!sc.verify()) {
             throw new RuntimeException("couldn't connect to skipchain");
         }
