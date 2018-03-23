@@ -116,9 +116,7 @@ public class ServerIdentity {
                 ws.connect();
                 // wait for error or message returned.
                 statusLatch.await();
-            } catch (InterruptedException e) {
-                throw new CothorityCommunicationException(e.toString());
-            } catch (URISyntaxException e) {
+            } catch (InterruptedException |  URISyntaxException e) {
                 throw new CothorityCommunicationException(e.toString());
             }
             if (error != null) {
