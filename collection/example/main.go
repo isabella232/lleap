@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	collections "github.com/dedis/student_17_collections"
+	collections "github.com/dedis/lleap/collection"
 )
 
 func main() {
 
-	collection := collections.EmptyCollection(collections.Data{})
+	collection := collections.New(collections.Data{})
 
 	/*
 	 * CRUD
@@ -72,7 +72,7 @@ func main() {
 	fmt.Println("-------------")
 
 	// Verifier needs to have the same type (collections.Data{}) as the collection
-	verifier := collections.EmptyVerifier(collections.Data{})
+	verifier := collections.NewVerifier(collections.Data{})
 
 	// a verifier (who does not already have "record") does not accept updates that aren't part of a Proof
 	err = verifier.Add([]byte("record"), []byte("somedata"))
@@ -92,8 +92,8 @@ func main() {
 	fmt.Println("-------------")
 
 	// let's transfer some data to the verifier
-	collection = collections.EmptyCollection(collections.Data{})
-	verifier = collections.EmptyVerifier(collections.Data{})
+	collection = collections.New(collections.Data{})
+	verifier = collections.NewVerifier(collections.Data{})
 
 	// proof that the record *doesn't* exist
 	proof1, err := collection.Get([]byte("record")).Proof()

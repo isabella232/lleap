@@ -1,13 +1,13 @@
-FROM golang:1.8
+FROM golang:1.9
 
-WORKDIR /go/src/github.com/dedis/sicpa
+WORKDIR /go/src/github.com/dedis/lleap
 COPY . .
 
 RUN go get -d -v ./conode
 
 RUN git --git-dir=/go/src/github.com/dedis/onet/.git log -1  --format=oneline
 RUN git --git-dir=/go/src/github.com/dedis/cothority/.git log -1 --format=oneline
-RUN git --git-dir=/go/src/github.com/dedis/onchain-secrets/.git log -1 --format=oneline
+RUN git --git-dir=/go/src/github.com/dedis/lleap/.git log -1 --format=oneline
 RUN git --git-dir=/go/src/github.com/dedis/kyber/.git log -1 --format=oneline
 
 RUN go install -v ./conode
@@ -19,4 +19,3 @@ RUN which conode
 # 2 - debug-level: 0 - none .. 5 - a lot
 # -wait - don't return from script when all nodes are started
 CMD ["conode/run_conode.sh", "local",  "3", "2", "-wait" ]
-

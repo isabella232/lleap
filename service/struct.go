@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	bolt "github.com/coreos/bbolt"
+	"github.com/dedis/lleap/collection"
 	"github.com/dedis/onet/log"
-	"github.com/dedis/student_18_omniledger/lleap/collection"
 )
 
 type collectionDB struct {

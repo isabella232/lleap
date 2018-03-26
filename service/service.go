@@ -29,11 +29,11 @@ import (
 // Used for tests
 var lleapID onet.ServiceID
 
-const keyMerkleRoot = "merkleroot"
-const keyNewKey = "newkey"
-const keyNewValue = "newvalue"
-const keyNewSig = "newsig"
-const keyTimestamp = "timestamp"
+const KeyMerkleRoot = "merkleroot"
+const KeyNewKey = "newkey"
+const KeyNewValue = "newvalue"
+const KeyNewSig = "newsig"
+const KeyTimestamp = "timestamp"
 
 func init() {
 	var err error
@@ -151,12 +151,12 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 
 	// Update the identity
 	prop := idb.Latest.Copy()
-	prop.Storage[keyMerkleRoot] = string(coll.RootHash())
-	prop.Storage[keyNewKey] = string(req.Key)
-	prop.Storage[keyNewValue] = string(req.Value)
-	prop.Storage[keyNewSig] = string(req.Signature)
+	prop.Storage[KeyMerkleRoot] = string(coll.RootHash())
+	prop.Storage[KeyNewKey] = string(req.Key)
+	prop.Storage[KeyNewValue] = string(req.Value)
+	prop.Storage[KeyNewSig] = string(req.Signature)
 	timestamp := time.Now().Unix()
-	prop.Storage[keyTimestamp] = fmt.Sprintf("%d", timestamp)
+	prop.Storage[KeyTimestamp] = fmt.Sprintf("%d", timestamp)
 	_, err = s.idService().ProposeSend(&identity.ProposeSend{
 		ID:      identity.ID(req.SkipchainID),
 		Propose: prop,

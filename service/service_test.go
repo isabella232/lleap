@@ -138,7 +138,7 @@ func TestService_Store(t *testing.T) {
 
 func checkValueBlock(t *testing.T, rep *lleap.GetValueResponse, value []byte, publics []kyber.Point) {
 	d, err := getDataFromBlock(&rep.SkipBlock)
-	require.Equal(t, value, []byte(d.Storage[keyNewValue]))
+	require.Equal(t, value, []byte(d.Storage[KeyNewValue]))
 
 	// check the link
 	require.Equal(t, rep.ForwardLink.To, rep.SkipBlock.CalculateHash())
