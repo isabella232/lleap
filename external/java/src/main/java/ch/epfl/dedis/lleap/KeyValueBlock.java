@@ -132,4 +132,8 @@ public class KeyValueBlock {
         System.arraycopy(value, 0, message, key.length, value.length);
         return message;
     }
+
+    public byte[] toByteArray() {
+        return resp.toByteArray();
+    }
 }
