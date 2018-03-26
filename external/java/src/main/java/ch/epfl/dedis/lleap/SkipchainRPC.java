@@ -3,8 +3,10 @@ package ch.epfl.dedis.lleap;
 import ch.epfl.dedis.lib.Roster;
 import ch.epfl.dedis.lib.ServerIdentity;
 import ch.epfl.dedis.lib.SkipblockId;
+import ch.epfl.dedis.lib.SkipBlock;
 import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
 import ch.epfl.dedis.lib.exception.CothorityCryptoException;
+import ch.epfl.dedis.lib.exception.CothorityException;
 import ch.epfl.dedis.proto.LleapProto;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -61,6 +63,12 @@ public class SkipchainRPC {
     public SkipchainRPC(Roster roster, SkipblockId id) {
         this.roster = roster;
         this.scid = id;
+    }
+
+    public  SkipchainRPC(byte[] genesisBuf) throws CothorityException {
+        SkipBlock sb = new SkipBlock(genesisBuf);
+        this.roster = sb.getRoster();
+        this.scid = sb.getId();
     }
 
     /**

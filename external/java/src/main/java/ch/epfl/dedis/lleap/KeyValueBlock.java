@@ -14,6 +14,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+/**
+ * KeyValueBlock is the response that is returned by SkipchainRPC. It allows the user to access various properties of
+ * the response and, more importantly, verify the collective signature which implies block inclusion.
+ */
 public class KeyValueBlock {
     private LleapProto.GetValueResponse resp;
     private final Logger logger = LoggerFactory.getLogger(KeyValueBlock.class);
@@ -31,6 +35,14 @@ public class KeyValueBlock {
         }
     }
 
+    /**
+     * verifyBlock verifies the block by performing various integrity checks and, more importantly, checks the
+     * collective signature which implies block inclusion.
+     * @param key is the key of interest.
+     * @param genesisBuf is the genesis block as a byte array. The user is expected to store the genesis block at
+     *                   initialisation.
+     * @return true if the verification is ok, otherwise false.
+     */
     public boolean verifyBlock(byte[] key, byte[] genesisBuf) {
         try {
             SkipBlock genesis = new SkipBlock(genesisBuf);

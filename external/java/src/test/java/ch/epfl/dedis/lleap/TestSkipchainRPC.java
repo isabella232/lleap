@@ -39,6 +39,12 @@ public class TestSkipchainRPC {
     }
 
     @Test
+    public void checkGenesis() throws CothorityException {
+        SkipchainRPC sc = new SkipchainRPC(DatatypeConverter.parseHexBinary(genesisHex));
+        // TODO we should compare this one to what is initialised in initAll
+    }
+
+    @Test
     public void connect() {
         assertTrue(sc.verify());
     }
