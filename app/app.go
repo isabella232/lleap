@@ -14,6 +14,7 @@ import (
 
 	"github.com/dedis/cothority"
 	"github.com/dedis/cothority/identity"
+	"github.com/dedis/cothority/skipchain"
 	"github.com/dedis/kyber"
 	"github.com/dedis/kyber/sign/cosi"
 	"github.com/dedis/lleap"
@@ -36,6 +37,12 @@ func main() {
 			Aliases:   []string{"c"},
 			ArgsUsage: "group.toml public.key",
 			Action:    create,
+		},
+		{
+			Name:      "genesis",
+			Usage:     "gets the genesis block as hex",
+			ArgsUsage: "group.toml skipchainID",
+			Action:    genesis,
 		},
 		{
 			Name:    "set",
@@ -86,6 +93,32 @@ func create(c *cli.Context) error {
 		return errors.New("during creation of skipchain: " + err.Error())
 	}
 	log.Infof("Created new skipchain on roster %s with ID: %x", group.Roster.List, resp.Skipblock.Hash)
+	return nil
+}
+
+func genesis(c *cli.Context) error {
+	log.Info("Getting the genesis block")
+
+	if c.NArg() != 2 {
+		return errors.New("please give: group.toml skipchainID")
+	}
+	group := readGroup(c)
+	scid, err := hex.DecodeString(c.Args().Get(1))
+	if err != nil {
+		return errors.New("couldn't decode skipchainID: " + err.Error())
+	}
+
+	client := skipchain.NewClient()
+	sb, err := client.GetSingleBlock(group.Roster, scid)
+	if err != nil {
+		return errors.New("failed to get block: " + err.Error())
+	}
+
+	buf, err := network.Marshal(sb)
+	if err != nil {
+		return errors.New("failed to marshal: " + err.Error())
+	}
+	log.Infof("%x", buf[16:len(buf)])
 	return nil
 }
 

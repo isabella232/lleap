@@ -40,6 +40,10 @@ public class ServerIdentity {
         this(new URI(siToml.getString("Address")), siToml.getString("Public"));
     }
 
+    public ServerIdentity(ServerIdentityProto.ServerIdentity sid) throws URISyntaxException {
+        this(new URI(sid.getAddress()), DatatypeConverter.printHexBinary(sid.getPublic().toByteArray()));
+    }
+
     public URI getAddress() {
         return conodeAddress;
     }

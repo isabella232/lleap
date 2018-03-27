@@ -3,21 +3,18 @@ package ch.epfl.dedis.lleap;
 import ch.epfl.dedis.lib.Roster;
 import ch.epfl.dedis.lib.ServerIdentity;
 import ch.epfl.dedis.lib.SkipblockId;
-import ch.epfl.dedis.lib.crypto.SchnorrSig;
+import ch.epfl.dedis.lib.SkipBlock;
 import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
 import ch.epfl.dedis.lib.exception.CothorityCryptoException;
-import ch.epfl.dedis.proto.IdentityProto;
+import ch.epfl.dedis.lib.exception.CothorityException;
 import ch.epfl.dedis.proto.LleapProto;
-import ch.epfl.dedis.proto.SkipBlockProto;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.*;
-import java.util.Arrays;
 
 /**
  * SkipchainRPC offers a reliable, fork-resistant storage of key/value pairs. This class connects to a
@@ -66,6 +63,12 @@ public class SkipchainRPC {
     public SkipchainRPC(Roster roster, SkipblockId id) {
         this.roster = roster;
         this.scid = id;
+    }
+
+    public  SkipchainRPC(byte[] genesisBuf) throws CothorityException {
+        SkipBlock sb = new SkipBlock(genesisBuf);
+        this.roster = sb.getRoster();
+        this.scid = sb.getId();
     }
 
     /**
@@ -168,15 +171,16 @@ public class SkipchainRPC {
     }
 
     /**
-     * getValue returns the value/signature pair of a given key. The signature will verify
-     * against the public key of the writer. The message of the signature is the concatenation
-     * of (key | value).
+     * getKeyValueBlock gets a KeyValueBlock for the corresponding key. It performs no verification on the data other
+     * than that it is in the valid binary format. The caller should consult the functions in the KeyValueBlock class
+     * to verify its integrity and access the value, signature and timestamp.
      *
      * @param key which key to retrieve
-     * @return a value / signature pair
-     * @throws CothorityCommunicationException
+     * @return KeyValueBlock
+     * @throws CothorityCommunicationException if a connection cannot be established or there is an error in the binary
+     * format.
      */
-    public Pair<byte[], byte[]> getValue(byte[] key) throws CothorityCommunicationException {
+    public KeyValueBlock getKeyValueBlock(byte[] key) throws CothorityCommunicationException {
         LleapProto.GetValue.Builder request =
                 LleapProto.GetValue.newBuilder();
         request.setKey(ByteString.copyFrom(key));
@@ -187,88 +191,17 @@ public class SkipchainRPC {
                 request.build());
 
         LleapProto.GetValueResponse reply;
-        SkipBlockProto.SkipBlock skipBlock;
-        IdentityProto.Data dataBlock;
         try {
             reply = LleapProto.GetValueResponse.parseFrom(msg);
             if (reply.getVersion() != version) {
                 throw new CothorityCommunicationException("Version mismatch");
             }
-            skipBlock = reply.getSkipblock();
-            dataBlock = IdentityProto.Data.parseFrom(skipBlock.getData().substring(16));
-            logger.info("Got value");
         } catch (InvalidProtocolBufferException e) {
             throw new CothorityCommunicationException(e);
         }
 
-        // sanity check on the key/value pairs and the forward link
-        if (!dataBlock.getStorageMap().containsKey("newkey")) {
-            throw new CothorityCommunicationException("key 'newkey' does not exist");
-        }
-        if (!Arrays.equals(key, dataBlock.getStorageMap().get("newkey").toByteArray())) {
-            throw new CothorityCommunicationException("mismatch key");
-        }
-
-        if (!skipBlock.getHash().endsWith(reply.getForwardlink().getTo())) {
-            throw new CothorityCommunicationException("bad forward link");
-        }
-
-        // forward link hash and check it
-        MessageDigest digest;
-        try {
-            digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("must find SHA-256");
-        }
-        digest.update(reply.getForwardlink().getFrom().toByteArray());
-        digest.update(reply.getForwardlink().getTo().toByteArray());
-        if (reply.getForwardlink().hasNewRoster()) {
-            digest.update(reply.getForwardlink().getNewRoster().getId().toByteArray());
-        }
-        if (!Arrays.equals(reply.getForwardlink().getSignature().getMsg().toByteArray(), digest.digest())) {
-            throw new CothorityCommunicationException("msg in signature is not the same as forward link digest");
-        }
-
-        // check the collective signature
-        SkipBlockProto.FinalSignature fwlSig = reply.getForwardlink().getSignature();
-        SchnorrSig schnorr = new SchnorrSig(fwlSig.getSig().toByteArray());
-        if (!schnorr.verify(fwlSig.getMsg().toByteArray(), roster.getAggregate())) {
-            throw new CothorityCommunicationException("aggregate signature verification failed");
-        }
-
-        return new Pair<>(dataBlock.getStorageMap().get("newvalue").toByteArray(),
-                dataBlock.getStorageMap().get("newsig").toByteArray());
-    }
-
-    /**
-     * Convenience method that will fetch the corresponding value to a key and verify it
-     * against the public key. If the signature fails, a CothorityCommunicationException
-     * is thrown.
-     *
-     * @param key       to lookup in the skipchain
-     * @param publicKey to verify the returned value
-     * @return the value if the signature could be verified
-     * @throws CothorityCommunicationException
-     */
-    public byte[] getValue(byte[] key, PublicKey publicKey) throws CothorityCommunicationException {
-        Pair<byte[], byte[]> valueSig = getValue(key);
-
-        // verify client side signature
-        byte[] value = valueSig.getKey();
-        byte[] message = new byte[key.length + value.length];
-        System.arraycopy(key, 0, message, 0, key.length);
-        System.arraycopy(value, 0, message, key.length, value.length);
-        try {
-            Signature verify = Signature.getInstance("SHA256withRSA");
-            verify.initVerify(publicKey);
-            verify.update(message);
-            if (!verify.verify(valueSig.getValue())) {
-                throw new CothorityCommunicationException("Signature verification failed");
-            }
-        } catch (InvalidKeyException | NoSuchAlgorithmException | SignatureException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-        return value;
+        logger.info("Got key/value block");
+        return new KeyValueBlock(reply);
     }
 
     /**

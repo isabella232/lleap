@@ -26,10 +26,8 @@ docker:
 docker_test:
 	docker build -t $(TEST_IMAGE_NAME) testImage
 
-# We run docker in detatched mode, remember to clean it up. Ideally we'd like
-# the java test to manage it.
 docker_run:
-	docker run -d -it --rm -p 7003:7003 -p 7005:7005 -p 7007:7007 --name lleap_test \
+	docker run -d -it --rm -p 15003:15003 -p 15005:15005 -p 15007:15007 --name lleap_test \
 	 -v $(shell pwd)/data:/root/.local/share/conode $(TEST_IMAGE_NAME)
 
 proto:

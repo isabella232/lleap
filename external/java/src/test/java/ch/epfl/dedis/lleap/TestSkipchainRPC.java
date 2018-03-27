@@ -2,13 +2,14 @@ package ch.epfl.dedis.lleap;
 
 import ch.epfl.dedis.Local;
 import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
-import javafx.util.Pair;
+import ch.epfl.dedis.lib.exception.CothorityException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.*;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,29 +19,29 @@ public class TestSkipchainRPC {
     private static PrivateKey privateKey;
     private static SkipchainRPC sc;
     private static int KEY_SIZE = 4096;
+    private static String genesisHex = "";
 
     @BeforeAll
-    public static void initAll() throws Exception {
+    public static void initAll() throws CothorityException {
         value = "value".getBytes();
 
         privateKey = DEDISSkipchain.getPrivate();
         publicKey = DEDISSkipchain.getPublic();
 
-        boolean useLocal = true;
+        boolean useLocal = false;
         if (useLocal) {
             sc = new SkipchainRPC(Local.roster, publicKey);
+            genesisHex = Local.genesisHex;
         } else {
             sc = new SkipchainRPC();
+            genesisHex = DEDISSkipchain.genesisHex;
         }
     }
 
     @Test
-    public void setupKP() throws Exception{
-        KeyPairGenerator kpc = KeyPairGenerator.getInstance("RSA");
-        kpc.initialize(KEY_SIZE, new SecureRandom());
-        KeyPair kp = kpc.generateKeyPair();
-        System.out.println(DatatypeConverter.printHexBinary(kp.getPrivate().getEncoded()));
-        System.out.println(DatatypeConverter.printHexBinary(kp.getPublic().getEncoded()));
+    public void checkGenesis() throws CothorityException {
+        SkipchainRPC sc = new SkipchainRPC(DatatypeConverter.parseHexBinary(genesisHex));
+        // TODO we should compare this one to what is initialised in initAll
     }
 
     @Test
@@ -77,14 +78,22 @@ public class TestSkipchainRPC {
         assertThrows(CothorityCommunicationException.class, ()->sc.setKeyValue(key, value, signature.sign()));
 
         // Get back value/signature from CISC
-        Pair<byte[], byte[]> valueSig = sc.getValue(key);
-        assertArrayEquals(value, valueSig.getKey());
+        KeyValueBlock kvb = sc.getKeyValueBlock(key);
 
-        // Verify the signature
+        // Check the block integrity
+        assertTrue(Arrays.equals(key, kvb.getKey()));
+        assertTrue(Arrays.equals(value, kvb.getValue()));
+        assertTrue(kvb.getTimestamp().length > 0);
+        assertNotNull(kvb.getSignature());
+
+        // Perform the check on the collective signature of the forward link
+        assertTrue(kvb.verifyBlock(key, DatatypeConverter.parseHexBinary(genesisHex)));
+
+        // Verify the key/value signature
         Signature verify = Signature.getInstance("SHA256withRSA");
         verify.initVerify(publicKey);
         verify.update(message);
-        assertTrue(verify.verify(valueSig.getValue()));
+        assertTrue(verify.verify(kvb.getSignature()));
     }
 
     @Test
