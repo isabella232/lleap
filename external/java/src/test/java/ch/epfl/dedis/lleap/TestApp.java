@@ -60,10 +60,6 @@ public class TestApp {
         assertTrue(kvb.verifyBlock(sc.getGenesis()));
         assertArrayEquals(key, kvb.getKey());
         assertArrayEquals(value, kvb.getValue());
-<<<<<<< HEAD
-        assertTrue(kvb.verifyBlock(key, sc.getGenesis()));
-=======
->>>>>>> 372fa1a563c2efd48e8457e4991b99f3bfd72d53
 
         // Verify the writer's signature on the key/value pair
         Signature verify = Signature.getInstance("SHA256withRSA");
