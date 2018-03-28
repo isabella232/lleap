@@ -1,0 +1,40 @@
+@import "../../lib/bootstrap/scss/variables";
+
+.module {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  height: 200px;
+  background: lighten($black, 12);
+
+  .module-header {
+    flex: none;
+    padding: 5px;
+    white-space: nowrap;
+    font-size: 1.3em;
+    font-weight: bold;
+
+    span {
+      margin-right: 20px;
+      vertical-align: middle;
+    }
+  }
+
+  .module-body {
+    flex: 1;
+    overflow: hidden;
+
+    .module-leave {
+      display: none;
+    }
+
+    .module-enter {
+      opacity: 0;
+
+      &.module-enter-active {
+        opacity: 1;
+        transition: opacity 300ms ease-in-out;
+      }
+    }
+  }
+}
