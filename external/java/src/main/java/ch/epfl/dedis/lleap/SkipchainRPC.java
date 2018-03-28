@@ -36,10 +36,6 @@ import java.security.SignatureException;
  * <p>
  * When the corresponding value to a key is requested, the value together with the signature will be
  * returned to the service.
- * TODO: create a correct inclusion-proof of the value in the skipblock, and a proof that the skipblock is valid.
- * TODO: for a non-changing roster, it would be enough to check the hash of the skipblock, the signature of the
- * TODO: roster, the inclusion-proof in the merkle-tree and the hash of the root-node of the merkle tree in the
- * TODO: skipblock.
  */
 public class SkipchainRPC {
     private SkipBlock genesis;

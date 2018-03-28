@@ -47,20 +47,15 @@ public class KeyValueBlock {
      * verifyBlock verifies the block by performing various integrity checks and, more importantly, checks the
      * collective signature which implies block inclusion.
      *
-     * @param key     is the key of interest.
      * @param genesis is the genesis block. The user is expected to store the genesis block at
      *                initialisation.
      * @return true if the verification is ok, otherwise false.
      */
-    public boolean verifyBlock(byte[] key, SkipBlock genesis) {
+    public boolean verifyBlock(SkipBlock genesis) {
         try {
             // sanity check on the key/value pairs and the forward link
             if (this.getKey() == null) {
                 logger.error("key 'newkey' does not exist");
-                return false;
-            }
-            if (!Arrays.equals(key, getKey())) {
-                logger.error("mismatch key");
                 return false;
             }
 
@@ -104,13 +99,12 @@ public class KeyValueBlock {
     /**
      * verifyBlock is a convenience function for verifyBlock, if you have the genesis block as an array of bytes
      *
-     * @param key        is the key of interest.
      * @param genesisBuf is the genesis block as a byte array.
      * @return true if the verification is ok, otherwise false.
      */
-    public boolean verifyBlock(byte[] key, byte[] genesisBuf) {
+    public boolean verifyBlock(byte[] genesisBuf) {
         try {
-            return verifyBlock(key, new SkipBlock(genesisBuf));
+            return verifyBlock(new SkipBlock(genesisBuf));
         } catch (CothorityException e) {
             logger.error(e.toString());
             return false;

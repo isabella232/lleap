@@ -78,7 +78,8 @@ public class TestSkipchainRPC {
         assertNotNull(kvb.getSignature());
 
         // Perform the check on the collective signature of the forward link
-        assertTrue(kvb.verifyBlock(key, sc.getGenesis().toByteArray()));
+        assertTrue(kvb.verifyBlock(sc.getGenesis().toByteArray()));
+        assertArrayEquals(key, kvb.getKey());
 
         // Verify the key/value signature
         Signature verify = Signature.getInstance("SHA256withRSA");

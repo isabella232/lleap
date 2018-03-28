@@ -13,6 +13,7 @@ import ch.epfl.dedis.lib.crypto.Hex;
 
 /**
  * LLEAPKey holds the private key used to write to the skipchain. Only holders of this private key are allowed to
+ * store new values on the skipchain.
  */
 public class LLEAPKey implements RSAPublicKey {
     /**

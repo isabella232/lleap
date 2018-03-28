@@ -57,8 +57,13 @@ public class TestApp {
         // Reading it back from the skipchain, and verify the collective signature on the forward link,
         // which implies inclusion.
         KeyValueBlock kvb = sc.getKeyValueBlock(key);
+        assertTrue(kvb.verifyBlock(sc.getGenesis()));
+        assertArrayEquals(key, kvb.getKey());
         assertArrayEquals(value, kvb.getValue());
+<<<<<<< HEAD
         assertTrue(kvb.verifyBlock(key, sc.getGenesis()));
+=======
+>>>>>>> 372fa1a563c2efd48e8457e4991b99f3bfd72d53
 
         // Verify the writer's signature on the key/value pair
         Signature verify = Signature.getInstance("SHA256withRSA");
@@ -99,10 +104,12 @@ public class TestApp {
         KeyValueBlock kvb = new KeyValueBlock(kvbBuf);
 
         // Verify the block is valid. The client needs to have a copy of the genesis block to do this.
-        boolean ok = kvb.verifyBlock(key, genesisBuf);
-        assertTrue(ok);
+        assertTrue(kvb.verifyBlock(genesisBuf));
 
-        // Now we know that the block is valid and can retrieve the value:
+        // Now we know that the block is valid and can check it holds the key we're interested in:
+        assertArrayEquals(key, kvb.getKey());
+
+        // and then we can retrieve the value and verify it's what we stored.
         byte[] value = kvb.getValue();
         assertArrayEquals("hashes".getBytes(), value);
     }
