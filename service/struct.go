@@ -10,6 +10,21 @@ import (
 	"github.com/dedis/onet/log"
 )
 
+// KeyMerkleRoot is the CISC-key for the merkle tree root
+const KeyMerkleRoot = "merkleroot"
+
+// KeyNewKey is the CISC-key for the new stored key
+const KeyNewKey = "newkey"
+
+// KeyNewValue is the CISC-key for the new value
+const KeyNewValue = "newvalue"
+
+// KeyNewSig is the CISC-key for the new signature
+const KeyNewSig = "newsig"
+
+// KeyTimestamp is the CISC-key for the timestamp of the creation
+const KeyTimestamp = "timestamp"
+
 type collectionDB struct {
 	db            *bolt.DB
 	kvBucketName  []byte

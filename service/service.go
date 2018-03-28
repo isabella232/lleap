@@ -29,12 +29,6 @@ import (
 // Used for tests
 var lleapID onet.ServiceID
 
-const KeyMerkleRoot = "merkleroot"
-const KeyNewKey = "newkey"
-const KeyNewValue = "newvalue"
-const KeyNewSig = "newsig"
-const KeyTimestamp = "timestamp"
-
 func init() {
 	var err error
 	lleapID, err = onet.RegisterNewService(lleap.ServiceName, newService)
@@ -151,7 +145,7 @@ func (s *Service) SetKeyValue(req *lleap.SetKeyValue) (*lleap.SetKeyValueRespons
 
 	// Update the identity
 	prop := idb.Latest.Copy()
-	prop.Storage[KeyMerkleRoot] = string(coll.RootHash())
+	prop.Storage[KeyNewKey] = string(coll.RootHash())
 	prop.Storage[KeyNewKey] = string(req.Key)
 	prop.Storage[KeyNewValue] = string(req.Value)
 	prop.Storage[KeyNewSig] = string(req.Signature)
