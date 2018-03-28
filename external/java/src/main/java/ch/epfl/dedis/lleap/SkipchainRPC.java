@@ -4,6 +4,7 @@ import ch.epfl.dedis.lib.Roster;
 import ch.epfl.dedis.lib.ServerIdentity;
 import ch.epfl.dedis.lib.SkipBlock;
 import ch.epfl.dedis.lib.SkipblockId;
+import ch.epfl.dedis.lib.crypto.Hex;
 import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
 import ch.epfl.dedis.lib.exception.CothorityCryptoException;
 import ch.epfl.dedis.lib.exception.CothorityException;
@@ -13,8 +14,12 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.bind.DatatypeConverter;
-import java.security.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.security.SignatureException;
 
 /**
  * SkipchainRPC offers a reliable, fork-resistant storage of key/value pairs. This class connects to a
@@ -85,7 +90,7 @@ public class SkipchainRPC {
             }
             logger.info("Created new skipchain:");
             genesis = new SkipBlock(reply.getSkipblock());
-            logger.info(DatatypeConverter.printHexBinary(genesis.getHash()));
+            logger.info(Hex.printHexBinary(genesis.getHash()));
         } catch (InvalidProtocolBufferException e) {
             throw new CothorityCommunicationException(e);
         }

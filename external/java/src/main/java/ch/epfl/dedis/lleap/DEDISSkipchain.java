@@ -2,12 +2,12 @@ package ch.epfl.dedis.lleap;
 
 import ch.epfl.dedis.lib.CISC;
 import ch.epfl.dedis.lib.SkipBlock;
+import ch.epfl.dedis.lib.crypto.Hex;
 import ch.epfl.dedis.lib.exception.CothorityException;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.bind.DatatypeConverter;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
@@ -41,7 +41,7 @@ public class DEDISSkipchain {
      * @return byte[] representation of the genesis block.
      */
     public static byte[] getGenesisBuf(){
-        return DatatypeConverter.parseHexBinary(genesisHex);
+        return Hex.parseHexBinary(genesisHex);
     }
 
     /**
@@ -52,7 +52,7 @@ public class DEDISSkipchain {
     public static PublicKey getPublic() {
         try {
             byte[] pKeyHex = new CISC(getGenesis()).getValue("writer");
-            logger.info(DatatypeConverter.printHexBinary(pKeyHex));
+            logger.info(Hex.printHexBinary(pKeyHex));
             X509EncodedKeySpec spec = new X509EncodedKeySpec(pKeyHex);
             KeyFactory kf = KeyFactory.getInstance("RSA");
             return kf.generatePublic(spec);

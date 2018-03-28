@@ -1,5 +1,6 @@
 package ch.epfl.dedis.lib;
 
+import ch.epfl.dedis.lib.crypto.Hex;
 import ch.epfl.dedis.lib.crypto.Point;
 import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
 import ch.epfl.dedis.proto.ServerIdentityProto;
@@ -12,7 +13,6 @@ import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.bind.DatatypeConverter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
@@ -33,7 +33,7 @@ public class ServerIdentity {
     public ServerIdentity(final URI serverWsAddress, final String publicKey) {
         this.conodeAddress = serverWsAddress;
         // TODO: It will be better to use some class for server key and move this conversion outside of this class
-        this.Public = new Point(DatatypeConverter.parseHexBinary(publicKey));
+        this.Public = new Point(Hex.parseHexBinary(publicKey));
     }
 
     public ServerIdentity(Toml siToml) throws URISyntaxException {
@@ -41,7 +41,7 @@ public class ServerIdentity {
     }
 
     public ServerIdentity(ServerIdentityProto.ServerIdentity sid) throws URISyntaxException {
-        this(new URI(sid.getAddress()), DatatypeConverter.printHexBinary(sid.getPublic().toByteArray()));
+        this(new URI(sid.getAddress()), Hex.printHexBinary(sid.getPublic().toByteArray()));
     }
 
     public URI getAddress() {
@@ -79,7 +79,7 @@ public class ServerIdentity {
         public ByteBuffer response;
         public String error;
 
-        public SyncSendMessage(String path, byte[] msg) throws CothorityCommunicationException {
+        public SyncSendMessage(String path, final byte[] msg) throws CothorityCommunicationException {
             final CountDownLatch statusLatch = new CountDownLatch(1);
             try {
                 WebSocketClient ws = new WebSocketClient(buildWebSocketAdddress(path)) {
