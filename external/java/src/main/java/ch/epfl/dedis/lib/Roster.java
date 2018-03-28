@@ -55,7 +55,8 @@ public class Roster {
     public RosterProto.Roster getProto() {
         RosterProto.Roster.Builder r = RosterProto.Roster.newBuilder();
         r.setId(ByteString.copyFrom(Ed25519.uuid4()));
-        nodes.forEach(n -> r.addList(n.getProto()));
+        for (ServerIdentity si : nodes)
+            r.addList(si.getProto());
         r.setAggregate(aggregate.toProto());
 
         return r.build();

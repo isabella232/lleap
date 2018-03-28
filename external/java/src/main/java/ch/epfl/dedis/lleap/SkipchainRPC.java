@@ -2,8 +2,9 @@ package ch.epfl.dedis.lleap;
 
 import ch.epfl.dedis.lib.Roster;
 import ch.epfl.dedis.lib.ServerIdentity;
-import ch.epfl.dedis.lib.SkipblockId;
 import ch.epfl.dedis.lib.SkipBlock;
+import ch.epfl.dedis.lib.SkipblockId;
+import ch.epfl.dedis.lib.crypto.Hex;
 import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
 import ch.epfl.dedis.lib.exception.CothorityCryptoException;
 import ch.epfl.dedis.lib.exception.CothorityException;
@@ -13,8 +14,12 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.bind.DatatypeConverter;
-import java.security.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.security.SignatureException;
 
 /**
  * SkipchainRPC offers a reliable, fork-resistant storage of key/value pairs. This class connects to a
@@ -31,44 +36,31 @@ import java.security.*;
  * <p>
  * When the corresponding value to a key is requested, the value together with the signature will be
  * returned to the service.
- * TODO: create a correct inclusion-proof of the value in the skipblock, and a proof that the skipblock is valid.
- * TODO: for a non-changing roster, it would be enough to check the hash of the skipblock, the signature of the
- * TODO: roster, the inclusion-proof in the merkle-tree and the hash of the root-node of the merkle tree in the
- * TODO: skipblock.
  */
 public class SkipchainRPC {
-    private Roster roster;
-    private SkipblockId scid;
+    private SkipBlock genesis;
     private static int version = 1;
     private final Logger logger = LoggerFactory.getLogger(SkipchainRPC.class);
 
     /**
-     * Initializes a Storage adapter with the standard node at roster. This uses the pre-stored and
+     * Initializes a SkipchainRPC with the standard node at roster. This uses the pre-stored and
      * pre-initialized values from the DEDISSkipchain class and accesses the nodes run by roster on the
      * server conode.dedis.ch on ports 15002-15006.
      *
      * @throws CothorityCryptoException
      */
-    public SkipchainRPC() throws CothorityCryptoException {
-        this(DEDISSkipchain.roster, new SkipblockId(DEDISSkipchain.skipchainID));
+    public SkipchainRPC() throws CothorityCryptoException, CothorityException {
+        genesis = DEDISSkipchain.getGenesis();
     }
 
     /**
-     * Connects to an existing skipchain given the roster and the skipchain-id. To verify if
-     * the roster is active, the verify-method can be called.
+     * Initializes SkipchainRPC from a genesis block. All needed information is read from this block.
      *
-     * @param roster the list of conodes
-     * @param id     the skipchain-id to connect to
+     * @param genesisBuf
+     * @throws CothorityException
      */
-    public SkipchainRPC(Roster roster, SkipblockId id) {
-        this.roster = roster;
-        this.scid = id;
-    }
-
-    public  SkipchainRPC(byte[] genesisBuf) throws CothorityException {
-        SkipBlock sb = new SkipBlock(genesisBuf);
-        this.roster = sb.getRoster();
-        this.scid = sb.getId();
+    public SkipchainRPC(byte[] genesisBuf) throws CothorityException {
+        genesis = new SkipBlock(genesisBuf);
     }
 
     /**
@@ -78,7 +70,6 @@ public class SkipchainRPC {
      * the public key in the genesis block.
      */
     public SkipchainRPC(Roster roster, PublicKey pub) throws CothorityCommunicationException {
-        this.roster = roster;
         LleapProto.CreateSkipchain.Builder request =
                 LleapProto.CreateSkipchain.newBuilder();
         request.setRoster(roster.getProto());
@@ -94,13 +85,31 @@ public class SkipchainRPC {
                 throw new CothorityCommunicationException("Version mismatch");
             }
             logger.info("Created new skipchain:");
-            logger.info(DatatypeConverter.printHexBinary(reply.getSkipblock().getHash().toByteArray()));
-            this.scid = new SkipblockId(reply.getSkipblock().getHash().toByteArray());
+            genesis = new SkipBlock(reply.getSkipblock());
+            logger.info(Hex.printHexBinary(genesis.getHash()));
         } catch (InvalidProtocolBufferException e) {
             throw new CothorityCommunicationException(e);
-        } catch (CothorityCryptoException e) {
-            throw new CothorityCommunicationException(e.getMessage());
         }
+    }
+
+    /**
+     * Contacts all nodes in the cothority and returns true only if _all_
+     * nodes returned OK.
+     *
+     * @return true only if all nodes are OK, else false.
+     */
+    public boolean verify() {
+        boolean ok = true;
+        for (ServerIdentity n : getRoster().getNodes()) {
+            logger.info("Testing node {}", n.getAddress());
+            try {
+                n.GetStatus();
+            } catch (CothorityCommunicationException e) {
+                logger.warn("Failing node {}", n.getAddress());
+                ok = false;
+            }
+        }
+        return ok;
     }
 
     /**
@@ -121,11 +130,11 @@ public class SkipchainRPC {
                 LleapProto.SetKeyValue.newBuilder();
         request.setKey(ByteString.copyFrom(key));
         request.setValue(ByteString.copyFrom(value));
-        request.setSkipchainid(scid.toBS());
+        request.setSkipchainid(getSkipchainId().toBS());
         request.setVersion(version);
         request.setSignature(ByteString.copyFrom(signature));
 
-        ByteString msg = roster.sendMessage("Lleap/SetKeyValue",
+        ByteString msg = getRoster().sendMessage("Lleap/SetKeyValue",
                 request.build());
 
         try {
@@ -178,16 +187,16 @@ public class SkipchainRPC {
      * @param key which key to retrieve
      * @return KeyValueBlock
      * @throws CothorityCommunicationException if a connection cannot be established or there is an error in the binary
-     * format.
+     *                                         format.
      */
     public KeyValueBlock getKeyValueBlock(byte[] key) throws CothorityCommunicationException {
         LleapProto.GetValue.Builder request =
                 LleapProto.GetValue.newBuilder();
         request.setKey(ByteString.copyFrom(key));
-        request.setSkipchainid(scid.toBS());
+        request.setSkipchainid(getSkipchainId().toBS());
         request.setVersion(version);
 
-        ByteString msg = roster.sendMessage("Lleap/GetValue",
+        ByteString msg = getRoster().sendMessage("Lleap/GetValue",
                 request.build());
 
         LleapProto.GetValueResponse reply;
@@ -201,26 +210,45 @@ public class SkipchainRPC {
         }
 
         logger.info("Got key/value block");
-        return new KeyValueBlock(reply);
+        try {
+            return new KeyValueBlock(reply);
+        } catch (CothorityException e) {
+            throw new CothorityCommunicationException(e.getMessage());
+        }
     }
 
     /**
-     * Contacts all nodes in the cothority and returns true only if _all_
-     * nodes returned OK.
+     * getGenesis returns the genesis block of the skipchain.
      *
-     * @return true only if all nodes are OK, else false.
+     * @return genesis skipblock
      */
-    public boolean verify() {
-        boolean ok = true;
-        for (ServerIdentity n : roster.getNodes()) {
-            logger.info("Testing node {}", n.getAddress());
-            try {
-                n.GetStatus();
-            } catch (CothorityCommunicationException e) {
-                logger.warn("Failing node {}", n.getAddress());
-                ok = false;
-            }
+    public SkipBlock getGenesis(){
+        return genesis;
+    }
+
+    /**
+     * getRoster reads the roster from the genesis block.
+     *
+     * @return roster of the genesis block, or null if there was an error.
+     */
+    public Roster getRoster() {
+        try {
+            return genesis.getRoster();
+        } catch (CothorityException e) {
+            return null;
         }
-        return ok;
+    }
+
+    /**
+     * getSkipchainId reads the skipchain-id from the genesis block.
+     *
+     * @return the id of the skipchain, or null if there was an error.
+     */
+    public SkipblockId getSkipchainId() {
+        try {
+            return genesis.getSkipchainId();
+        } catch (CothorityException e) {
+            return null;
+        }
     }
 }

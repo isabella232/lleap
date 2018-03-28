@@ -45,6 +45,17 @@ public class SkipBlock {
         return new SkipblockId(this.getHash());
     }
 
+    public SkipblockId getSkipchainId() throws CothorityCryptoException{
+        if (skipBlock.getIndex() == 0){
+            return getId();
+        }
+        return new SkipblockId(skipBlock.getGenesis().toByteArray());
+    }
+
+    public byte[] getData(){
+        return skipBlock.getData().toByteArray();
+    }
+
     /**
      * Gets the roster from the skipblock.
      */

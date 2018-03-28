@@ -1,11 +1,9 @@
 package ch.epfl.dedis.lib;
 
+import ch.epfl.dedis.lib.crypto.Hex;
 import ch.epfl.dedis.lib.exception.CothorityCryptoException;
 import com.google.protobuf.ByteString;
 
-import javax.annotation.Nonnull;
-import javax.xml.bind.DatatypeConverter;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
@@ -23,7 +21,6 @@ public class Sha256id implements HashId {
     }
 
     @Override
-    @Nonnull
     public byte[] getId() {
         return Arrays.copyOf(id, id.length);
     }
@@ -44,7 +41,7 @@ public class Sha256id implements HashId {
     @Override
     public String toString(){
 
-        return DatatypeConverter.printHexBinary(id);
+        return Hex.printHexBinary(id);
     }
 
     public ByteString toBS(){
