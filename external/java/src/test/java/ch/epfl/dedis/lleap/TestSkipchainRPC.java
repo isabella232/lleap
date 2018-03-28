@@ -19,29 +19,20 @@ public class TestSkipchainRPC {
     private static PrivateKey privateKey;
     private static SkipchainRPC sc;
     private static int KEY_SIZE = 4096;
-    private static String genesisHex = "";
 
     @BeforeAll
     public static void initAll() throws CothorityException {
         value = "value".getBytes();
 
-        privateKey = DEDISSkipchain.getPrivate();
+        privateKey = LLEAPKey.getPrivate();
         publicKey = DEDISSkipchain.getPublic();
 
         boolean useLocal = false;
         if (useLocal) {
             sc = new SkipchainRPC(Local.roster, publicKey);
-            genesisHex = Local.genesisHex;
         } else {
             sc = new SkipchainRPC();
-            genesisHex = DEDISSkipchain.genesisHex;
         }
-    }
-
-    @Test
-    public void checkGenesis() throws CothorityException {
-        SkipchainRPC sc = new SkipchainRPC(DatatypeConverter.parseHexBinary(genesisHex));
-        // TODO we should compare this one to what is initialised in initAll
     }
 
     @Test
@@ -87,7 +78,8 @@ public class TestSkipchainRPC {
         assertNotNull(kvb.getSignature());
 
         // Perform the check on the collective signature of the forward link
-        assertTrue(kvb.verifyBlock(key, DatatypeConverter.parseHexBinary(genesisHex)));
+        assertTrue(kvb.verifyBlock(sc.getGenesis().toByteArray()));
+        assertArrayEquals(key, kvb.getKey());
 
         // Verify the key/value signature
         Signature verify = Signature.getInstance("SHA256withRSA");

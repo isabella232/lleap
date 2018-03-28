@@ -1,5 +1,6 @@
 package ch.epfl.dedis.lleap;
 
+import ch.epfl.dedis.lib.CISC;
 import ch.epfl.dedis.lib.SkipBlock;
 import ch.epfl.dedis.lib.crypto.SchnorrSig;
 import ch.epfl.dedis.lib.exception.CothorityException;
@@ -22,14 +23,21 @@ public class KeyValueBlock {
     private LleapProto.GetValueResponse resp;
     private final Logger logger = LoggerFactory.getLogger(KeyValueBlock.class);
     private IdentityProto.Data data = null;
+    private CISC cisc;
 
-    public KeyValueBlock(LleapProto.GetValueResponse resp) {
+    public KeyValueBlock(LleapProto.GetValueResponse resp) throws CothorityException {
         this.resp = resp;
+        try {
+            cisc = new CISC(this.resp.getSkipblock());
+        } catch (InvalidProtocolBufferException e) {
+            throw new CothorityException(e);
+        }
     }
 
     public KeyValueBlock(byte[] buf) throws CothorityException {
         try {
-            this.resp = LleapProto.GetValueResponse.parseFrom(buf);
+            resp = LleapProto.GetValueResponse.parseFrom(buf);
+            cisc = new CISC(this.resp.getSkipblock());
         } catch (InvalidProtocolBufferException e) {
             throw new CothorityException(e);
         }
@@ -38,22 +46,16 @@ public class KeyValueBlock {
     /**
      * verifyBlock verifies the block by performing various integrity checks and, more importantly, checks the
      * collective signature which implies block inclusion.
-     * @param key is the key of interest.
-     * @param genesisBuf is the genesis block as a byte array. The user is expected to store the genesis block at
-     *                   initialisation.
+     *
+     * @param genesis is the genesis block. The user is expected to store the genesis block at
+     *                initialisation.
      * @return true if the verification is ok, otherwise false.
      */
-    public boolean verifyBlock(byte[] key, byte[] genesisBuf) {
+    public boolean verifyBlock(SkipBlock genesis) {
         try {
-            SkipBlock genesis = new SkipBlock(genesisBuf);
-
             // sanity check on the key/value pairs and the forward link
             if (this.getKey() == null) {
                 logger.error("key 'newkey' does not exist");
-                return false;
-            }
-            if (!Arrays.equals(key, getKey())) {
-                logger.error("mismatch key");
                 return false;
             }
 
@@ -94,34 +96,35 @@ public class KeyValueBlock {
         return true;
     }
 
-    private byte[] getCiscValue(String key) throws CothorityException {
-            if (this.data == null) {
-                try {
-                this.data = IdentityProto.Data.parseFrom(resp.getSkipblock().getData().substring(16));
-            } catch (InvalidProtocolBufferException e) {
-                throw new CothorityException(e);
-            }
-            }
-        if (!this.data.getStorageMap().containsKey(key)) {
-            return null;
+    /**
+     * verifyBlock is a convenience function for verifyBlock, if you have the genesis block as an array of bytes
+     *
+     * @param genesisBuf is the genesis block as a byte array.
+     * @return true if the verification is ok, otherwise false.
+     */
+    public boolean verifyBlock(byte[] genesisBuf) {
+        try {
+            return verifyBlock(new SkipBlock(genesisBuf));
+        } catch (CothorityException e) {
+            logger.error(e.toString());
+            return false;
         }
-        return this.data.getStorageMap().get(key).toByteArray();
     }
 
     public byte[] getValue() throws CothorityException {
-        return getCiscValue("newvalue");
+        return cisc.getValue("newvalue");
     }
 
     public byte[] getKey() throws CothorityException {
-        return getCiscValue("newkey");
+        return cisc.getValue("newkey");
     }
 
     public byte[] getTimestamp() throws CothorityException {
-        return getCiscValue("timestamp");
+        return cisc.getValue("timestamp");
     }
 
     public byte[] getSignature() throws CothorityException {
-        return getCiscValue("newsig");
+        return cisc.getValue("newsig");
     }
 
     public byte[] getSignedMsg() throws CothorityException {
