@@ -1,0 +1,27 @@
+@import "../../lib/bootstrap/scss/variables";
+
+.servers-status {
+
+  margin-top: 20px;
+
+  .servers-status-info {
+    display: flex;
+
+    > div {
+      flex: none;
+      padding: 20px 10px;
+      margin-right: 50px;
+      font-size: 2em;
+    }
+  }
+
+  .table {
+    tr.has-error {
+      color: $red;
+    }
+  }
+
+  .servers-status-loading {
+    text-align: center;
+  }
+}

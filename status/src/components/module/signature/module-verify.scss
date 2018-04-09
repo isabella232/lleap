@@ -1,0 +1,39 @@
+@import "../../../lib/bootstrap/scss/variables.scss";
+
+.module-verify {
+  width: 500px;
+
+  .module-verify-feedback {
+
+    .has-error {
+      color: $red;
+    }
+
+    form {
+      input {
+        margin-right: 20px;
+      }
+
+      .form-check.disable {
+        color: grey;
+
+        label {
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .feedback-leave {
+      display: none;
+    }
+
+    .feedback-enter {
+      opacity: 0;
+
+      &.feedback-enter-active {
+        opacity: 1;
+        transition: opacity 300ms ease-in-out;
+      }
+    }
+  }
+}

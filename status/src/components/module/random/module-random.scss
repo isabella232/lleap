@@ -1,0 +1,25 @@
+@import "../../../lib/bootstrap/scss/variables.scss";
+
+.module-random {
+  width: auto;
+  min-width: 200px;
+  height: auto;
+
+  .module-body {
+    padding: 20px;
+
+    p.has-error {
+      color: $red;
+    }
+
+    .module-random-counter {
+      margin-top: 20px;
+
+      > div {
+        height: 5px;
+        background: $green;
+      }
+    }
+  }
+
+}

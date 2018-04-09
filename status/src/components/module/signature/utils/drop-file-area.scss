@@ -1,0 +1,26 @@
+@import "../../../../lib/bootstrap/scss/variables";
+
+.drop-file-area {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  align-content: stretch;
+
+  .drop-file-container {
+    flex: 1;
+    padding: 20px 0;
+    border: 2px dashed $green;
+    border-radius: 10px;
+    text-align: center;
+
+    span {
+      font-size: 2em;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: darken($green, 20);
+    }
+  }
+}

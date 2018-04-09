@@ -1,0 +1,34 @@
+@import "../../../lib/bootstrap/scss/variables";
+
+.module-skip-chain {
+  width: auto;
+  min-width: 300px;
+  height: 200px;
+
+  .module-body {
+    position: relative;
+  }
+
+  p.has-error {
+    padding: 20px;
+    text-align: center;
+    color: $red;
+  }
+
+  .form-check {
+    padding: 10px 20px;
+    margin: 0;
+
+    &:nth-child(2n) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    input {
+      margin-right: 20px;
+    }
+  }
+
+  .thumb-vertical {
+    background: $green;
+  }
+}

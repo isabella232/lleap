@@ -1,0 +1,34 @@
+@import "../../lib/bootstrap/scss/variables.scss";
+
+.external-module-random {
+
+  .module-random {
+    width: 300px;
+    height: 150px;
+    background: white;
+
+    .module-body {
+      padding: 0px;
+      margin-top: -25px;
+      font-size: 15.2px;
+      font-family: monospace;
+      color: #414f57;
+      word-break: break-all;
+
+      p.has-error {
+        color: $red;
+      }
+
+      .module-random-counter {
+        margin-top: 20px;
+
+        > div {
+          height: 8px;
+          background: #414f57;
+        }
+      }
+    }
+
+  }
+
+}
