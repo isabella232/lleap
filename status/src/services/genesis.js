@@ -3,7 +3,7 @@ import SkipChainService from './skipchain'
 import {hex2buf, buf2hex} from '../utils/buffer'
 import {tcp2ws} from '../utils/network'
 
-const GENESIS_BLOCK_SERVER = "http://lleap.dedis.ch/";
+const GENESIS_BLOCK_SERVER = "https://lleap.dedis.ch/";
 const GENESIS_BLOCK_FILE = "index.js";
 
 /**
