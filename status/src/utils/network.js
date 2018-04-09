@@ -31,10 +31,10 @@ function splitHost(host) {
  * Transform a tcp address to the corresponding WS address because the Cothority uses the port + 1 of the tcp address
  *
  * @param {String} address - TCP with port address format
- * @returns {String} The same address with the port value +1
+ * @returns {String} The same address with the port value +11 -> sicpa hack for ssl
  */
 export function tcp2ws(address) {
   let addr = address.replace('tls://', '');
   var hp = splitHost(addr)
-  return hp.host + ':' + (hp.port + 1);
+  return hp.host + ':' + (hp.port + 11);
 }
