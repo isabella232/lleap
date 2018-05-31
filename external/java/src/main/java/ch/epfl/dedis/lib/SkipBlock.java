@@ -6,6 +6,8 @@ import ch.epfl.dedis.proto.SkipBlockProto;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SkipBlock is a wrapper around the protobuf SkipBlock class. It is mainly used to serialize the genesis block for
@@ -54,6 +56,19 @@ public class SkipBlock {
 
     public byte[] getData(){
         return skipBlock.getData().toByteArray();
+    }
+
+    public int getIndex(){
+        // Because we're using protobuf's zigzag encoding.
+        return skipBlock.getIndex() / 2;
+    }
+
+    public List<ForwardLink> getForwardLinks(){
+        List<ForwardLink> result = new ArrayList<>();
+        for (SkipBlockProto.ForwardLink fl: skipBlock.getForwardList()){
+            result.add(new ForwardLink(fl));
+        }
+        return result;
     }
 
     /**
