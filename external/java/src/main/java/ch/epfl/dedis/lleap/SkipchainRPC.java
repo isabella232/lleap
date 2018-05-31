@@ -9,6 +9,8 @@ import ch.epfl.dedis.lib.exception.CothorityCommunicationException;
 import ch.epfl.dedis.lib.exception.CothorityCryptoException;
 import ch.epfl.dedis.lib.exception.CothorityException;
 import ch.epfl.dedis.proto.LleapProto;
+import ch.epfl.dedis.proto.SkipBlockProto;
+import ch.epfl.dedis.proto.SkipchainProto;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.slf4j.Logger;
@@ -216,6 +218,34 @@ public class SkipchainRPC {
             throw new CothorityCommunicationException(e.getMessage());
         }
     }
+
+    /**
+     * Returns the skipblock from the skipchain, given its id.
+     *
+     * @param id the id of the skipblock
+     * @return the proto-representation of the skipblock.
+     * @throws CothorityCommunicationException in case of communication difficulties
+     */
+    public SkipBlock getSkipblock(Roster roster, SkipblockId id) throws CothorityCommunicationException {
+        SkipchainProto.GetSingleBlock request =
+                SkipchainProto.GetSingleBlock.newBuilder().setId(ByteString.copyFrom(id.getId())).build();
+
+        ByteString msg = roster.sendMessage("Skipchain/GetSingleBlock",
+                request);
+
+        try {
+            SkipBlockProto.SkipBlock sb = SkipBlockProto.SkipBlock.parseFrom(msg);
+            //TODO: add verification that the skipblock is valid by hashing and comparing to the id
+
+            logger.debug("Got the following skipblock: {}", sb);
+            logger.info("Successfully read skipblock");
+
+            return new SkipBlock(sb);
+        } catch (InvalidProtocolBufferException e) {
+            throw new CothorityCommunicationException(e);
+        }
+    }
+
 
     /**
      * getGenesis returns the genesis block of the skipchain.
