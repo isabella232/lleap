@@ -25,6 +25,11 @@ public class KeyValueBlock {
     private IdentityProto.Data data = null;
     private CISC cisc;
 
+    /**
+     * Instantiates a KeyValueBlock with a response from a GetValue request.
+     * @param resp
+     * @throws CothorityException
+     */
     public KeyValueBlock(LleapProto.GetValueResponse resp) throws CothorityException {
         this.resp = resp;
         try {
@@ -34,10 +39,29 @@ public class KeyValueBlock {
         }
     }
 
+    /**
+     * Instantiates a KeyValueBlock with a byte[] representing the response of
+     * a GetValue request.
+     * @param buf
+     * @throws CothorityException
+     */
     public KeyValueBlock(byte[] buf) throws CothorityException {
         try {
             resp = LleapProto.GetValueResponse.parseFrom(buf);
             cisc = new CISC(this.resp.getSkipblock());
+        } catch (InvalidProtocolBufferException e) {
+            throw new CothorityException(e);
+        }
+    }
+
+    /**
+     * Instantiates a KeyValueBlock by reading the data out of a skipblock.
+     * @param sb
+     * @throws CothorityException
+     */
+    public KeyValueBlock(SkipBlock sb) throws CothorityException {
+        try {
+            cisc = new CISC(sb);
         } catch (InvalidProtocolBufferException e) {
             throw new CothorityException(e);
         }
